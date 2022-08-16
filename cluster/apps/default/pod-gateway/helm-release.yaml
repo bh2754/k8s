@@ -67,7 +67,7 @@ spec:
             IPTABLES_BACKEND: nft
             KILLSWITCH: "false"
 
-          configFileSecret: vpn-gateway-vpnconfig
+          #configFileSecret: vpn-gateway-vpnconfig
 
           resources:
             requests:
