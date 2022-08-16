@@ -400,7 +400,7 @@ data:
       # Cannot contain type, selector or ports entries.
       spec:
         externalTrafficPolicy: "Local"
-        loadBalancerIP: "10.0.102.254"
+        loadBalancerIP: "10.0.102.80"
         # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
         # - 192.168.0.1/32

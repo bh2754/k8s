@@ -18,4 +18,4 @@ spec:
         - name: api@internal
           kind: TraefikService
   tls:
-    secretName: letsencrypt-wildcard-cert-bharris.tv
+    secretName: letsencrypt-wildcard-cert-bharris.tv-staging
