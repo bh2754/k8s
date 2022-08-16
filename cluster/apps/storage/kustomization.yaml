@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - rook-operator
-  - rook-cluster
+  #- rook-cluster
