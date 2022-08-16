@@ -387,7 +387,7 @@ data:
     # from.
     service:
       enabled: true
-      type: NodePort
+      type: LoadBalancer
       # Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
       #annotations: {}
       # Additional annotations for TCP service only
@@ -400,7 +400,7 @@ data:
       # Cannot contain type, selector or ports entries.
       spec:
         externalTrafficPolicy: "Local"
-        loadBalancerIP: "10.0.102.80"
+        loadBalancerIP: "10.0.102.90"
         # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
         # - 192.168.0.1/32
