@@ -5,3 +5,4 @@ resources:
   - namespace.yaml
   - helm-release.yaml
   - configmap-traefik-helm-chart-value-overrides.yaml
+  - dashboard-ingress.yaml

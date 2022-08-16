@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hajimari
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`hajimari.bharris.xyz`)
+      kind: Rule
+      services:
+        - name: hajimari
+          port: 3000
+  tls:
+    secretName: letsencrypt-wildcard-cert-bharris.tv-staging
