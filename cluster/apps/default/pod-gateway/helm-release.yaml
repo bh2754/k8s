@@ -21,5 +21,80 @@ spec:
 
   # See https://github.com/k8s-at-home/charts/blob/master/charts/pod-gateway/values.yaml
   values:
-    routed_namespaces:
-      - vpn
+    image:
+      repository: ghcr.io/k8s-at-home/pod-gateway
+      tag: v1.5.0
+
+      DNS: 172.16.1.1
+
+      routed_namespaces:
+        - vpn
+
+      webhook:
+        image:
+          repository: ghcr.io/k8s-at-home/gateway-admision-controller
+          tag: v3.4.0
+
+        gatewayDefault: false
+        gatewayLabel: setGateway
+        gatewayAnnotation: setGateway
+        namespaceSelector:
+          label: "vpn-routed-gateway"
+
+      addons:
+        netshoot:
+          enabled: true
+
+        vpn:
+          enabled: false
+          type: wireguard
+
+          wireguard:
+            image:
+              repository: ghcr.io/k8s-at-home/wireguard
+              tag: v1.0.20210914
+              pullPolicy: IfNotPresent
+
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            capabilities:
+              drop:
+                - "SYS_MODULE"
+
+          env:
+            TZ: "America/New_York"
+            IPTABLES_BACKEND: nft
+            KILLSWITCH: "false"
+
+          configFileSecret: vpn-gateway-vpnconfig
+
+          resources:
+            requests:
+              cpu: "0.001"
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+
+          networkPolicy:
+            enabled: true
+
+            egress:
+              - to:
+                  - ipBlock:
+                      cidr: 0.0.0.0/0
+                ports:
+                  - port: ${VPN_GATEWAY_VPN_PORT}
+                    protocol: UDP
+              - to:
+                  - namespaceSelector: {}
+
+      # livenessProbe:
+      #   exec:
+      #     command:
+      #       - sh
+      #       - -c
+      #       - if [ $(wget -q -O- https://ipinfo.io/country) == '${VPN_COUNTRY}' ]; then exit 0; else exit $?; fi
+      #   initialDelaySeconds: 30
+      #   periodSeconds: 60
+      #   failureThreshold: 1
