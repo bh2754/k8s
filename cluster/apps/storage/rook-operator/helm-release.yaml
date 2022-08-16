@@ -8,14 +8,14 @@ spec:
   chart:
     spec:
       chart: rook-ceph
-      version: 1.9.9
+      version: 1.x.x
       sourceRef:
         kind: HelmRepository
         name: rook
         namespace: flux-system
   interval: 15m
   timeout: 5m
-  releaseName: rook-operator
+  releaseName: rook-ceph
   valuesFrom:
     - kind: ConfigMap
       name: rook-operator-helm-chart-value-overrides
