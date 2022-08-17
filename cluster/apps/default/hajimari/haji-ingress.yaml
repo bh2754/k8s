@@ -5,6 +5,8 @@ metadata:
   name: hajimari
   namespace: default
 spec:
+  dependsOn:
+    - name: traefik
   entryPoints:
     - websecure
   routes:
