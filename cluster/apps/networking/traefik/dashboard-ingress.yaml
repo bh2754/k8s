@@ -10,7 +10,7 @@ spec:
     - websecure
 
   routes:
-    - match: Host(`traefik.bharris.xyz`)
+    - match: Host(`traefik.$DOMAIN`)
       kind: Rule
       # middlewares:
       # - name: traefik-dashboard-basicauth
@@ -19,4 +19,4 @@ spec:
         - name: api@internal
           kind: TraefikService
   tls:
-    secretName: letsencrypt-wildcard-cert-bharris.xyz-prod
+    secretName: $cert

@@ -14,4 +14,4 @@ spec:
         - name: hajimari
           port: 3000
   tls:
-    secretName: letsencrypt-wildcard-cert-bharris.xyz-prod
+    secretName: $cert
