@@ -23,7 +23,7 @@ spec:
       retries: 5
   values:
     operatorNamespace: rook
-  monitoring:
+    monitoring:
     enabled: true
     createPrometheusRules: true
     pspEnable: true
