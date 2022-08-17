@@ -7,8 +7,6 @@ metadata:
 spec:
   entryPoints:
     - websecure
-  dependsOn:
-    - name: "traefik"
   routes:
     - match: HOST(`hajimari.bharris.xyz`)
       kind: Rule
