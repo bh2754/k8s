@@ -8,6 +8,8 @@ spec:
   interval: 15m
   chart:
     spec:
+      dependsOn:
+        - name: traefik
       chart: hajimari
       version: 1.2.0
       sourceRef:

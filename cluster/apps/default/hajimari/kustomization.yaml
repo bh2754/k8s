@@ -5,6 +5,3 @@ resources:
   - config-pvc.yaml
   - helm-release.yaml
   - haji-ingress.yaml
-spec:
-  dependsOn:
-    - name: traefik
