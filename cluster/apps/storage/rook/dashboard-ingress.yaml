@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rook-ceph-dashboard
+  namespace: rook
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`rook.bharris.xyz}`)
+      services:
+        - name: rook-ceph-mgr-dashboard
+          port: 8443
+          namespace: rook
+  tls:
+    secretName: "${SECRET_CERT}"

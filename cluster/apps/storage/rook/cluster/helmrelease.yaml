@@ -25,7 +25,7 @@ spec:
     operatorNamespace: rook
     monitoring:
       enabled: true
-      createPrometheusRules: false
+      createPrometheusRules: true
     pspEnable: true
     cephClusterSpec:
       dataDirHostPath: /var/lib/rook
@@ -43,7 +43,7 @@ spec:
       dashboard:
         enabled: true
         port: 8443
-        ssl: false
+        ssl: true
       crashCollector:
         disable: false
       cleanupPolicy:
