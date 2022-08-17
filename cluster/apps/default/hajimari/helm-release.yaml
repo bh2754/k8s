@@ -6,8 +6,6 @@ metadata:
   namespace: default
 spec:
   interval: 15m
-  dependsOn:
-    - name: traefik
   chart:
     spec:
       chart: hajimari
