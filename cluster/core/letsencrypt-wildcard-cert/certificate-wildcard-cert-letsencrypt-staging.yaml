@@ -5,13 +5,13 @@ metadata:
   name: letsencrypt-wildcard-cert-bharris.xyz-staging
   namespace: letsencrypt-wildcard-cert
 spec:
-  secretName: letsencrypt-wildcard-cert-bharris.xyz-staging
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
       reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
+  secretName: letsencrypt-wildcard-cert-bharris.xyz-staging
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
