@@ -6,10 +6,10 @@ metadata:
   namespace: default
 spec:
   interval: 15m
+  dependsOn:
+    - name: traefik
   chart:
     spec:
-      dependsOn:
-        - name: traefik
       chart: hajimari
       version: 1.2.0
       sourceRef:
