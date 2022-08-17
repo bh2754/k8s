@@ -1,111 +1,131 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
   namespace: rook
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://charts.rook.io/release
       chart: rook-ceph-cluster
       version: v1.9.9
       sourceRef:
         kind: HelmRepository
         name: rook
         namespace: flux-system
-      interval: 15m
-  install:
-    createNamespace: true
-    remediation:
-      retries: 5
-  upgrade:
-    remediation:
-      retries: 5
+  dependsOn:
+    - name: rook
   values:
-    operatorNamespace: rook
-    monitoring:
-      enabled: true
-      createPrometheusRules: true
-    pspEnable: true
     cephClusterSpec:
       dataDirHostPath: /var/lib/rook
-      skipUpgradeChecks: false
-      continueUpgradeAfterChecksEvenIfNotHealthy: false
-      waitTimeoutForHealthyOSDInMinutes: 10
-      mon:
-        count: 3
-        allowMultiplePerNode: false
-      mgr:
-        count: 1
-        modules:
-          - name: pg_autoscaler
-            enabled: true
       dashboard:
         enabled: true
         port: 8443
-        ssl: true
+        ssl: false
+      mon:
+        count: 1
+        allowMultiplePerNode: true
+      mgr:
+        count: 1
+        allowMultiplePerNode: true
+        modules:
+          - name: pg_autoscaler
+            enabled: true
       crashCollector:
-        disable: false
-      cleanupPolicy:
-        confirmation: ""
-        sanitizeDisks:
-          method: quick
-          dataSource: zero
-          iteration: 1
-        allowUninstallWithVolumes: false
-      removeOSDsIfOutAndSafeToRemove: false
-      priorityClassNames:
-        mon: system-node-critical
-        osd: system-node-critical
-        mgr: system-cluster-critical
+        disable: true
       storage:
         useAllNodes: true
         useAllDevices: true
-      disruptionManagement:
-        managePodBudgets: true
-        osdMaintenanceTimeout: 30
-        pgHealthCheckTimeout: 0
-        manageMachineDisruptionBudgets: false
-        machineDisruptionBudgetNamespace: openshift-machine-api
-      healthCheck:
         daemonHealth:
           mon:
-            disabled: false
             interval: 45s
-          osd:
-            disabled: false
-            interval: 60s
-          status:
-            disabled: false
-            interval: 60s
+            timeout: 600s
         livenessProbe:
-          mon:
-            disabled: false
           mgr:
             disabled: false
-          osd:
-            disabled: false
-        startupProbe:
-          mon:
-            disabled: false
-          mgr:
-            disabled: false
-          osd:
-            disabled: false
-      resources: null
+            probe:
+              failureThreshold: 3
+              httpGet:
+                path: /
+                port: 9283
+                scheme: HTTP
+              initialDelaySeconds: 120
+      disruptionManagement:
+        managePodBudgets: true
+      resources:
+        mgr:
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+        mon:
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+        osd:
+          limits:
+            cpu: "1000m"
+            memory: "4Gi"
+          requests:
+            cpu: "500m"
+            memory: "4Gi"
+        prepareosd:
+          limits:
+            cpu: "500m"
+            memory: "400Mi"
+          requests:
+            cpu: "250m"
+            memory: "50Mi"
+        mgr-sidecar:
+          limits:
+            cpu: "500m"
+            memory: "100Mi"
+          requests:
+            cpu: "100m"
+            memory: "40Mi"
+        crashcollector:
+          limits:
+            cpu: "500m"
+            memory: "60Mi"
+          requests:
+            cpu: "100m"
+            memory: "60Mi"
+        logcollector:
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        cleanup:
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "100Mi"
+    monitoring:
+      enabled: true
     cephBlockPools:
-      - name: blockpool
+      - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
             size: 3
+            requireSafeReplicaSize: false
         storageClass:
           enabled: true
-          name: rook-ceph-block
+          name: ceph-block
           isDefault: true
           reclaimPolicy: Delete
           allowVolumeExpansion: true
-          mountOptions: []
           parameters:
             imageFormat: "2"
             imageFeatures: layering
@@ -117,34 +137,85 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
     cephFileSystems:
-      - name: sharedpool
+      - name: ceph-filesystem
         spec:
           metadataPool:
             replicated:
-              size: 3
-          dataPools:
-            - failureDomain: host
-              replicated:
-                size: 3
-              name: replicated
-          metadataServer:
-            activeCount: 1
-            activeStandby: true
-            priorityClassName: system-cluster-critical
+              size: 1
+        dataPools:
+          - replicated:
+            size: 1
+        preserveFilesystemOnDelete: false
+        metadataServer:
+          activeCount: 1
+          activeStandby: true
         storageClass:
           enabled: true
-          isDefault: false
-          name: rook-ceph-shared
-          pool: replicated
+          name: ceph-filesystem
           reclaimPolicy: Delete
-          allowVolumeExpansion: true
           mountOptions: []
           parameters:
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook
-            csi.storage.k8s.io/fstype: ext4
-    cephObjectStores: null
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    cephObjectStores:
+      - name: ceph-objectstore
+        spec:
+          metadataPool:
+            failureDomain: host
+            replicated:
+              size: 1
+          healthCheck:
+            ReadinessProbe:
+              probe:
+                initialDelaySeconds: 30
+            livenessProbe:
+              probe:
+                initialDelaySeconds: 30
+          dataPool:
+            failureDomain: host
+            replicated:
+              size: 1
+          preservePoolsOnDelete: false
+          gateway:
+            # sslCertificateRef:
+            # caBundleRef:
+            port: 80
+            # securePort: 443
+            instances: 1
+            # A key/value list of annotations
+            annotations:
+            #  key: value
+            placement:
+            #  nodeAffinity:
+            #    requiredDuringSchedulingIgnoredDuringExecution:
+            #      nodeSelectorTerms:
+            #      - matchExpressions:
+            #        - key: role
+            #          operator: In
+            #          values:
+            #          - rgw-node
+            #  tolerations:
+            #  - key: rgw-node
+            #    operator: Exists
+            #  podAffinity:
+            #  podAntiAffinity:
+            #  topologySpreadConstraints:
+            resources:
+            #  limits:
+            #    cpu: "500m"
+            #    memory: "1024Mi"
+            #  requests:
+            #    cpu: "500m"
+            #    memory: "1024Mi"
+          # zone:
+            # name: zone-a
+        storageClass:
+          enabled: true
+          name: ceph-bucket
+          reclaimPolicy: Delete
+          parameters:
+            region: eu-central-1
