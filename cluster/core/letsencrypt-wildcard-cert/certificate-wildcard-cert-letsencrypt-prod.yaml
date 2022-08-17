@@ -2,10 +2,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: letsencrypt-wildcard-cert-bharris.xyz
+  name: letsencrypt-wildcard-cert-bharris.xyz-prod
   namespace: letsencrypt-wildcard-cert
 spec:
-  secretName: letsencrypt-wildcard-cert-bharris.xyz
+  secretName: letsencrypt-wildcard-cert-bharris.xyz-prod
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
