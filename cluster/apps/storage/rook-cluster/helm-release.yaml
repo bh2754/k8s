@@ -95,6 +95,7 @@ spec:
       resources: null
     cephBlockPools:
       - name: blockpool
+        namespace: rook
         spec:
           failureDomain: host
           replicated:
