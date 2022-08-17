@@ -10,7 +10,7 @@ spec:
     - websecure
 
   routes:
-    - match: Host(`traefik.${domain}`)
+    - match: Host(`traefik.${SECRET_DOMAIN}`)
       kind: Rule
       # middlewares:
       # - name: traefik-dashboard-basicauth
