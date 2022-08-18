@@ -142,7 +142,7 @@ data:
     #
     providers:
       kubernetesCRD:
-        enabled: true
+        enabled: false
         allowCrossNamespace: true
         allowExternalNameServices: false
         allowEmptyServices: false
