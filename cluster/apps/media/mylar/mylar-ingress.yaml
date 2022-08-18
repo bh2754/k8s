@@ -4,6 +4,9 @@ kind: IngressRoute
 metadata:
   name: mylar
   namespace: media
+  annotations:
+    hajimari.io/enable: "true"
+    hajimari.io/icon: music
 spec:
   entryPoints:
     - websecure
