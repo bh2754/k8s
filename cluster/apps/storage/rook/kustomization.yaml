@@ -5,3 +5,5 @@ resources:
   - 01common
   - 02operator
   - 03cluster
+  - 04storageclass
+  - 05toolbox
