@@ -23,6 +23,11 @@ spec:
       tag: version-v0.5.7
     env:
       TZ: America/Indianapolis
+    ingress:
+      main:
+        enabled: true
+        annotations:
+
 
     persistence:
       config:
