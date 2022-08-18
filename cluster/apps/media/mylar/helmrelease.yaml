@@ -32,6 +32,7 @@ spec:
       varrun:
         enabled: true
         accessMode: ReadWriteOnce
+        size: 1Gi
       media:
         enabled: true
         type: nfs
