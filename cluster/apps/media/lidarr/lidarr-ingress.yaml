@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lidarr
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`lidarr.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: lidarr
+          port: 8686
+  tls:
+    secretName: ${SECRET_CERT}
