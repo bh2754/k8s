@@ -15,11 +15,9 @@ data:
     securityContext:
       runAsNonRoot: false
       readOnlyRootFilesystem: false
-
     podSecurityContext:
       runAsUser: 0
       runAsGroup: 0
-
     ingress:
       main:
         enabled: true
