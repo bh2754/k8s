@@ -263,7 +263,7 @@ data:
     additionalArguments:
     #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
     #  - "--log.level=DEBUG"
-      - "--providers.kubernetesingress.ingressendpoint.ip=10.0.102.90
+      - "--providers.kubernetesingress.ingressendpoint.ip=10.0.102.90"
       # - "--providers.kubernetesingress.ingressendpoint.ip=${LB_V6_TRAEFIK}"
       - "--providers.kubernetesingress.allowexternalnameservices=true"
       - "--providers.kubernetescrd.allowexternalnameservices=true"
