@@ -82,9 +82,9 @@ data:
     ingressClass:
       # true is not unit-testable yet, pending https://github.com/rancher/helm-unittest/pull/12
       enabled: false
-      isDefaultClass: false
+      isDefaultClass: true
       # Use to force a networking.k8s.io API Version for certain CI/CD applications. E.g. "v1beta1"
-      fallbackApiVersion: ""
+      fallbackApiVersion: "v1"
 
     # Activate Pilot integration
     pilot:
@@ -158,7 +158,10 @@ data:
         # ingressClass: traefik-internal
         # labelSelector: environment=production,method=traefik
         namespaces: []
-          # - "default"
+           - "default"
+           - networking
+           - traefik
+           - media
         # IP used for Kubernetes Ingress endpoints
         publishedService:
           enabled: false
