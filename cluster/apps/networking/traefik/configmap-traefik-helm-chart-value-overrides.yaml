@@ -148,8 +148,11 @@ data:
         allowEmptyServices: false
         # ingressClass: traefik-internal
         # labelSelector: environment=production,method=traefik
-        namespaces: []
-          # - "default"
+        namespaces:
+          - "default"
+          - networking
+          - media
+
 
       kubernetesIngress:
         enabled: true
