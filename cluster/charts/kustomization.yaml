@@ -16,3 +16,4 @@ resources:
   - weaveworks-kured.yaml
   - traefik.yaml
   - rook.yaml
+  - truecharts.yaml
