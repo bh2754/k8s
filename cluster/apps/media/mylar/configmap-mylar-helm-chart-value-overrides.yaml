@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: mylar-helm-chart-value-overrides
+  namespace: media
+data:
+  values.yaml: |-
+    image:
+      repository: tccr.io/truecharts/mylar3
+      tag: v0.6.8@sha256:097235078da12c9a7a9063e88d37f8fe0b807e70b359ba88f4a0e1592a2304e0
+      pullPolicy: IfNotPresent
+
+    securityContext:
+      runAsNonRoot: false
+      readOnlyRootFilesystem: false
+
+    podSecurityContext:
+      runAsUser: 0
+      runAsGroup: 0
+
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: music
+         hosts:
+          - host: &host mylar.${SECRET_DOMAIN}
+      tls:
+        secretName: ${SECRET_CERT}
+
+    service:
+      main:
+        ports:
+          main:
+            port: 8090
+            targetPort: 8090
+
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/config"
+        size: 1Gi
+      varrun:
+        enabled: true
+      media:
+        enabled: true
+        type: nfs
+        server: 10.0.109.29
+        path: /volume1/Media
+      downloads:
+        enabled: true
+        type: nfs
+        server: 10.0.109.29
+        path: /volume1/Download

@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mylar
+  namespace: media
+spec:
+  chart:
+    spec:
+      chart: mylar
+      version: 6.x.x
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  interval: 15m
+  timeout: 5m
+  releaseName: mylar
+  valuesFrom:
+    - kind: ConfigMap
+      name: mylar-helm-chart-value-overrides
+      valuesKey: values.yaml
