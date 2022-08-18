@@ -7,7 +7,7 @@ metadata:
   namespace: traefik
 data:
   values.yaml: |-
-    # paste chart values.yaml (indented) here and alter as required>
+    # <upstream values go here>
     # Default values for Traefik
     image:
       name: traefik
@@ -21,9 +21,9 @@ data:
     deployment:
       enabled: true
       # Can be either Deployment or DaemonSet
-      kind: DaemonSet
+      kind: Deployment
       # Number of pods of the deployment (only applies when kind == Deployment)
-      replicas: 1
+      replicas: 2
       # Number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
       # revisionHistoryLimit: 1
       # Amount of time (in seconds) before Kubernetes will send the SIGKILL signal if Traefik does not shut down
@@ -81,10 +81,10 @@ data:
     # Use ingressClass. Ignored if Traefik version < 2.3 / kubernetes < 1.18.x
     ingressClass:
       # true is not unit-testable yet, pending https://github.com/rancher/helm-unittest/pull/12
-      enabled: false
+      enabled: true
       isDefaultClass: true
       # Use to force a networking.k8s.io API Version for certain CI/CD applications. E.g. "v1beta1"
-      fallbackApiVersion: "v1"
+      fallbackApiVersion: v1
 
     # Activate Pilot integration
     pilot:
@@ -112,7 +112,7 @@ data:
     # Create an IngressRoute for the dashboard
     ingressRoute:
       dashboard:
-        enabled: false
+        enabled: true
         # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
         annotations: {}
         # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
@@ -142,17 +142,14 @@ data:
     #
     providers:
       kubernetesCRD:
-        enabled: false
-        allowCrossNamespace: true
+        enabled: true
+        allowCrossNamespace: false
         allowExternalNameServices: false
         allowEmptyServices: false
         # ingressClass: traefik-internal
         # labelSelector: environment=production,method=traefik
-        namespaces:
-          - "default"
-          - networking
-          - media
-
+        namespaces: []
+          # - "default"
 
       kubernetesIngress:
         enabled: true
@@ -161,10 +158,7 @@ data:
         # ingressClass: traefik-internal
         # labelSelector: environment=production,method=traefik
         namespaces: []
-           - "default"
-           - networking
-           - traefik
-           - media
+          # - "default"
         # IP used for Kubernetes Ingress endpoints
         publishedService:
           enabled: false
@@ -176,9 +170,7 @@ data:
     # Add volumes to the traefik pod. The volume name will be passed to tpl.
     # This can be used to mount a cert pair or a configmap that holds a config.toml file.
     # After the volume has been mounted, add the configs into traefik by using the `additionalArguments` list below, eg:
-    additionalArguments:
-      - "--entryPoints.web.proxyProtocol.insecure"
-      - "--entryPoints.web.forwardedHeaders.insecure"
+    # additionalArguments:
     # - "--providers.file.filename=/config/dynamic.toml"
     # - "--ping"
     # - "--ping.entrypoint=web"
@@ -262,18 +254,20 @@ data:
     globalArguments:
       - "--global.checknewversion"
       - "--global.sendanonymoususage"
-    # - "--entryPoints.websecure.forwardedHeaders.trustedIPs=10.0.0.0/8,192.168.0.0/16,172.16.0.0/12"
 
     #
     # Configure Traefik static configuration
     # Additional arguments to be passed at Traefik's binary
     # All available options available on https://docs.traefik.io/reference/static-configuration/cli/
     ## Use curly braces to pass values: `helm install --set="additionalArguments={--providers.kubernetesingress.ingressclass=traefik-internal,--log.level=DEBUG}"`
-    additionalArguments: []
-    # - "--providers.kubernetesingress.ingressclass=traefik-internal"
-    # - "--log.level=DEBUG"
-    # - "--providers.kubernetesingress.ingressendpoint.ip=10.0.102.90"
-    # - "--providers.kubernetescrd.allowCrossNamespace=true"
+    additionalArguments:
+    #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
+    #  - "--log.level=DEBUG"
+      - "--providers.kubernetesingress.ingressendpoint.ip=10.0.102.90
+      # - "--providers.kubernetesingress.ingressendpoint.ip=${LB_V6_TRAEFIK}"
+      - "--providers.kubernetesingress.allowexternalnameservices=true"
+      - "--providers.kubernetescrd.allowexternalnameservices=true"
+      - "--providers.kubernetescrd.allowCrossNamespace=true"
 
     # Environment variables to be passed to Traefik's binary
     env: []
@@ -301,31 +295,7 @@ data:
       # The name of this one can't be changed as it is used for the readiness and
       # liveness probes, but you can adjust its config to your liking
       traefik:
-        port: 9000
-        # Use hostPort if set.
-        # hostPort: 9000
-        #
-        # Use hostIP if set. If not set, Kubernetes will default to 0.0.0.0, which
-        # means it's listening on all your interfaces and all your IPs. You may want
-        # to set this value if you need traefik to listen on specific interface
-        # only.
-        # hostIP: 192.168.100.10
-
-        # Override the liveness/readiness port. This is useful to integrate traefik
-        # with an external Load Balancer that performs healthchecks.
-        # healthchecksPort: 9000
-
-        # Defines whether the port is exposed if service.type is LoadBalancer or
-        # NodePort.
-        #
-        # You SHOULD NOT expose the traefik port on production deployments.
-        # If you want to access it from outside of your cluster,
-        # use `kubectl port-forward` or create a secure ingress
-        expose: false
-        # The exposed port for this service
-        exposedPort: 9000
-        # The port protocol (TCP/UDP)
-        protocol: TCP
+         expose: true
       web:
         port: 80
         # hostPort: 8000
@@ -355,15 +325,15 @@ data:
         # Set TLS at the entrypoint
         # https://doc.traefik.io/traefik/routing/entrypoints/#tls
         tls:
-          enabled: false
+          enabled: true
           # this is the name of a TLSOption definition
-          options: ""
+          options: "default"
           certResolver: ""
-          domains: []
-          # - main: example.com
-          #   sans:
-          #     - foo.example.com
-          #     - bar.example.com
+          domains:
+            - main: "${SECRET_DOMAIN}"
+              sans:
+                - "${SECRET_DOMAIN}"
+                - "*.${SECRET_DOMAIN}"
       metrics:
         port: 9100
         # hostPort: 9100
@@ -397,19 +367,18 @@ data:
     service:
       enabled: true
       type: LoadBalancer
-      # Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
-      #annotations: {}
+      annotations: {}
       # Additional annotations for TCP service only
-      #annotationsTCP: {}
+      annotationsTCP: {}
       # Additional annotations for UDP service only
-      #annotationsUDP: {}
+      annotationsUDP: {}
       # Additional service labels (e.g. for filtering Service by custom labels)
-      #labels: {}
+      labels: {}
       # Additional entries here will be added to the service spec.
       # Cannot contain type, selector or ports entries.
       spec:
         externalTrafficPolicy: Local
-        loadBalancerIP: "10.0.102.90"
+        loadBalancerIP: 10.0.102.90
         # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
         # - 192.168.0.1/32
@@ -482,7 +451,7 @@ data:
     # To prevent unschedulabel pods due to port collisions, if hostNetwork=true
     # and replicas>1, a pod anti-affinity is recommended and will be set if the
     # affinity is left as default.
-    hostNetwork: true
+    hostNetwork: false
 
     # Whether Role Based Access Control objects like roles and rolebindings should be created
     rbac:
@@ -536,12 +505,11 @@ data:
     # To run the container with ports below 1024 this will need to be adjust to run as root
     securityContext:
       capabilities:
-        add:
-          - NET_BIND_SERVICE
+        drop: [ALL]
       readOnlyRootFilesystem: true
       runAsGroup: 65532
-      runAsNonRoot: false
-      runAsUser: 0
+      runAsNonRoot: true
+      runAsUser: 65532
 
     podSecurityContext:
       fsGroup: 65532
