@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mylar
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`mylar.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: lidarr
+          port: 8090
+  tls:
+    secretName: ${SECRET_CERT}

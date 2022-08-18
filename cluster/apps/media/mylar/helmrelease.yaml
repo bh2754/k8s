@@ -5,18 +5,39 @@ metadata:
   name: mylar
   namespace: media
 spec:
+  releaseName: mylar
+  interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: mylar
-      version: 6.x.x
+      version: 4.4.2
       sourceRef:
         kind: HelmRepository
-        name: truecharts
+        name: k8s-at-home
         namespace: flux-system
-  interval: 15m
-  timeout: 5m
-  releaseName: mylar
-  valuesFrom:
-    - kind: ConfigMap
-      name: mylar-helm-chart-value-overrides
-      valuesKey: values.yaml
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/linuxserver/mylar3
+      tag: version-v0.5.7
+    env:
+      TZ: America/Indianapolis
+
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/config"
+        size: 1Gi
+      varrun:
+        enabled: true
+      media:
+        enabled: true
+        type: nfs
+        server: 10.0.109.29
+        path: /volume1/Media
+      downloads:
+        enabled: true
+        type: nfs
+        server: 10.0.109.29
+        path: /volume1/Download

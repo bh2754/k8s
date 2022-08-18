@@ -23,21 +23,6 @@ spec:
       tag: version-v0.5.7
     env:
       TZ: America/Indianapolis
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: traefik
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        hosts:
-          - host: &host mylar.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: tls.mylar
 
     persistence:
       config:
