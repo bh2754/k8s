@@ -255,7 +255,6 @@ data:
 
     globalArguments:
       - "--global.checknewversion"
-      - "--global.sendanonymoususage"
 
     #
     # Configure Traefik static configuration
