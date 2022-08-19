@@ -35,12 +35,21 @@ data:
         ports:
           http:
             port: 8686
-
-    ingress:
-      # -- Enable and configure ingress settings for the chart under this key.
-      # @default -- See values.yaml
+      ingress:
       main:
-        enabled: false
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          hajimari.io/enable: "true"
+          hajimari.io/icon: music
+        hosts:
+          - host: &host lidarr.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: ${SECRET_CERT}
 
     # -- Configures the probes for the main Pod.
     # @default -- See values.yaml

@@ -35,6 +35,7 @@ spec:
           - default
           - networking
           - traefik
+          - media
       name: "Brent"
       customApps:
         - name: Some External Cluster Service
