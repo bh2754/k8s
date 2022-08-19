@@ -2,8 +2,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: nfs-client-provisioner
   name: nfs-client-provisioner
   namespace: nfs
 spec:
