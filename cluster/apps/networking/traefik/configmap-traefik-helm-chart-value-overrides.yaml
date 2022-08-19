@@ -112,7 +112,7 @@ data:
     # Create an IngressRoute for the dashboard
     ingressRoute:
       dashboard:
-        enabled: false
+        enabled: true
         # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
         annotations: {}
         # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
@@ -144,7 +144,7 @@ data:
       kubernetesCRD:
         enabled: true
         allowCrossNamespace: true
-        allowExternalNameServices: false
+        allowExternalNameServices: true
         allowEmptyServices: false
         # ingressClass: traefik-internal
         # labelSelector: environment=production,method=traefik
@@ -153,7 +153,7 @@ data:
 
       kubernetesIngress:
         enabled: true
-        allowExternalNameServices: false
+        allowExternalNameServices: true
         allowEmptyServices: false
         # ingressClass: traefik-internal
         # labelSelector: environment=production,method=traefik
@@ -398,7 +398,7 @@ data:
       # Additional entries here will be added to the service spec.
       # Cannot contain type, selector or ports entries.
       spec:
-        externalTrafficPolicy: "Local"
+        externalTrafficPolicy: Local
         loadBalancerIP: "10.0.102.90"
         # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
