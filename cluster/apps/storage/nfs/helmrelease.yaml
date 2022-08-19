@@ -16,6 +16,10 @@ spec:
         name: nfs
         namespace: flux-system
       interval: 1m
+    install:
+    createNamespace: true
+    remediation:
+      retries: 5
   values:
     replicaCount: 1
     strategyType: Recreate

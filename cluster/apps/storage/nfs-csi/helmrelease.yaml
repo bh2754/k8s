@@ -5,7 +5,6 @@ metadata:
   name: nfs-csi
   namespace: nfs-csi
 spec:
-  createNamespace: true
   interval: 5m
   chart:
     spec:
