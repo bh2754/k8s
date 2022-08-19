@@ -32,6 +32,7 @@ spec:
         matchNames:
           - default
           - networking
+          - media
       name: "Brent"
       customApps:
         - name: Some External Cluster Service
