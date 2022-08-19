@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - configmap-lidarr-helm-chart-value-overrides.yaml
-  - lidarr-ingress.yaml
