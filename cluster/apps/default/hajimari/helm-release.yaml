@@ -83,8 +83,8 @@ spec:
         enabled: true
         ingressClassName: traefik
         annotations:
-          hajimari.io/enable: true
-          hajimari.io/icon: weather-sunset
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "weather-sunset"
         hosts:
           - host: hajimari.${SECRET_DOMAIN}
             paths:
