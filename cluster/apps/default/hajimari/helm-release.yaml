@@ -47,7 +47,7 @@ spec:
       # -- Override the title of the Hajimari pages
       title: null
       # -- Default name for welcome message
-      name: "Brent"
+      name: "You"
       # -- Add custom applications to the discovered application list
       customApps: []
       # - name: Test
