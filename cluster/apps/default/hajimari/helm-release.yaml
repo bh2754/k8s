@@ -83,8 +83,8 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-            tls:
-              secretName: ${SECRET_CERT}
+        tls:
+          - secretName: ${SECRET_CERT}
     persistence:
       data:
         enabled: true
