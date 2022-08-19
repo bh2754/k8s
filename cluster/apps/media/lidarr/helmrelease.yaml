@@ -5,18 +5,79 @@ metadata:
   name: lidarr
   namespace: media
 spec:
+  interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: lidarr
-      version: 14.x.x
+      version: '14.2.2'
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
         namespace: flux-system
-  interval: 15m
-  timeout: 5m
-  releaseName: lidarr
-  valuesFrom:
-    - kind: ConfigMap
-      name: lidarr-helm-chart-value-overrides
-      valuesKey: values.yaml
+      interval: 1m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/lidarr-nightly
+      tag: v1.1.0.2649
+    podSecurityContext:
+      supplementalGroups:
+        - 1002
+    env:
+      TZ: America/Indianapolis
+    metrics:
+      enabled: false
+    persistence:
+      config:
+        enabled: true
+        type: "pvc"
+        existingClaim: "lidarr-config"
+      media:
+        enabled: true
+        type: nfs
+        server: 10.0.109.29
+        path: /volume1/music
+      downloads:
+        enabled: true
+        type: nfs
+        server: 10.0.109.29
+        path: /volume1/Download
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "playlist-music"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: &host "lidarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: "${SECRET_CERT}"
+      api:
+        enabled: true
+        ingressClassName: "traefik"
+        nameSuffix: "api"
+        annotations:
+          hajimari.io/enable: "false"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: *host
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: "${SECRET_CERT}"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 250Mi
+      limits:
+        memory: 2000Mi
