@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: nfs-subdir-external-provisioner
-      version: 14.x.x
+      version: 4.x.x
       sourceRef:
         kind: HelmRepository
         name: nfs
