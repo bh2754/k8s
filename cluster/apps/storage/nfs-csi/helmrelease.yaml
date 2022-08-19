@@ -16,8 +16,6 @@ spec:
         name: nfs-csi
         namespace: flux-system
       interval: 1m
-  install:
-    createNamespace: true
   values:
     customLabels: {}
     image:
