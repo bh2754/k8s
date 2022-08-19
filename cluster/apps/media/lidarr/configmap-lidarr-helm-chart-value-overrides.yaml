@@ -49,7 +49,8 @@ data:
                 pathType: Prefix
         tls:
           - secretName: ${SECRET_CERT}
-            host: lidarr.${SECRET_DOMAIN}
+            hosts:
+              - *host
 
     # -- Configures the probes for the main Pod.
     # @default -- See values.yaml
