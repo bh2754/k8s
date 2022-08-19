@@ -57,22 +57,6 @@ spec:
           - hosts:
               - *host
             secretName: "${SECRET_CERT}"
-      api:
-        enabled: true
-        ingressClassName: "traefik"
-        nameSuffix: "api"
-        annotations:
-          hajimari.io/enable: "false"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        hosts:
-          - host: *host
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: "${SECRET_CERT}"
     resources:
       requests:
         cpu: 100m
