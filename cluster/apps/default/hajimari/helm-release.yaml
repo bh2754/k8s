@@ -87,7 +87,7 @@ spec:
         hosts:
           - host: "hajimari.${SECRET_DOMAIN}"
             paths:
-              - path: /
+              - path: /haji
                 pathType: Prefix
         tls:
           - secretName: "${SECRET_CERT}"
