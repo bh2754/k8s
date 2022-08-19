@@ -8,10 +8,10 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`hajimari.${SECRET_DOMAIN}`)
+    - match: HOST(`hajimari.bharris.xyz`)
       kind: Rule
       services:
         - name: hajimari
           port: 3000
   tls:
-    secretName: ${SECRET_CERT}
+    secretName: letsencrypt-wildcard-cert-bharris.xyz-prod

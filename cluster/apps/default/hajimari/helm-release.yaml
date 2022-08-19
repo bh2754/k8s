@@ -26,69 +26,109 @@ spec:
     image:
       repository: ghcr.io/toboshii/hajimari
       tag: v0.2.0
-    env:
-      # -- Set the container timezone
-      TZ: America/Indianapolis
-
-    # -- Configures Hajimari settings for this instance.
-    # @default -- See below
     hajimari:
-      # -- The name of this instance, this allows running multiple
-      # instances of Hajimari on the same cluster
-      instanceName: null
-      # -- Set to true to show all discovered applications by default.
-      defaultEnable: true
-      # -- Namespace selector to use for discovering applications
+      defaultEnable: false
       namespaceSelector:
         matchNames:
-          - media
           - default
-          - traefik
-      # -- Override the title of the Hajimari pages
-      title: null
-      # -- Default name for welcome message
-      name: "You"
-      # -- Add custom applications to the discovered application list
-      customApps: []
-      # - name: Test
-      #   url: https://example.com
-      #   icon: test-tube
-
-      # -- Set default bookmarks
+          - networking
+      name: "you"
+      customApps:
+        - name: Some External Cluster Service
+          url: http://192.168.1.100:5000
+          icon: test-tube
       groups:
         - name: Communicate
           links:
             - name: Discord
-              url: 'https://discord.com'
+              url: "https://discord.com"
             - name: Gmail
-              url: 'http://gmail.com'
-      #   - name: Slack
-      #     url: 'https://slack.com/signin'
-
-
-    # -- Configures service settings for the chart.
-    # @default -- See values.yaml
-    service:
-      main:
-        ports:
-          http:
-            port: 3000
-
-    # -- Configures service account needed for reading k8s ingress objects
-    # @default -- See below
-    serviceAccount:
-      # -- Create service account
-      create: true
-
+              url: "https://gmail.com"
+            - name: Slack
+              url: "https://slack.com/signin"
+        - name: Cloud
+          links:
+            - name: Box
+              url: "https://box.com"
+            - name: Dropbox
+              url: "https://dropbox.com"
+            - name: Drive
+              url: "https://drive.google.com"
+        - name: Design
+          links:
+            - name: Awwwards
+              url: "https://awwwards.com"
+            - name: Dribbble
+              url: "https://dribbble.com"
+            - name: Muz.li
+              url: "https://medium.muz.li/"
+        - name: Dev
+          links:
+            - name: Codepen
+              url: "https://codepen.io/"
+            - name: Devdocs
+              url: "https://devdocs.io"
+            - name: Devhints
+              url: "https://devhints.io"
+        - name: Lifestyle
+          links:
+            - name: Design Milk
+              url: "https://design-milk.com/category/interior-design/"
+            - name: Dwell
+              url: "https://www.dwell.com/"
+            - name: Freshome
+              url: "https://www.mymove.com/freshome/"
+        - name: Media
+          links:
+            - name: Spotify
+              url: "http://browse.spotify.com"
+            - name: Trakt
+              url: "http://trakt.tv"
+            - name: YouTube
+              url: "https://youtube.com/feed/subscriptions"
+        - name: Reading
+          links:
+            - name: Instapaper
+              url: "https://www.instapaper.com/u"
+            - name: Medium
+              url: "http://medium.com"
+            - name: Reddit
+              url: "http://reddit.com"
+        - name: Tech
+          links:
+            - name: Hacker News
+              url: "https://news.ycombinator.com/"
+            - name: The Verge
+              url: "https://theverge.com/"
+            - name: MIT Technology Review
+              url: "https://www.technologyreview.com/"
     ingress:
-      # -- Enable and configure ingress settings for the chart under this key.
-      # @default -- See values.yaml
       main:
-        enabled: false
-
-    # -- Configure persistence settings for the chart under this key.
-    # @default -- See values.yaml
+        enabled: true
+        ingressClassName: "nginx"
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-staging"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "weather-sunset"
+          nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+        hosts:
+          - host: "hajimari.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "hajimari.${SECRET_DOMAIN}"
+            secretName: "hajimari-tls"
     persistence:
       data:
         enabled: true
         existingClaim: hajimari-config
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: "hajimari-settings"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
