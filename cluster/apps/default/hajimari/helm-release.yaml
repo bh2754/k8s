@@ -80,7 +80,7 @@ spec:
               url: "https://www.technologyreview.com/"
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "traefik"
         annotations:
           hajimari.io/enable: "true"
