@@ -1,22 +1,18 @@
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: longhorn-frontend
+  name: longhorn
   namespace: longhorn-system
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
-
 spec:
-  rules:
-    - host: longhorn.bharris.tv
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: longhorn-frontend
-              port:
-                number: 80
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`longhorn.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: longhorn-frontend
+          port: 80
+  tls:
+    secretName: ${SECRET_CERT}
