@@ -37,6 +37,8 @@ spec:
           - traefik
           - media
           - longhorn
+          - kasten-io
+
       name: "Brent"
       customApps:
         - name: Some External Cluster Service

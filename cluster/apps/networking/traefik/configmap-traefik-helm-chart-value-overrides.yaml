@@ -114,7 +114,10 @@ data:
       dashboard:
         enabled: true
         # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
-        annotations: {}
+        annotations:
+          hajimari.io/appName: "traefik"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "web"
         # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
         labels: {}
 
