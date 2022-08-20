@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: k10
+  namespace: kasten-io
+spec:
+  releaseName: k10
+  interval: 5m
+  chart:
+    spec:
+      chart: k10
+      version: 5.x.x
+      sourceRef:
+        kind: HelmRepository
+        name: kasten
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 12
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 5
+  values:
+    eula:
+      accept: true
+      company: Harris
+      email: brent@bharris.cc
+    global:
+      persistence:
+        storageClass: rook-cephfs
+    auth:
+      tokenAuth:
+        enabled: true
+    clusterName: Harris
+    ingress:
+      create: true
+      host: k10.${SECRET_DOMAIN}
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        hajimari.io/enable: "true"
+        hajimari.io/icon: backup-restore
+        hajimari.io/appName: "K10"
+        hajimari.io/url: "https://k10.${SECRET_DOMAIN}/k10/"
+      urlPath: "k10"
+      hosts:
+        - &host k10.${SECRET_DOMAIN}
+      tls:
+        enabled: true
+        secretName: ${SECRET_CERT}
+        hosts:
+          - *host
+    grafana:
+      enabled: false

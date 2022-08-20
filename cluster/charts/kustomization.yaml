@@ -19,3 +19,4 @@ resources:
   - truecharts.yaml
   - nfs.yaml
   - nfs-csi.yaml
+  - kasten.yaml
