@@ -20,3 +20,4 @@ resources:
   - nfs.yaml
   - nfs-csi.yaml
   - kasten.yaml
+  - longhorn.yaml
