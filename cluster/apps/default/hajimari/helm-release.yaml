@@ -36,6 +36,7 @@ spec:
           - networking
           - traefik
           - media
+          - longhorn
       name: "Brent"
       customApps:
         - name: Some External Cluster Service
