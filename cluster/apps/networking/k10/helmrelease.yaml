@@ -47,7 +47,7 @@ spec:
         hajimari.io/icon: backup-restore
         hajimari.io/appName: "K10"
         hajimari.io/url: "https://k10.${SECRET_DOMAIN}/k10/"
-      urlPath: "k10"
+    # urlPath: "k10"
       hosts:
         - &host k10.${SECRET_DOMAIN}
       tls:
