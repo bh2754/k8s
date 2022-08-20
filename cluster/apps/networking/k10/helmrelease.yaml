@@ -16,7 +16,6 @@ spec:
         name: kasten
         namespace: flux-system
       interval: 5m
-      timeout: 1200
   install:
     createNamespace: true
     crds: CreateReplace
