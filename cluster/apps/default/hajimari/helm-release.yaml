@@ -29,7 +29,7 @@ spec:
     serviceAccount:
       create: true
     hajimari:
-      defaultEnable: false
+      defaultEnable: true
       namespaceSelector:
         matchNames:
           - default

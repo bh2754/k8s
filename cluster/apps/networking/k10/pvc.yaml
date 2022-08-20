@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+   name: synology-pvc
+   namespace: kasten-io
+spec:
+   storageClassName: nfs
+   accessModes:
+      - ReadWriteMany
+   resources:
+      requests:
+         storage: 50Gi
