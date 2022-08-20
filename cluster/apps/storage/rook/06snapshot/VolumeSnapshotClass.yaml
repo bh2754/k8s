@@ -1,0 +1,9 @@
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+driver: rook-ceph.cephfs.csi.ceph.com
+metadata:
+  annotations:
+    k10.kasten.io/is-snapshot-class: "true"
+  name: csi-rook-ceph-snapclass
+deletionPolicy: Retain
