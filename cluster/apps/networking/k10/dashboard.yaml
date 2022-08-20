@@ -11,7 +11,7 @@ spec:
     - match: HOST(`k10.${SECRET_DOMAIN}`) #&& PathPrefix(`/k10`)
       kind: Rule
       services:
-        - name: dashboardbff-svc
+        - name: gateway
           port: 8000
   tls:
     secretName: ${SECRET_CERT}
