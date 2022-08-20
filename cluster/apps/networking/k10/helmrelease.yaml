@@ -34,8 +34,9 @@ spec:
       persistence:
         storageClass: longhorn
     auth:
-      tokenAuth:
+      basicAuth:
         enabled: true
+        htpasswd: 'brent:$2y$10$eNzufCT0ofv7cjTh20P.UuM9Z6TDkqLoxqpaW1h5I70sgOcS6InYC'
     clusterName: Harris
     ingress:
       create: true
