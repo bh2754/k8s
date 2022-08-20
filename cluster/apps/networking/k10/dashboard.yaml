@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`k10.${SECRET_DOMAIN}`) #&& PathPrefix(`/k10`)
+    - match: HOST(`k10.${SECRET_DOMAIN}`) && PathPrefix(`/k10`)
       kind: Rule
       services:
         - name: gateway
