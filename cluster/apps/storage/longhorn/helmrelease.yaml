@@ -20,7 +20,7 @@ spec:
     persistence:
       defaultClassReplicaCount: 2
     defaultSettings:
-      backupTarget: "10.0.109.29:/volume1/longhorn"
+      backupTarget: nfs://10.0.109.29:/volume1/longhorn
       defaultReplicaCount: 2
       defaultLonghornStaticStorageClass: longhorn
     ingress:
