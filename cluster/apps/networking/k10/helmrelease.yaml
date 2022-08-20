@@ -32,7 +32,7 @@ spec:
       email: brent@bharris.cc
     global:
       persistence:
-        storageClass: rook-cephfs
+        storageClass: longhorn
     auth:
       tokenAuth:
         enabled: true
