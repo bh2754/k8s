@@ -110,7 +110,7 @@ spec:
             # Allow only VPN traffic to Internet
             - to:
                 - ipBlock:
-                  cidr: 0.0.0.0/0
+                    cidr: 0.0.0.0/0
                   ports:
                     - port: 51820
                       protocol: UDP
