@@ -435,11 +435,6 @@ spec:
           hajimari.io/enable: "true"
         hosts:
           - host: &host firefly.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  port: http
         tls:
           - hosts:
               - *host
