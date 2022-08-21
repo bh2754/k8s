@@ -9,3 +9,5 @@ resources:
   - system-upgrade
   - storage
   - media
+  - vpn
+  - downloads
