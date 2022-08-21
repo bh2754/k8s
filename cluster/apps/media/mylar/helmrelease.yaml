@@ -22,7 +22,7 @@ spec:
       repository: ghcr.io/linuxserver/mylar3
       tag: version-v0.5.7
     env:
-      TZ: America/Indianapolis
+      TZ: ${TZ}
     ingress:
       main:
         enabled: true
@@ -51,10 +51,10 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: 10.0.109.29
-        path: /volume1/Media
+        server: ${NFS_SERVER}
+        path: ${NFS_MEDIA}
       downloads:
         enabled: true
         type: nfs
-        server: 10.0.109.29
-        path: /volume1/Download
+        server: ${NFS_SERVER}
+        path: ${NFS_DOWNLOAD}
