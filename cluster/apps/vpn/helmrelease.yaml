@@ -111,12 +111,12 @@ spec:
             - to:
                 - ipBlock:
                     cidr: 0.0.0.0/0
-                  ports:
-                    - port: 51820
-                      protocol: UDP
+              ports:
+                - port: 51820
+                  protocol: UDP
             - to:
                 - ipBlock:
-                  cidr: 10.0.0.0/8
+                    cidr: 10.0.0.0/8
 
     # -- The webhook is used to mutate the PODs matching the given
     # namespace labels. It inserts an init and sidecard helper containers
