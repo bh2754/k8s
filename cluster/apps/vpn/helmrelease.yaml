@@ -73,7 +73,7 @@ spec:
         label: "vpn-routed-gateway"
 
     podAnnotations:
-      secret.reloader.stakater.com/reload: downloads_gateway_vpnconfig
+      secret.reloader.stakater.com/reload: vpnconfig
 
     addons:
       netshoot:
@@ -101,7 +101,7 @@ spec:
           IPTABLES_BACKEND: nft
           KILLSWITCH: "false"
 
-        configFileSecret: downloads-gateway-vpnconfig
+        configFileSecret: vpnconfig
 
         resources:
           requests:
