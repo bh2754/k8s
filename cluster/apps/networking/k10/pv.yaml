@@ -15,5 +15,5 @@ spec:
       - hard
       - nfsvers=4.1
    nfs:
-      path: /volume1/kubernetes
-      server: 10.0.102.29
+      path: ${NFS_KUBERNETES}
+      server: ${NFS_SERVER}
