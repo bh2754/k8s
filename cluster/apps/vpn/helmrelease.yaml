@@ -25,111 +25,139 @@ spec:
       remediateLastFailure: true # remediate the last failure, when no retries remain
     cleanupOnFail: true
   values:
+    #
+    # IMPORTANT NOTE
+    #
+    # This chart inherits from our common library chart. You can check the default values/options here:
+    # https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+    #
+
     image:
       repository: ghcr.io/k8s-at-home/pod-gateway
-      tag: v1.7.0
+      pullPolicy: IfNotPresent
+      tag:
 
+    # -- IP address of the DNS server within the vxlan tunnel.
+    # All mutated PODs will get this as their DNS server.
+    # It must match VXLAN_GATEWAY_IP in settings.sh
     DNS: 172.16.1.1
-
+    DNSPolicy: None
+    clusterName: "cluster.local"
     routed_namespaces:
       - downloads
-    # - organizarrs
-
-    publicPorts:
-    # - hostname: qbittorrent # hostname assigned to the pod
-      # IP: 10 # must be an integer between 2 and VXLAN_GATEWAY_FIRST_DYNAMIC_IP (20 by default)
-      # ports:
-        # - type: udp
-          # port: ${SECRET_VPN_FORWARDED_PORT_1}
-        # - type: tcp
-          # port: ${SECRET_VPN_FORWARDED_PORT_1}
-
     settings:
-      VPN_INTERFACE: wg0
-      VXLAN_ID: 43
-      VXLAN_IP_NETWORK: 172.16.1
-      VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: "${SECRET_WIREGUARD_PORT}"
       NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 ${NETWORK_K8S_POD_CIDR} ${NETWORK_K8S_SERVICE_CIDR} ${NETWORK_SERVERS_CIDR} ${WORKSTATION_CIDR}"
-      VPN_LOCAL_CIDRS: "172.16.0.0/12 ${NETWORK_K8S_POD_CIDR} ${NETWORK_K8S_SERVICE_CIDR} ${NETWORK_SERVERS_CIDR} ${WORKSTATION_CIDR}"
+      VXLAN_ID: 43
+      VXLAN_IP_NETWORK: "172.16.1"
+      # -- Keep a range of IPs for static assignment in nat.conf
       VXLAN_GATEWAY_FIRST_DYNAMIC_IP: 20
+      # -- If using a VPN, interface name created by it
+      VPN_INTERFACE: wg0
+      # -- Prevent non VPN traffic to leave the gateway
+      VPN_BLOCK_OTHER_TRAFFIC: true
+      # -- If VPN_BLOCK_OTHER_TRAFFIC is true, allow VPN traffic over this port
+      VPN_TRAFFIC_PORT: 1194
+      # -- Traffic to these IPs will be send through the K8S gateway
+      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
 
-    resources:
-      requests:
-        cpu: 10m
-        memory: 22M
-      limits:
-        memory: 22M
+      # -- DNS queries to these domains will be resolved by K8S DNS instead of
+      # the default (typcally the VPN client changes it)
+      DNS_LOCAL_CIDRS: "local"
 
-    webhook:
-      image:
-        repository: ghcr.io/k8s-at-home/gateway-admision-controller
-        tag: v3.6.0
-
-      gatewayDefault: false
-      gatewayLabel: setGateway
-      gatewayAnnotation: setGateway
-      namespaceSelector:
-        label: "vpn-routed-gateway"
-
-    podAnnotations:
-      secret.reloader.stakater.com/reload: vpnconfig
+    # -- settings to expose ports, usually through a VPN provider.
+    # NOTE: if you change it you will need to manually restart the gateway POD
+    publicPorts:
+    # - hostname: qbittorrent
+    #   IP: 10
+    #   ports:
+    #   - type: udp
+    #     port: 18289
+    #   - type: tcp
+    #     port: 18289
 
     addons:
-      netshoot:
-        enabled: false
-
       vpn:
         enabled: true
         type: wireguard
-
         wireguard:
           image:
             repository: ghcr.io/k8s-at-home/wireguard
-            tag: v1.0.20210914
+            tag: v1.0.20210424
             pullPolicy: IfNotPresent
-
-        securityContext:
-          runAsUser: 568
-          runAsGroup: 568
-          capabilities:
-            drop:
-              - "SYS_MODULE"
-
-        env:
-          TZ: "${TZ}"
-          IPTABLES_BACKEND: nft
-          KILLSWITCH: "false"
-
-        configFileSecret: vpnconfig
-
-        resources:
-          requests:
-            cpu: 10m
-            memory: 22M
-          limits:
-            memory: 46M
-
-        # livenessProbe:
-        #   exec:
-        #     command:
-        #       - sh
-        #       - -c
-        #       - if [ $(curl -s https://am.i.mullvad.net/city) = '${SECRET_WIREGUARD_CITY}' ]; then exit 0; else exit $?; fi
-        #   initialDelaySeconds: 30
-        #   periodSeconds: 60
-        #   failureThreshold: 1
-        #   timeoutSeconds: 30
-
+          env:
+            TZ: ${TZ}
+            IPTABLES_BACKEND: nft
+            KILLSWITCH: false
+          service:
+            main:
+              enabled: true
+              ports:
+                http:
+                  enabled: false
+                vpn:
+                  enabled: true
+                  port: 51820
+                  protocol: UDP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
+          configFileSecret: vpnconfig
         networkPolicy:
           enabled: true
-
           egress:
+            # Allow only VPN traffic to Internet
             - to:
                 - ipBlock:
-                    cidr: 0.0.0.0/0
+                  cidr: 0.0.0.0/0
               ports:
                 - port: 51820
                   protocol: UDP
             - to:
-                - namespaceSelector: {}
+                - ipBlock:
+                  cidr: 10.0.0.0/8
+
+    # -- The webhook is used to mutate the PODs matching the given
+    # namespace labels. It inserts an init and sidecard helper containers
+    # that connect to the gateway pod created by this chart.
+    # @default -- See below
+    webhook:
+      image:
+        # -- image repository of the webhook
+        repository: ghcr.io/k8s-at-home/gateway-admision-controller
+        # -- image pullPolicy of the webhook
+        pullPolicy: IfNotPresent
+        # -- image tag of the webhook
+        tag: v3.5.0
+
+      # -- number of webhook instances to deploy
+      replicas: 1
+
+      # -- strategy for updates
+      strategy:
+        type: RollingUpdate
+
+      # -- Selector for namespace.
+      # All pods in this namespace will get evaluated by the webhook.
+      # **IMPORTANT**: Do not select the namespace where the webhook
+      # is deployed to or you will get locking issues.
+      namespaceSelector:
+        type: label
+        label: "routed-gateway"
+        custom: {}
+          # matchExpressions:
+          # - key: notTouch
+          #   operator: NotIn
+          #   values: ["1"]
+
+      # -- default behviour for new PODs in the evaluated namespace
+      gatewayDefault: true
+
+      # -- label name to check when evaluating POD. If true the POD
+      # will get the gateway. If not set setGatewayDefault will apply.
+      gatewayLabel: setGateway
+
+      # -- annotation name to check when evaluating POD. If true the POD
+      # will get the gateway. If not set setGatewayDefault will apply.
+      gatewayAnnotation: setGateway
