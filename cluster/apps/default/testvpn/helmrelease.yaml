@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: downloads
+  namespace: vpn
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: pod-gateway
+      version: 5.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/wireguard
+      tag: v1.0.20210424
+      pullPolicy: IfNotPresent
+    env:
+      TZ: UTC
+      IPTABLES_BACKEND: nft
+      KILLSWITCH: false
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            enabled: false
+          vpn:
+            enabled: true
+            port: 51820
+            protocol: UDP
+    ingress:
+      main:
+        enabled: false
+    securityContext:
+      capabilities:
+      add:
+        - NET_ADMIN
+        - SYS_MODULE
+    configFile: |-
+      [Interface]
+      PrivateKey = kBvg4eFrtdbyT/HwTE4hMWGVXLfMn+oy4qr/sSjRCl0=
+      Address = 10.5.0.2/32
+      DNS = 10.0.103.66
+      PostUp = /config/up.sh %i
+      PreDown = /config/down.sh %i
+
+      [Peer]
+      PublicKey = fI+TUqRxe3hBC0Dil+Odbn4O8E0gewg+KdRY554BEBA=
+      AllowedIPs = 0.0.0.0/0
+      Endpoint = 23.19.141.104
