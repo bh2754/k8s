@@ -18,8 +18,8 @@ spec:
         app: terminal1
     spec:
       containers:
-        - name: ubuntu
-          image: ubuntu
+        - name: alpine
+          image: alpine
           command:
             - /bin/sh
             - -c
