@@ -51,15 +51,4 @@ spec:
         add:
           - NET_ADMIN
           - SYS_MODULE
-    configFile: |-
-      [Interface]
-      PrivateKey = kBvg4eFrtdbyT/HwTE4hMWGVXLfMn+oy4qr/sSjRCl0=
-      Address = 10.5.0.2/32
-      DNS = 10.0.103.66
-      PostUp = /config/up.sh %i
-      PreDown = /config/down.sh %i
-
-      [Peer]
-      PublicKey = fI+TUqRxe3hBC0Dil+Odbn4O8E0gewg+KdRY554BEBA=
-      AllowedIPs = 0.0.0.0/0
-      Endpoint = 23.19.141.104
+    configFile: vpnconfig
