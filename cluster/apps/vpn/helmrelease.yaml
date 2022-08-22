@@ -1,163 +1,25 @@
+# HelmRelease.yaml
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: downvpn
+  name: vpn-gateway
   namespace: vpn
+  labels:
 spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pod-gateway
-      version: 5.6.2
+      version: 5.x.x
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
         namespace: flux-system
       interval: 5m
-  install:
-    createNamespace: true
-    remediation: # perform remediation when helm install fails
-      retries: 3
-  upgrade:
-    remediation: # perform remediation when helm upgrade fails
-      retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
-    cleanupOnFail: true
+
+  # See https://github.com/k8s-at-home/charts/blob/master/charts/pod-gateway/values.yaml
   values:
-    #
-    # IMPORTANT NOTE
-    #
-    # This chart inherits from our common library chart. You can check the default values/options here:
-    # https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
-    #
-
-    image:
-      repository: ghcr.io/k8s-at-home/pod-gateway
-      pullPolicy: IfNotPresent
-      tag:
-
-    # -- IP address of the DNS server within the vxlan tunnel.
-    # All mutated PODs will get this as their DNS server.
-    # It must match VXLAN_GATEWAY_IP in settings.sh
-    DNS: 172.16.1.1
-    DNSPolicy: None
-    clusterName: "cluster.local"
     routed_namespaces:
       - downloads
-    settings:
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 ${NETWORK_K8S_POD_CIDR} ${NETWORK_K8S_SERVICE_CIDR} ${NETWORK_SERVERS_CIDR} ${WORKSTATION_CIDR}"
-      VXLAN_ID: 43
-      VXLAN_IP_NETWORK: "172.16.1"
-      # -- Keep a range of IPs for static assignment in nat.conf
-      VXLAN_GATEWAY_FIRST_DYNAMIC_IP: 20
-      # -- If using a VPN, interface name created by it
-      VPN_INTERFACE: tun0
-      # -- Prevent non VPN traffic to leave the gateway
-      VPN_BLOCK_OTHER_TRAFFIC: true
-      # -- If VPN_BLOCK_OTHER_TRAFFIC is true, allow VPN traffic over this port
-      VPN_TRAFFIC_PORT: 1194
-      # -- Traffic to these IPs will be send through the K8S gateway
-      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
-
-      # -- DNS queries to these domains will be resolved by K8S DNS instead of
-      # the default (typcally the VPN client changes it)
-      DNS_LOCAL_CIDRS: "local"
-
-    # -- settings to expose ports, usually through a VPN provider.
-    # NOTE: if you change it you will need to manually restart the gateway POD
-    publicPorts: []
-    # - hostname: qbittorrent
-    #   IP: 10
-    #   ports:
-    #   - type: udp
-    #     port: 18289
-    #   - type: tcp
-    #     port: 18289
-
-    addons:
-      vpn:
-        enabled: true
-        type: wireguard
-        wireguard:
-          image:
-            repository: ghcr.io/k8s-at-home/wireguard
-            tag: v1.0.20210424
-            pullPolicy: IfNotPresent
-          env:
-            TZ: ${TZ}
-            IPTABLES_BACKEND: nft
-            KILLSWITCH: false
-          service:
-            main:
-              enabled: true
-              ports:
-                http:
-                  enabled: false
-                vpn:
-                  enabled: true
-                  port: 51820
-                  protocol: UDP
-          securityContext:
-            capabilities:
-              add:
-                - NET_ADMIN
-                - SYS_MODULE
-          configFileSecret: vpnconfig
-        networkPolicy:
-          enabled: true
-          egress:
-            # Allow only VPN traffic to Internet
-            - to:
-                - ipBlock:
-                    cidr: 0.0.0.0/0
-              ports:
-                - port: 51820
-                  protocol: UDP
-            - to:
-                - ipBlock:
-                    cidr: 10.0.0.0/8
-
-    # -- The webhook is used to mutate the PODs matching the given
-    # namespace labels. It inserts an init and sidecard helper containers
-    # that connect to the gateway pod created by this chart.
-    # @default -- See below
-    webhook:
-      image:
-        # -- image repository of the webhook
-        repository: ghcr.io/k8s-at-home/gateway-admision-controller
-        # -- image pullPolicy of the webhook
-        pullPolicy: IfNotPresent
-        # -- image tag of the webhook
-        tag: v3.5.0
-
-      # -- number of webhook instances to deploy
-      replicas: 1
-
-      # -- strategy for updates
-      strategy:
-        type: RollingUpdate
-
-      # -- Selector for namespace.
-      # All pods in this namespace will get evaluated by the webhook.
-      # **IMPORTANT**: Do not select the namespace where the webhook
-      # is deployed to or you will get locking issues.
-      namespaceSelector:
-        type: label
-        label: "routed-gateway"
-        custom: {}
-          # matchExpressions:
-          # - key: notTouch
-          #   operator: NotIn
-          #   values: ["1"]
-
-      # -- default behviour for new PODs in the evaluated namespace
-      gatewayDefault: true
-
-      # -- label name to check when evaluating POD. If true the POD
-      # will get the gateway. If not set setGatewayDefault will apply.
-      gatewayLabel: setGateway
-
-      # -- annotation name to check when evaluating POD. If true the POD
-      # will get the gateway. If not set setGatewayDefault will apply.
-      gatewayAnnotation: setGateway
