@@ -2,28 +2,22 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: downloads
+  name: testvpn
   namespace: default
 spec:
-  interval: 5m
+  releaseName: wireguard
+  targetNamespace: default
+  interval: 10m
   chart:
     spec:
-      chart: pod-gateway
-      version: 5.6.2
+      chart: wireguard
+      version: 1.4.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
-    remediation: # perform remediation when helm install fails
-      retries: 3
-  upgrade:
-    remediation: # perform remediation when helm upgrade fails
-      retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
-    cleanupOnFail: true
   values:
     image:
       repository: ghcr.io/k8s-at-home/wireguard
@@ -51,4 +45,4 @@ spec:
         add:
           - NET_ADMIN
           - SYS_MODULE
-    configFile: vpnconfig
+    configFileSecret: vpnconfig
