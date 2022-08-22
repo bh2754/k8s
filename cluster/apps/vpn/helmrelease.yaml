@@ -24,7 +24,7 @@ spec:
     routed_namespaces:
       - downloads
     settings:
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.22.0.0/12 10.0.0.0/16 192.168.15.0/24"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.22.0.0/12 10.0.0.0/8 192.168.0.0/16"
       VPN_LOCAL_CIDRS: "172.22.0.0/12 10.0.0.0/16 192.168.15.0/24"
     # Use a different VXLAN network segment that does not conflict with the above
       VXLAN_IP_NETWORK: "172.16.0.0/24"
