@@ -3,19 +3,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: terminal1
+  name: terminal2
   namespace: downloads
   labels:
-    app: terminal
+    app: terminal2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: terminal1
+      app: terminal2
   template:
     metadata:
       labels:
-        app: terminal1
+        app: terminal2
     spec:
       containers:
         - name: ubuntu
@@ -27,3 +27,7 @@ spec:
               sleep 600 &
               wait $!;
               done
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
