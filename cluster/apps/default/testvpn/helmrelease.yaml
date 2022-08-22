@@ -45,4 +45,6 @@ spec:
         add:
           - NET_ADMIN
           - SYS_MODULE
-    configFileSecret: vpnconfig
+    configSecret:
+      enabled: true
+      configFileSecret: vpnconfig
