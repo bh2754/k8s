@@ -48,9 +48,9 @@ spec:
         enabled: false
     securityContext:
       capabilities:
-      add:
-        - NET_ADMIN
-        - SYS_MODULE
+        add:
+          - NET_ADMIN
+          - SYS_MODULE
     configFile: |-
       [Interface]
       PrivateKey = kBvg4eFrtdbyT/HwTE4hMWGVXLfMn+oy4qr/sSjRCl0=
