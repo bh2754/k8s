@@ -21,3 +21,4 @@ resources:
   - nfs-csi.yaml
   - kasten.yaml
   - longhorn.yaml
+  - ubuntu.yaml
