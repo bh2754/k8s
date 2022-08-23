@@ -5,18 +5,22 @@ metadata:
   name: ubuntu
   namespace: downloads
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: ubuntu-xrdp
-      version: 1.2.1
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     podAnnotations:
       setGateway: "true"
@@ -28,7 +32,7 @@ spec:
     persistence:
       ubuntu-xrdp:
         enabled: true
-        mountPath: /home/ubuntu/unraid
+        mountPath: /config
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
