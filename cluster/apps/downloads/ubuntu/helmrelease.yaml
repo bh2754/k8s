@@ -8,11 +8,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: ubuntu
+      chart: ubuntu-xrdp
       version: 1.2.1
       sourceRef:
         kind: HelmRepository
-        name: ubuntu
+        name: truecharts
         namespace: flux-system
       interval: 5m
   install:
