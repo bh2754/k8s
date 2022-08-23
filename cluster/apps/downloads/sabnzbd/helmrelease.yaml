@@ -27,7 +27,7 @@ spec:
     env:
       TZ: "${TZ}"
       HOST_WHITELIST_ENTRIES: "sabnzbd.${SECRET_DOMAIN}"
-      WAIT_FOR_VPN: "true"
+    # WAIT_FOR_VPN: "true"
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
