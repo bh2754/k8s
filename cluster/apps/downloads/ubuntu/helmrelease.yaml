@@ -20,31 +20,46 @@ spec:
   values:
     podAnnotations:
       setGateway: "true"
+    env: {}
     image:
-      repository: ubuntu
       pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-      tag: ""
-    env:
-      TZ: "${TZ}"
+      repository: tccr.io/truecharts/ubuntu-xrdp
+      tag: latest@sha256:929a5859c03ad430696433a5c348650a575ecc562e917d41c429e7573eb9a38f
+    persistence:
+      ubuntu-xrdp:
+        enabled: true
+        mountPath: /home/ubuntu/unraid
     podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-    ingress:
+      runAsGroup: 0
+      runAsUser: 0
+    securityContext:
+      readOnlyRootFilesystem: false
+      runAsNonRoot: false
+    service:
       main:
         enabled: true
-        ingressClassName: "traefik"
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "download"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        hosts:
-          - host: &host ubuntu.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: ${SECRET_CERT}
+        ports:
+          main:
+            enabled: true
+            port: 3389
+            protocol: TCP
+            targetPort: 3389
+      tcpport1:
+        enabled: true
+        ports:
+          tcpport1:
+            enabled: true
+            port: 6080
+            protocol: TCP
+            targetPort: 6080
+      tcpport2:
+        enabled: true
+        ports:
+          tcpport2:
+            enabled: true
+            port: 5900
+            protocol: TCP
+            targetPort: 5900
+
+    portal:
+      enabled: true
