@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`sabnzbd.bharris.xyz}`)
+    - match: HOST(`sabnzbd.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: sabnzbd
