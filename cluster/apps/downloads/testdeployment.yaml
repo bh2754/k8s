@@ -4,7 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: terminal2
-  namespace: downloads
+  namespace: vpn
   labels:
     app: terminal2
 spec:
