@@ -7,7 +7,6 @@ metadata:
   namespace: downloads
   labels:
     app: terminal
-    setGateway: "true"
 spec:
   replicas: 1
   selector:
