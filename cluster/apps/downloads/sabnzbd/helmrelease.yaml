@@ -18,6 +18,9 @@ spec:
   install:
     createNamespace: true
   values:
+    addons:
+      netshoot:
+        enabled: true
     podAnnotations:
       setGateway: "true"
     image:
