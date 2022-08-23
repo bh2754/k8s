@@ -4,9 +4,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: terminal1
-  namespace: vpn
+  namespace: downloads
   labels:
     app: terminal
+    setGateway: "true"
 spec:
   replicas: 1
   selector:
