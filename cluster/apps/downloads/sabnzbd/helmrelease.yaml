@@ -21,6 +21,9 @@ spec:
     addons:
       netshoot:
         enabled: true
+      capabilites:
+        add:
+          - NET_ADMIN
     podAnnotations:
       setGateway: "true"
     image:
