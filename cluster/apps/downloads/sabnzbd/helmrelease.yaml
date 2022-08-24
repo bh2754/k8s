@@ -42,6 +42,8 @@ spec:
         ingressClassName: "traefik"
         hosts:
           - host: &host sabnzbd.${SECRET_DOMAIN}
+            paths:
+              - path: /
         tls:
           - hosts:
               - *host
