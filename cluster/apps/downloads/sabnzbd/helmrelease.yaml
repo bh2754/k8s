@@ -1,14 +1,10 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: sabnzbd
-  namespace: downloads
+  namespace: media
 spec:
-  interval: 15m
-  dependsOn:
-    - name: longhorn
-      namespace: longhorn-system
+  interval: 5m
   chart:
     spec:
       chart: sabnzbd
@@ -20,16 +16,25 @@ spec:
       interval: 5m
   install:
     createNamespace: true
-    remediation:
-      retries: 5
   values:
     image:
       repository: ghcr.io/k8s-at-home/sabnzbd
       tag: v3.6.1
+      pullPolicy: IfNotPresent
     env:
       TZ: "${TZ}"
       HOST_WHITELIST_ENTRIES: >-
+        sabnzbd,
+        sabnzbd.media,
+        sabnzbd.media.svc,
+        sabnzbd.media.svc.cluster,
+        sabnzbd.media.svc.cluster.local,
         sabnzbd.${SECRET_DOMAIN}
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
     ingress:
       main:
         enabled: true
@@ -39,32 +44,25 @@ spec:
           hajimari.io/icon: "download"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - host: &host sabnzbd.${SECRET_DOMAIN}
+          - host: "sabnzbd.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - *host
+              - "sabnzbd.${SECRET_DOMAIN}"
             secretName: ${SECRET_CERT}
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
         enabled: true
         size: 1Gi
-      downloads:
-        enabled: true
-        type: nfs
-        server: ${NFS_SERVER}
-        path: ${NFS_DOWNLOADS}
       media:
         enabled: true
         type: nfs
         server: ${NFS_SERVER}
         path: ${NFS_MEDIA}
-      limits:
-        memory: 5000Mi
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${NFS_SERVER}
+        path: ${NFS_DOWNLOAD}
