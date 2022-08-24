@@ -6,3 +6,9 @@ resources:
   - helmrelease.yaml
 # - vpnconfig_secret_sops.yaml
   - vpn-creds.enc.yaml
+  - patchesStrategicMerge: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: vpn
