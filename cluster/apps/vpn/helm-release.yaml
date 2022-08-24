@@ -29,6 +29,8 @@ spec:
           - sysctl net.ipv4.conf.all.src_valid_mark=1
     updateStrategy: Recreate
     addons:
+      netshoot:
+        enabled: true
       vpn:
         enabled: true
         type: wireguard
