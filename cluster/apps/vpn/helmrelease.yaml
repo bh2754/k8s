@@ -38,7 +38,7 @@ spec:
 
         envFrom:
           - secretRef:
-              name: vpnconfig
+              name: downloads-gateway-vpnconfig
 
         securityContext:
           capabilities:
