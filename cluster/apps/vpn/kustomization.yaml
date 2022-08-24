@@ -2,7 +2,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-# - namespace.yaml
+ - namespace.yaml
   - helmrelease.yaml
-# - vpnconfig_secret_sops.yaml
-  - vpn-creds.enc.yaml
+  - vpnconfig_secret_sops.yaml
