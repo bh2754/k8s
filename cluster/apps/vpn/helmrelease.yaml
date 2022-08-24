@@ -76,7 +76,7 @@ spec:
 
     webhook:
       gatewayAnnotation: setGateway
-      gatewayDefault: false
+      gatewayDefault: true
       gatewayLabel: setGateway
       namespaceSelector:
         label: "routed-gateway"
