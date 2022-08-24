@@ -1,94 +1,86 @@
-# HelmRelease.yaml
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: vpn-gateway
   namespace: vpn
-  labels:
 spec:
   interval: 5m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pod-gateway
-      version: 5.4.2
+      version: 5.6.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
 
-  # See https://github.com/k8s-at-home/charts/blob/master/charts/pod-gateway/values.yaml
   values:
+    persistence:
+      vpn-creds:
+        enabled: true
+        type: secret
+        name: vpn-login
+      nordvpn:
+        enabled: true
+        type: emptyDir
+        medium: Memory
     image:
       repository: ghcr.io/k8s-at-home/pod-gateway
-      tag: v1.7.0
-    routed_namespaces:
-      - downloads
-    settings:
-      VPN_INTERFACE: wg0
-      VXLAN_ID: 43
-      VXLAN_IP_NETWORK: 172.16.1
-      VPN_BLOCK_OTHER_TRAFFIC: false
-      VPN_TRAFFIC_PORT: "51820"
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 192.168.0.0/16 10.0.0.0/8"
-      VPN_LOCAL_CIDRS: "192.168.15.0/24 10.0.0.0/16"
+      image: v1.6.1
     webhook:
       image:
         repository: ghcr.io/k8s-at-home/gateway-admision-controller
-        tag: v3.6.0
-      gatewayDefault: false
-      gatewayLabel: setGateway
-      gatewayAnnotation: setGateway
-      namespaceSelector:
-        label: "routed-gateway"
+        tag: v3.5.0
+    routed_namespaces:
+      - vpned-apps
+    settings:
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.42.0.0/16 10.43.0.0/16 192.168.15.0/24 10.0.0.0/16"
+      VPN_INTERFACE: nordlynx
+      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.15.0/24"
 
-    addons:
-      netshoot:
-        enabled: true
+    podDnsPolicy: "None"
+    podDnsConfig:
+      nameservers:
+        # NordVPN DNS Servers
+        - "103.86.96.100"
+        - "103.86.99.100"
 
+    additionalContainers:
+      nordvpnd:
+        name: nordvpnd
+        image: ghcr.io/cdloh/nordvpn:3.14.2
+        volumeMounts:
+          - name: nordvpn
+            mountPath: /run/nordvpn
 
-      vpn:
-        enabled: true
-        type: wireguard
-
-        wireguard:
-          image:
-            repository: ghcr.io/k8s-at-home/wireguard
-            tag: v1.0.20210914
-            pullPolicy: IfNotPresent
         securityContext:
-          runAsUser: 0
-          runAsGroup: 0
+          privileged: true
           capabilities:
-            drop:
-              - "SYS_MODULE"
-
+            add:
+              - "NET_ADMIN"
+      nordvpn:
+        name: nordvpn
+        image: ghcr.io/cdloh/nordvpn:3.14.2
         env:
-          TZ: "${TZ}"
-          IPTABLES_BACKEND: nft
-          KILLSWITCH: "false"
-
-        configFileSecret: vpnconfig
-
-        resources:
-          requests:
-            cpu: 10m
-            memory: 22M
-          limits:
-            memory: 46M
-
-        networkPolicy:
-          enabled: true
-
-          egress:
-            - to:
-                - ipBlock:
-                    cidr: 0.0.0.0/0
-              ports:
-                - port: 51820
-                  protocol: UDP
-            - to:
-                - ipBlock:
-                    cidr: 10.0.0.0/8
+          - name: USERFILE
+            value: /vpn-creds/username
+          - name: PASSFILE
+            value: /vpn-creds/password
+          - name: NET_LOCAL
+            value: 192.168.0.0/24 10.42.0.0/16 10.43.0.0/16 172.16.0.0/24
+            command:
+              - /client.sh
+        volumeMounts:
+          - name: vpn-creds
+            readOnly: true
+            mountPath: /vpn-creds
+          - name: nordvpn
+            mountPath: /run/nordvpn
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - "NET_ADMIN"
