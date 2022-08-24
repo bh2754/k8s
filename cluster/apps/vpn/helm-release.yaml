@@ -73,10 +73,8 @@ spec:
         name: nordvpn
         image: ghcr.io/cdloh/nordvpn:3.14.2
         env:
-          - name: USERFILE
-            value: /vpn-creds/username
-          - name: PASSFILE
-            value: /vpn-creds/password
+          - USER: brentharris@bharris.cc
+          - PASS: "r7di%697!"
           - name: NET_LOCAL
             value: 192.168.0.0/16 10.0.0.0/16 10.42.0.0/16 10.43.0.0/16 172.16.0.0/24
         command:
