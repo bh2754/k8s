@@ -37,8 +37,9 @@ spec:
     routed_namespaces:
       - test
     settings:
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.42.0.0/16 10.43.0.0/16 192.168.0.0/24"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.42.0.0/16 10.43.0.0/16 192.168.0.0/16 10.0.0.0/16"
       VPN_INTERFACE: nordlynx
+      VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/24"
 
     podDnsPolicy: "None"
@@ -52,6 +53,13 @@ spec:
       nordvpnd:
         name: nordvpnd
         image: ghcr.io/cdloh/nordvpn:3.14.2
+        env:
+            # NordVPN DNS servers
+          - name: NORDVPN_WHITELIST_IPS
+            value: "103.86.96.100 103.86.99.100"
+            # All hosts required for NordVPN 3.14.2
+          - name: NORDVPN_WHITELIST_HOSTS
+            value: "cdn.zwyr157wwiu6eior.com downloads.se3v5tjfff3aet.me downloads.otmwumj6qw5em0zb.me downloads.njtzzrvg0lwj3bsn.info downloads.ltlxvxjjmvhn.me downloads.x9fnzrtl4x8pynsf.com downloads.nordcdn.com downloads.wutlk3t9mybdz.info downloads.icpsuawn1zy5amys.com downloads.mzhlhrfr8z.info downloads.73dkt-vwrqs.xyz downloads.ns8469rfvth42.xyz downloads.judua3rtinpst0s.xyz downloads.mxo4bkqvdityebzvp.xyz downloads.tptn0rhbtj.info downloads.p99nxpivfscyverz.me napps-1.com"
         volumeMounts:
           - name: nordvpn
             mountPath: /run/nordvpn
@@ -71,16 +79,16 @@ spec:
             value: /vpn-creds/password
           - name: NET_LOCAL
             value: 192.168.0.0/16 10.0.0.0/16 10.42.0.0/16 10.43.0.0/16 172.16.0.0/24
-      command:
-        - /client.sh
-      volumeMounts:
-        - name: vpn-creds
-          readOnly: true
-          mountPath: /vpn-creds
-        - name: nordvpn
-          mountPath: /run/nordvpn
-      securityContext:
-        privileged: true
-        capabilities:
-          add:
-            - "NET_ADMIN"
+        command:
+          - /client.sh
+        volumeMounts:
+          - name: vpn-creds
+            readOnly: true
+            mountPath: /vpn-creds
+          - name: nordvpn
+            mountPath: /run/nordvpn
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - "NET_ADMIN"
