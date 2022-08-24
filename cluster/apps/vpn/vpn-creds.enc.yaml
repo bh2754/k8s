@@ -1,0 +1,30 @@
+# yamllint disable
+apiVersion: v1
+kind: Secret
+metadata:
+    name: vpn-creds
+    namespace: vpn
+    annotations: null
+stringData:
+    username: ENC[AES256_GCM,data:71w+UPn44d2oXc+M2DqGgOVOPYgv2Q==,iv:AR5LsgpHhRrjVRcgjYrm0w1zTezpXLlLY7Tuapzdfx0=,tag:Q3bymLO7AqM6UBCWK6JDgg==,type:str]
+    password: ENC[AES256_GCM,data:wL879IjSFbwc,iv:U7S0H62HA88OFIZB+/IBh2FLEisXBOu4jlnJLWqgrDY=,tag:OzT8U8MJeNi3v0UUVtvB5w==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age192v790tqxvql0ygn7tl6cwzqmq7y3gmlqaul50q7ltxv9qmcyyyqpdew4g
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBkR2ZobFlsdGdYV21tSTVm
+            MXo3ekNNYmVxUFNsKzN6S1pWZW1pN0pCUGpnCmVJUkgva29XZFBFMm1hRHNxM002
+            ZUFLdldjYWZyeHFCT1BTR2RJN1RORDgKLS0tIFp0enFDQ3Jmb29GcEI2VkIzZXhk
+            eC9TWVFQenU4M0VMQnordlVyTUtEQncKEgPVxPtI0nvydDAGoeHxVHOOsihW/Ca5
+            CFiSvEAlNrW0EmWaTcDRG+NYmGWIG2V6T5MqyEZLZu3oIi+AgL7yYA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2022-08-24T17:55:40Z"
+    mac: ENC[AES256_GCM,data:OYnNxukeZlOyDkQcftz4s3IX8xm5ID1cGW7gCODt3GwKMpO2ffTTdJBTuOpTZQ9UH7mp8k9Sq1vFWa65Me7FUmkmgn8a4gQD3LsSe9By31l3zw/5bxXDu+5r7tIFkq6EQlY+wst6O13r7Ro682PACGdy9nQ1LIbAAkXcpyJw+Zs=,iv:ZK9VQuOp9Vqje7ks+kjFN9OOsSO90GvVEAtYW184hHs=,tag:VlsSGQegvvOJaTzG9UZaYg==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
