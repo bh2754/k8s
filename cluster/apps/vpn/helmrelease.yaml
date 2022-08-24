@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pod-gateway
-      version: 5.6.2
+      version: 5.4.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -28,7 +28,17 @@ spec:
         medium: Memory
     image:
       repository: ghcr.io/k8s-at-home/pod-gateway
-      image: v1.6.1
+      image: v1.7.0
+    routed_namespaces:
+      - downloads
+    settings:
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.42.0.0/16 10.43.0.0/16 192.168.15.0/24 10.0.0.0/16"
+      VPN_INTERFACE: nordlynx
+      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.15.0/24"
+      VXLAN_ID: 43
+      VXLAN_IP_NETWORK: 172.16.1
+      VPN_BLOCK_OTHER_TRAFFIC: false
+      VPN_TRAFFIC_PORT: "51820"
     webhook:
       image:
         repository: ghcr.io/k8s-at-home/gateway-admision-controller
@@ -38,12 +48,16 @@ spec:
       gatewayAnnotation: setGateway
       namespaceSelector:
         label: "routed-gateway"
-    routed_namespaces:
-      - downloads
-    settings:
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.42.0.0/16 10.43.0.0/16 192.168.15.0/24 10.0.0.0/16"
-      VPN_INTERFACE: nordlynx
-      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.15.0/24"
+
+    addons:
+      netshoot:
+        enabled: true
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      capabilities:
+        drop:
+          - "SYS_MODULE"
 
     podDnsPolicy: "None"
     podDnsConfig:
