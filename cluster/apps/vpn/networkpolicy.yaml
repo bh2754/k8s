@@ -17,9 +17,9 @@ spec:
             cidr: 0.0.0.0/0
     - to:
         - namespaceSelector: {}
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/instance: downloads-gateway
-      app.kubernetes.io/name: pod-gateway
+# podSelector:
+  # matchLabels:
+    # app.kubernetes.io/instance: downloads-gateway
+    # app.kubernetes.io/name: pod-gateway
   policyTypes:
     - Egress
