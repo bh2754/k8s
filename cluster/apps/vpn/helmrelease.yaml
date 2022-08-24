@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: vpn_gateway
+  name: vpngateway
   namespace: vpn
 spec:
   interval: 5m
