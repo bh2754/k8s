@@ -33,7 +33,7 @@ spec:
       VPN_BLOCK_OTHER_TRAFFIC: false
       VPN_TRAFFIC_PORT: "51820"
       NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 192.168.0.0/16 10.0.0.0/8"
-      VPN_LOCAL_CIDRS: "192.168.0.0/16 10.0.0.0/8 172.16.0.0/12"
+      VPN_LOCAL_CIDRS: "192.168.15.0/24 10.0.0.0/16"
     webhook:
       image:
         repository: ghcr.io/k8s-at-home/gateway-admision-controller
@@ -90,4 +90,5 @@ spec:
                 - port: 51820
                   protocol: UDP
             - to:
-                - namespaceSelector: {}
+                - ipBlock:
+                    cidr: 10.0.0.0/8
