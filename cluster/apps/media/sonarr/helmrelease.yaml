@@ -1,0 +1,112 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: sonarr
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 0.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/sonarr-develop
+      tag: v3.0.9.1555@sha256:de9a4837a398bbd25a7e78e711744e5df3a3bc2ea4aa286057357ae1b509f3d7
+    env:
+      TZ: "${TZ}"
+    service:
+      main:
+        ports:
+          http:
+            port: 8989
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "television-box"
+        hosts:
+          - host: &host "sonarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: &tls "${SECRET_CERT}"
+            hosts:
+              - *host
+      api:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: *host
+            paths:
+              - path: /api
+                pathType: Prefix
+        tls:
+          - secretName: *tls
+            hosts:
+              - *host
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - /usr/bin/env
+              - bash
+              - -c
+              - curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\> && while
+                read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
+          failureThreshold: 5
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+  # podAnnotations:
+    persistence:
+      config:
+        enabled: true
+        size: 1Gi
+      media:
+        enabled: true
+        type: nfs
+        server: ${NFS_SERVER}
+        path: ${NFS_MEDIA}
+        mountPath: /media
+        readOnly: false
+      download:
+        enabled: true
+        type: nfs
+        server: ${NFS_SERVER}
+        path: ${NFS_DOWNLOAD}
+        mountPath: /download
+        readOnly: false
+
+    podSecurityContext:
+      supplementalGroups:
+        - 1001
+        - 100
+    resources:
+      requests:
+        memory: 350Mi
+        cpu: 25m
+      limits:
+        memory: 500Mi
