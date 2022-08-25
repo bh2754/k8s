@@ -75,7 +75,7 @@ spec:
         enabled: true
         type: nfs
         server: &nas "${NFS_SERVER}"
-        path: ${NFS_MEDIA
+        path: ${NFS_MEDIA}
         mountPath: /media
       downloads:
         enabled: true
