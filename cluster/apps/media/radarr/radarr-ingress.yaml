@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`radarr.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: radarr
+          port: 7878
+  tls:
+    secretName: ${SECRET_CERT}
