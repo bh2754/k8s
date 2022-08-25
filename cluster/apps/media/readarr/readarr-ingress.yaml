@@ -11,7 +11,7 @@ spec:
     - match: HOST(`readarr.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: sonarr
-          port: 8989
+        - name: readarr
+          port: 8787
   tls:
     secretName: ${SECRET_CERT}
