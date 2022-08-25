@@ -21,6 +21,7 @@ spec:
     image:
       repository: ghcr.io/k8s-at-home/pod-gateway
       tag: v1.7.0
+    DNS: 172.16.1.1
     securityContext:
       capabilities:
         add:
@@ -31,6 +32,12 @@ spec:
     addons:
       netshoot:
         enabled: true
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+              - SYS_ADMIN
+
       vpn:
         enabled: true
         type: wireguard
@@ -46,7 +53,7 @@ spec:
                 - sysctl net.ipv4.conf.all.src_valid_mark=1
         env:
           TZ: "${TZ}"
-          IPTABLES_BACKEND: nft
+          IPTABLES_BACKEND: legacy
           KILLSWITCH: false
         configFileSecret: vpnconfig
         resources:
@@ -59,7 +66,7 @@ spec:
           enabled: true
 
     routed_namespaces:
-      - test
+      - downloads
     settings:
       VPN_INTERFACE: wg0
       VPN_BLOCK_OTHER_TRAFFIC: false
