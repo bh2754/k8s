@@ -27,14 +27,10 @@ spec:
       tag: 0.1.1.1409@sha256:fcd0ab1fb39cbccc3f3fdd4ac1c1e2adbc171ee3eb4a1664b24143fab550eaeb
 
     env:
-      TZ: "${TIMEZONE}"
+      TZ: "${TZ}"
       READARR__INSTANCE_NAME: Readarr (Audio)
       READARR__PORT: &port 80
       READARR__LOG_LEVEL: info
-
-    envFrom:
-      - secretRef:
-          name: *app
 
     service:
       main:
