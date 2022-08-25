@@ -46,7 +46,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: &tls "{SECRET_CERT}"
+          - secretName: &tls "${SECRET_CERT}"
             hosts:
               - *host
       api:
