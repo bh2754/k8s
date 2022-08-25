@@ -67,11 +67,11 @@ spec:
       config:
         enabled: true
         size: 1Gi
-      media:
+      books:
         enabled: true
         type: nfs
         server: &nas "${NFS_SERVER}"
-        path: ${NFS_MEDIA}
+        path: ${NFS_BOOKS}
         mountPath: /media
       downloads:
         enabled: true
