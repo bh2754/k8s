@@ -12,6 +12,6 @@ spec:
       kind: Rule
       services:
         - name: readarr
-          port: 8787
+          port: 80
   tls:
     secretName: ${SECRET_CERT}

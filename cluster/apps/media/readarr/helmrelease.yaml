@@ -1,27 +1,47 @@
----
+--- #
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: readarr
-  namespace: media
+  name: &app readarr
+  namespace: organizarrs
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
       version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
       repository: ghcr.io/onedr0p/readarr-nightly
       tag: 0.1.1.1409@sha256:fcd0ab1fb39cbccc3f3fdd4ac1c1e2adbc171ee3eb4a1664b24143fab550eaeb
+
     env:
-      TZ: "${TZ}"
+      TZ: "${TIMEZONE}"
+      READARR__INSTANCE_NAME: Readarr (Audio)
+      READARR__PORT: &port 80
+      READARR__LOG_LEVEL: info
+
+    envFrom:
+      - secretRef:
+          name: *app
+
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+
     ingress:
       main:
         enabled: true
@@ -31,21 +51,14 @@ spec:
           hajimari.io/icon: "book-open-page-variant"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - host: &host "readarr.${SECRET_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
               - *host
-          - secretName: ${SECRET_CERT}
-
-    service:
-      main:
-        ports:
-          http:
-            port: 8787
-
+            secretName: ${SECRET_CERT}
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
@@ -53,21 +66,27 @@ spec:
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 100
+
     persistence:
       config:
         enabled: true
         size: 1Gi
-      books:
+      media:
         enabled: true
         type: nfs
-        server: "${NAS_SERVER}"
-        path: ${NAS_BOOKS}
+        server: &nas "${NFS_SERVER}"
+        path: ${NFS_MEDIA
+        mountPath: /media
       downloads:
         enabled: true
         type: nfs
-        server: "${NAS_SERVER}"
-        path: ${NAS_DOWNLOAD}
+        server: *nas
+        path: ${NFS_DOWNLOAD}
+        mountPath: /downloads
+
     resources:
       requests:
-        memory: 100Mi
-        cpu: 100m
+        cpu: 10m
+        memory: 250Mi
+      limits:
+        memory: 1000Mi
