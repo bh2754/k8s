@@ -89,16 +89,17 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: "nas.${SECRET_DOMAIN}"
-        path: /mnt/borg/share
+        server: "${NFS_SERVER}"
+        path: ${NFS_MEDIA}
         mountPath: /media
         readOnly: false
-      backup:
+      download:
         enabled: true
         type: nfs
-        server: "nas.${SECRET_DOMAIN}"
-        path: /mnt/apps/backups/radarr
-        mountPath: /config/Backups
+        server: "${NFS_SERVER}"
+        path: ${NFS_download}
+        mountPath: /download
+        readOnly: false
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
