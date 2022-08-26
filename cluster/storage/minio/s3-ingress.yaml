@@ -2,13 +2,13 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: minio
+  name: s3
   namespace: minio
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`minio.bharris.xyz`)
+    - match: HOST(`s3.bharris.xyz`)
       kind: Rule
       services:
         - name: minio
