@@ -12,6 +12,6 @@ spec:
       kind: Rule
       services:
         - name: minio
-          port: 9000
+          port: 9001
   tls:
     secretName: letsencrypt-wildcard-cert-bharris.xyz-prod
