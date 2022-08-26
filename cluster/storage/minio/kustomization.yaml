@@ -6,3 +6,4 @@ resources:
   - secret.sops.yaml
   - helmrelease.yaml
   - nfs-pvc.yaml
+  - minio-ingress.yaml
