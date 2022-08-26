@@ -32,6 +32,23 @@ spec:
         ports:
           http:
             port: 3579
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "movie-search"
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        hosts:
+          - host: &host "ombi.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_CERT}
     podSecurityContext:
       fsGroup: 1000
       fsGroupChangePolicy: OnRootMismatch
