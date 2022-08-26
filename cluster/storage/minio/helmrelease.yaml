@@ -32,9 +32,9 @@ spec:
       MINIO_PROMETHEUS_JOB_ID: minio
       MINIO_BROWSER_REDIRECT_URL: "https://minio.${SECRET_DOMAIN}"
       MINIO_SERVER_URL: "https://s3.${SECRET_DOMAIN}"
-    envFrom:
-      - secretRef:
-          name: minio
+  # envFrom:
+    # - secretRef:
+        # name: minio
     args: ["server", "/data", "--console-address", ":9001"]
     service:
       main:
