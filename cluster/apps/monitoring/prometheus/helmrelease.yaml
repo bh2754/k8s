@@ -24,7 +24,7 @@ spec:
     alertmanager:
       config:
         global:
-          resolve_timeout: 5m
+          resolve_timeout: 4h
         receivers:
           - name: "null"
           - name: "discord"
