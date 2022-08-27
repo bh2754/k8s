@@ -358,7 +358,7 @@ data:
           #     - foo.example.com
           #     - bar.example.com
       metrics:
-        port: 9100
+        port: 9101
         # hostPort: 9100
         # Defines whether the port is exposed if service.type is LoadBalancer or
         # NodePort.
@@ -368,7 +368,7 @@ data:
         # use `kubectl port-forward` or create a secure ingress
         expose: false
         # The exposed port for this service
-        exposedPort: 9100
+        exposedPort: 9101
         # The port protocol (TCP/UDP)
         protocol: TCP
 
