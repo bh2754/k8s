@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - discord-secret.sops.yaml
+  - prometheus-ingress.yaml
