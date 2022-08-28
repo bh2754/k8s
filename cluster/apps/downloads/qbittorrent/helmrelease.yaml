@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: &app qbittorrent
-  namespace: media
+  namespace: downloads
 spec:
   interval: 10m
   chart:
@@ -35,20 +35,6 @@ spec:
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 65539
-
-    initContainers:
-      copy-config:
-        image: busybox:latest@sha256:ef320ff10026a50cf5f0213d35537ce0041ac1d96e9b7800bafd8bc9eff6c693
-        command:
-          - "/bin/sh"
-          - -c
-        args:
-          - cp /data/configfiles/* /data/config/
-        volumeMounts:
-          - name: config
-            mountPath: /data/config
-          - name: configfiles
-            mountPath: /data/configfiles
 
     env:
       UMASK: "022"
@@ -90,11 +76,6 @@ spec:
         type: emptyDir
         mountPath: /config/qBittorrent/cache
 
-      configfiles:
-        enabled: true
-        type: configMap
-        name: qbittorrent-config
-        mountPath: "-"
 
       data:
         enabled: true
