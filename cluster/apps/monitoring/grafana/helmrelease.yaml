@@ -69,7 +69,7 @@ spec:
         datasources:
           - name: Prometheus
             type: prometheus
-            url: http://promethus.bharris.xys/
+            url: http://prometheus.bharris.xyz/
             access: proxy
             isDefault: true
           - name: Loki
