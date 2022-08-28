@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarr
+  namespace: downloads
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST('qbittorrent.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: qbittorrent
+          port: 80
+  tls:
+    secretName: ${SECRET_CERT}
