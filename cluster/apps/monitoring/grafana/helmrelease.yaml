@@ -69,7 +69,7 @@ spec:
         datasources:
           - name: Prometheus
             type: prometheus
-            url: http://thanos-query.system-monitoring:9090/
+            url: http://promethus.bharris.xys/
             access: proxy
             isDefault: true
           - name: Loki
