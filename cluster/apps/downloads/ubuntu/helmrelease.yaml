@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: ubuntu-xrdp
-      version: 0.1.1
+      version: 0.0.19
       sourceRef:
         kind: HelmRepository
         name: truecharts
