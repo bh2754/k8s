@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - sab-ingress.yaml
+  - secret.sops.yaml
