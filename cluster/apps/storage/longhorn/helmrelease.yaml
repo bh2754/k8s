@@ -20,7 +20,7 @@ spec:
     persistence:
       defaultClassReplicaCount: 2
     defaultSettings:
-      backupTarget: ${LONGHORN_BACKUP}
+      backupTarget: ${LONGHORN}
       defaultReplicaCount: 2
       defaultLonghornStaticStorageClass: longhorn
     ingress:
