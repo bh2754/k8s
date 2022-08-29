@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: firefox
+  namespace: downloads
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`firefox.bharris.xyz`)
+      kind: Rule
+      services:
+        - name: my-firefox
+          port: 10131
+  tls:
+    secretName: ${SECRET_CERT}
