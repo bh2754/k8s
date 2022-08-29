@@ -8,8 +8,8 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: ubuntu-xrdp
-      version: 0.0.19
+      chart: rdesktop
+      version: 0.0.24
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -22,15 +22,19 @@ spec:
     remediation:
       retries: 5
   values:
-    env: {}
+    env:
+      UMASK: ""
     image:
       pullPolicy: IfNotPresent
-      repository: tccr.io/truecharts/ubuntu-xrdp
-      tag: latest@sha256:929a5859c03ad430696433a5c348650a575ecc562e917d41c429e7573eb9a38f
+      repository: tccr.io/truecharts/rdesktop
+      tag: latest@sha256:70a0f5a288bd0c2a77b20f57b33a09264e6d9adfb7df1307534835921075d8e4
     persistence:
-      ubuntu-xrdp:
+      config:
         enabled: true
-        size: 1Gi
+        mountPath: /config
+      pathvarrundocker-sock:
+        enabled: true
+        mountPath: /var/run/docker.sock
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
@@ -44,22 +48,6 @@ spec:
             port: 3389
             protocol: TCP
             targetPort: 3389
-      tcpport1:
-        enabled: true
-        ports:
-          tcpport1:
-            enabled: true
-            port: 6080
-            protocol: TCP
-            targetPort: 6080
-      tcpport2:
-        enabled: true
-        ports:
-          tcpport2:
-            enabled: true
-            port: 5900
-            protocol: TCP
-            targetPort: 5900
 
     portal:
       enabled: true
