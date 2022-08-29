@@ -30,7 +30,6 @@ spec:
     persistence:
       ubuntu-xrdp:
         enabled: true
-        mountPath: /home/ubuntu/unraid
         size: 1Gi
     podSecurityContext:
       runAsGroup: 0

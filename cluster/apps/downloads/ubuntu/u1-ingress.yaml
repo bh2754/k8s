@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ubuntu1
+  namespace: downloads
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`u1.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: ubuntu-ubuntu-xrdp-tcpport1
+          port: 6080
+  tls:
+    secretName: ${SECRET_CERT}
