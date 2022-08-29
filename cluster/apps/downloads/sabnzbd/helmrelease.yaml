@@ -2,19 +2,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: sabnzbd
+  name: &app sabnzbd
   namespace: downloads
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      chart: sabnzbd
+      chart: app-template
       version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
     remediation:
@@ -25,22 +24,29 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/sabnzbd
-      tag: v3.6.1@sha256:f3b0f3f551f67e1a55e51dc92206070475037b33c658127c317d66df3f9e0dc8
-      pullPolicy: IfNotPresent
+      tag: 3.6.1@sha256:64e23a151f0b9e52474bf8edc12d7e0fced10d24970cc2fe1346a91489e6e80e
+
     env:
       TZ: "${TZ}"
-      HOST_WHITELIST_ENTRIES: >-
+      SABNZBD__PORT: &port 80
+      SABNZBD__HOST_WHITELIST_ENTRIES: >-
         sabnzbd,
         sabnzbd.media,
-        sabnzbd.media.svc,
-        sabnzbd.media.svc.cluster,
-        sabnzbd.media.svc.cluster.local,
+        sabnzbd.default.svc,
+        sabnzbd.default.svc.cluster,
+        sabnzbd.default.svc.cluster.local,
         sabnzbd.${SECRET_DOMAIN}
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
+
+  # envFrom:
+    # - secretRef:
+        # name: *app
+
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+
     ingress:
       main:
         enabled: true
@@ -50,30 +56,59 @@ spec:
           hajimari.io/icon: "download"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - host: "sabnzbd.${SECRET_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "sabnzbd.${SECRET_DOMAIN}"
-            secretName: ${SECRET_CERT}
-    podAnnotations:
-      setGateway: "true"
+              - *host
+            secretName: &cert ${SECRET_CERT}
+      api:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+        hosts:
+          - host: *host
+            paths:
+              - path: /api
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: *cert
+
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
     persistence:
       config:
         enabled: true
-        size: 1Gi
+        existingClaim: sabnzbd-config
       media:
         enabled: true
         type: nfs
-        server: ${NFS_SERVER}
+        server: "${NFS_SERVER}"
         path: ${NFS_MEDIA}
-      downloads:
+        mountPath: /media
+      download:
         enabled: true
         type: nfs
-        server: ${NFS_SERVER}
+        server: "${NFS_SERVER}"
         path: ${NFS_DOWNLOAD}
-    addons:
-      netshoot:
-        enabled: true
+        mountPath: /download
+    # incomplete:
+      # enabled: true
+      # type: emptyDir
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 250Mi
+      limits:
+        memory: 8000Mi
