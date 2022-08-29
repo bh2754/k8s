@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helmrelease.yaml
-  - vpnconfig.sops.yaml
+  - secret.sops.yaml
   - networkpolicy.yaml
