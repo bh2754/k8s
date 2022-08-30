@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: whisparr
-      version: 0.0.19
+      version: 0.0.x
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -28,7 +28,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: tccr.io/truecharts/whisparr
-      tag: vnightly
+    # tag: vnightly
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
