@@ -34,8 +34,8 @@ spec:
           name: *app
     image:
       pullPolicy: IfNotPresent
-      repository: github.com/onedr0p/containers/tree/main/apps/whisparr
-      tag: nightly
+      repository: ghcr.io/onedr0p/whisparr-nightly
+    # tag: nightly
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
