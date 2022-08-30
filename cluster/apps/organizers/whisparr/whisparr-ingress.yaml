@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whisparr
+  namespace: organizers
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`whisparr.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: whisparr
+          port: 6969
+  tls:
+    secretName: ${SECRET_CERT}

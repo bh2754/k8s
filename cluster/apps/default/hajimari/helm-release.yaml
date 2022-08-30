@@ -38,6 +38,7 @@ spec:
           - media
           - longhorn-system
           - kasten-io
+          - organizers
 
       name: "Brent"
     # customApps:
