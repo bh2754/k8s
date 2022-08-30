@@ -38,13 +38,9 @@ spec:
       runAsNonRoot: false
     service:
       main:
-        enabled: true
         ports:
-          main:
-            enabled: true
-            port: 6969
-            protocol: TCP
-            targetPort: 6969
+          http:
+            port: 6969 
     ingress:
       main:
         enabled: true
