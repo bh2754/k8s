@@ -29,8 +29,8 @@ spec:
       TZ: "${TZ}"
       RADARR__INSTANCE_NAME: Radarr
     envFrom:
-      - secretRef:
-          name: *app
+      secretRef:
+        name: *app
     service:
       main:
         ports:
