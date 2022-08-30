@@ -27,11 +27,9 @@ spec:
       tag: 3.0.9.1555@sha256:9cd08f872d2521fccbac40317dc073bcd64d1bb5cee1c8912c81e0ffe3b0aedb
     env:
       TZ: "${TZ}"
-      PUSHOVER_DEBUG: "false"
-      PUSHOVER_APP_URL: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
       SONARR__INSTANCE_NAME: Sonarr
       SONARR__PORT: &port 8989
-      SONARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+      SONARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
       SONARR__LOG_LEVEL: info
     envFrom:
       - secretRef:
