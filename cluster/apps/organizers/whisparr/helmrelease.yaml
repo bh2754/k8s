@@ -21,6 +21,7 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  releaseName: whisparr
   values:
     env:
       UMASK: ""
@@ -28,7 +29,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: tccr.io/truecharts/whisparr
-    # tag: vnightly
+      tag: vnightly
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
