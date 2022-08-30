@@ -5,6 +5,5 @@ resources:
   - namespace.yaml
   - mylar
   - prowlarr
-  - radarr
   - tautulli
   - ombi
