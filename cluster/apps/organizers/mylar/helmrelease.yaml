@@ -23,9 +23,17 @@ spec:
       tag: 0.6.9
     env:
       TZ: ${TZ}
+      MYLAR__INSTANCE_NAME: Mylar
+      MYLAR__PORT: &port  8090
     envFrom:
       - secretRef:
           name: sonarr 
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+
     ingress:
       main:
         enabled: true
