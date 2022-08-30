@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: whisparr
+  name: &app whisparr
   namespace: organizers
 spec:
   interval: 15m
@@ -29,6 +29,9 @@ spec:
     env:
       UMASK: ""
       TZ: ${TZ}
+    envFrom:
+      - secretRef:
+          name: *app
     image:
       pullPolicy: IfNotPresent
       repository: tccr.io/truecharts/whisparr
