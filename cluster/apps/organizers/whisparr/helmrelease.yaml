@@ -29,9 +29,6 @@ spec:
       pullPolicy: IfNotPresent
       repository: tccr.io/truecharts/whisparr
       tag: nightly
-    persistence:
-      config:
-        enabled: true
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
