@@ -6,7 +6,6 @@ resources:
   - lidarr
   - mylar
   - prowlarr
-  - sonarr
   - radarr
   - readarr
   - tautulli
