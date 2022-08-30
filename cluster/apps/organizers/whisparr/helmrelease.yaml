@@ -34,8 +34,8 @@ spec:
           name: *app
     image:
       pullPolicy: IfNotPresent
-      repository: tccr.io/truecharts/whisparr
-      tag: vnightly
+      repository: ghcr.io/onedr0p/whisparr
+    # tag: vnightly
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
@@ -46,7 +46,7 @@ spec:
       main:
         ports:
           http:
-            port: 6969 
+            port: 6969
     ingress:
       main:
         enabled: true
