@@ -31,9 +31,9 @@ spec:
       SONARR__PORT: &port 8989
       SONARR__APPLICATION_URL:  "https://sonarr.${SECRET_DOMAIN}"
       SONARR__LOG_LEVEL: info
-    envFrom:
-      - secretRef:
-          name: *app
+  # envFrom:
+    # - secretRef:
+        # name: *app
     service:
       main:
         ports:
