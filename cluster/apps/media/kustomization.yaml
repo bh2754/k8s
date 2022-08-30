@@ -6,6 +6,5 @@ resources:
   - mylar
   - prowlarr
   - radarr
-  - readarr
   - tautulli
   - ombi
