@@ -59,6 +59,7 @@ spec:
         enabled: true
       # existingClaim: mylar-varrun
         size: 1Gi
+        accessMove: ReadWriteOnce
       media:
         enabled: true
         type: nfs
