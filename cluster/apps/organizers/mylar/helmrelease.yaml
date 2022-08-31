@@ -27,7 +27,7 @@ spec:
       MYLAR__PORT: &port  8090
     envFrom:
       - secretRef:
-          name: sonarr 
+          name: sonarr
     service:
       main:
         ports:
@@ -57,7 +57,8 @@ spec:
         existingClaim: mylar-config-v1
       varrun:
         enabled: true
-        existingClaim: mylar-varrun
+      # existingClaim: mylar-varrun
+        size: 1Gi
       media:
         enabled: true
         type: nfs
