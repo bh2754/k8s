@@ -19,8 +19,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/onedr0p/mylar3
-      tag: 0.6.9
+      repository: ghcr.io/linuxserver/mylar3
+      tag: version-v0.5.7
     env:
       TZ: ${TZ}
       MYLAR__INSTANCE_NAME: Mylar
