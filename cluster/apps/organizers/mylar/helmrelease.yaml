@@ -55,11 +55,11 @@ spec:
         enabled: true
         mountPath: "/config"
         existingClaim: mylar-config-v1
-      varrun:
-        enabled: true
+    # varrun:
+      # enabled: true
       # existingClaim: mylar-varrun
-        size: 1Gi
-        accessMove: ReadWriteOnce
+      # size: 1Gi
+      # accessMove: ReadWriteOnce
       media:
         enabled: true
         type: nfs
