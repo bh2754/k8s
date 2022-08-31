@@ -68,7 +68,7 @@ spec:
     persistence:
       config:
         enabled: true
-        size: 1Gi
+        existingClaim: readarr-config-v1
       books:
         enabled: true
         type: nfs
