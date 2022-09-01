@@ -29,7 +29,8 @@ spec:
     replicaCount: 1
 
     image:
-      repository: "portainer/portainer-ce:2.14.2"
+      repository: https://github.com/portainer/portainer-ce
+      tag: 2.14.2
       pullPolicy: IfNotPresent
 
     imagePullSecrets: []
