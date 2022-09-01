@@ -32,10 +32,8 @@ spec:
     metrics:
       enabled: false
     podSecurityContext:
-      runAsUser: 0
-      runAsGroup: 0
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
+      runAsUser: 1000
+      runAsGroup: 1000
     persistence:
       config:
         enabled: true
