@@ -37,7 +37,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: ubuntu-config-v1
+        size: 10Gi
     ingress:
       main:
         enabled: true

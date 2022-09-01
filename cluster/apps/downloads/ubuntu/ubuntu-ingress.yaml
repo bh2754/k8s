@@ -2,7 +2,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ubuntu
+  name: webtop
   namespace: downloads
 spec:
   entryPoints:
@@ -11,7 +11,7 @@ spec:
     - match: HOST(`ubuntu.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: ubuntu
+        - name: webtop
           port: 3000
   tls:
     secretName: ${SECRET_CERT}

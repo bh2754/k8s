@@ -5,7 +5,7 @@ metadata:
   name: ubuntu-config-v1
   namespace: downloads
   labels:
-    app.kubernetes.io/name: &name ubuntu
+    app.kubernetes.io/name: &name webtop
     app.kubernetes.io/instance: *name
 spec:
   accessModes:
