@@ -25,3 +25,4 @@ resources:
   - bjw-s-charts.yaml
   - prometheus-community.yaml
   - grafana.yaml
+  - portainer.yaml
