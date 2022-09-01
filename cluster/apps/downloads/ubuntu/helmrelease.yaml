@@ -24,6 +24,11 @@ spec:
       tag: ubuntu-kde
     env:
       TZ: ${TZ}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities:
+        add:
+          [ NET_ADMIN }
     service:
       main:
         ports:
