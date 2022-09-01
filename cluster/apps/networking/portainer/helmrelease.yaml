@@ -30,7 +30,7 @@ spec:
 
     image:
       repository: portainer/portainer-ce
-      tag: latest
+      tag: 2.14.2
       pullPolicy: IfNotPresent
 
     imagePullSecrets: []
@@ -71,3 +71,5 @@ spec:
     persistence:
       size: "10Gi"
       annotations: {}
+      storageClass: longhorn
+      existingClaim: portainer
