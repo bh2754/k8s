@@ -1,0 +1,36 @@
+apiVersion: v1
+data:
+    .dockerconfigjson: ENC[AES256_GCM,data:dbJ20rrN9bQQwinQi703IcIg20C17VOGQiCTYSRb8w/YxNa69N+Ta1OZbrWre4T9TcZkQLQ4d/x+Vne6mPKWIlV7lfcA4yyFvN1u9QxGUfKbYSZfkg9dpXmLuxkAFqhzEf8GRPRXH2iw2Kn2cyIA6T1Rdm0R3UKNI3I2DFyMQLLKxHEIanospjrJYuE=,iv:tJ8ytzjzI/kBcfEDV9k6xy97vZsVOLXkN/+5deFHln4=,tag:+4G0cjKg+7MNCqOuknii1A==,type:str]
+kind: Secret
+metadata:
+    creationTimestamp: "2022-09-01T09:43:31Z"
+    name: regcred
+    namespace: default
+    annotations:
+        reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+        reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+        reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
+    resourceVersion: "8220656"
+    uid: 20f33aaa-2770-4890-9aeb-0007741bdcba
+type: kubernetes.io/dockerconfigjson
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age16vhmz79lvv4q7nes99c2mr2l5cmrq34qlnyws3dkfnhfa7jhapssqm2jkd
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB3WlZzLzFoRXJxRTZXMU53
+            eFo1aWRON0tsWURSSmRaUENkR29RcnFHM2gwCmg5akJLTkEwOUQvcU9HZVpRNGth
+            OHBtSFIrdC93Z0pQb3dRaGU4aUNQRE0KLS0tIGkyMXJWZjd1OE9RRWlXV25pNlpl
+            UVBqMFA1SzZLdDdTNFk5WVB6NVlienMKbK1Q0a89csjnidX/Q3XAaDyL+YXOU2pO
+            gneCWEpyP1W3gTK9+Gksg84ziRBqPJphPShpPGH/8Ggze4SJmQ4/mg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2022-09-01T09:46:27Z"
+    mac: ENC[AES256_GCM,data:R8zFhj+ibR/bQlfXHqv0W4Y1gWyPwjUSCxrDO5hYqCTaVQcSoc/4C+1uWQjusgF77IFW/RD98GtwiaXoN4XV56x16xxfxti0upf8ziwU5Wemo48WKtbjid4qPb+fYZUk1er74NdLNMOGk5CBS9LHbHqsORzfveIZb4WhTPmAgZU=,iv:7+43PY5HiQib2z5/LfFK2wSaeOom/Gx+WbW+YS6la90=,tag:yfSczm2wKz/etx0/vfRt7Q==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
