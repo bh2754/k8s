@@ -30,7 +30,7 @@ spec:
     replicaCount: 1
 
     image:
-      repository: https://github.com/portainer/portainer-ce
+      repository: portainer/portainer
       tag: 2.14.2
       pullPolicy: IfNotPresent
 
