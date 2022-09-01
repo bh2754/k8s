@@ -2,65 +2,63 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app ubuntu
+  name: &app webtop
   namespace: downloads
 spec:
   interval: 15m
   chart:
     spec:
-      chart: ubuntu-xrdp
-      version: 0.0.x
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: truecharts
+        name: bjw-s-charts
         namespace: flux-system
   install:
     createNamespace: true
     remediation:
       retries: 5
-  upgrade:
-    remediation:
-      retries: 5
   values:
-    env: {}
     image:
-      pullPolicy: IfNotPresent
-      repository: tccr.io/truecharts/ubuntu-xrdp
-      tag: latest@sha256:929a5859c03ad430696433a5c348650a575ecc562e917d41c429e7573eb9a38f
-    persistence:
-      ubuntu-xrdp:
-        enabled: true
-        existingClaim: ubuntu
-        mountPath: /home/ubuntu/unraid
-    podSecurityContext:
-      runAsGroup: 0
-      runAsUser: 0
-    securityContext:
-      readOnlyRootFilesystem: false
-      runAsNonRoot: false
+      repository: lscr.io/linuxserver/webtop
+      tag: ubuntu-kde
+    env:
+      TZ: ${TZ}
     service:
       main:
         ports:
-          main:
-            port: 3389
-            protocol: TCP
-            targetPort: 3389
-      tcpport1:
+          http:
+            port: 3000
+    metrics:
+      enabled: false
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      config:
         enabled: true
-        ports:
-          tcpport1:
-            enabled: true
-            port: 6080
-            protocol: TCP
-            targetPort: 6080
-      tcpport2:
+        existingClaim: ubuntu-config-v1
+    ingress:
+      main:
         enabled: true
-        ports:
-          tcpport2:
-            enabled: true
-            port: 5900
-            protocol: TCP
-            targetPort: 5900
-
-    portal:
-      enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: &host "lidarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: "${SECRET_CERT}"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 250Mi
+      limits:
+        memory: 2000Mi
