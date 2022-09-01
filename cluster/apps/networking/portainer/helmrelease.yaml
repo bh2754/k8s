@@ -54,8 +54,8 @@ spec:
       ingressClassName: "traefik"
       annotations:
         hajimari.io/enable: "true"
-          hajimari.io/icon: "chart-box"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hajimari.io/icon: "chart-box"
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
       hosts:
         - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
           paths:
