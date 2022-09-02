@@ -71,7 +71,7 @@ spec:
         type: custom
         volumeSpec:
           nfs:
-            server: "${NAS_SERVER}"
+            server: "${NFS_SERVER}"
             path: /volume1/minio
         mountPath: /data
     podAnnotations:
