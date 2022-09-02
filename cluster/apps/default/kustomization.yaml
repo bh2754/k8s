@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - hajimari
-  - regcred.sops.yaml
+  - gchr.sops.yaml

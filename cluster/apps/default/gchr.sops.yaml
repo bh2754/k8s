@@ -1,0 +1,35 @@
+kind: Secret
+type: kubernetes.io/dockerconfigjson
+apiVersion: v1
+metadata:
+    name: dockerconfigjson-ghcr
+    annotations:
+        reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+        reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+        reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
+stringData:
+    .dockerconfigjson:
+        auths:
+            ghcr.io:
+                auth: ENC[AES256_GCM,data:bhuQdFAJde7NfgbE2dIjDUXZXAkSZErzRRvpwmgexos=,iv:E6b+3Uc6IrjQr11eDWmaIXH4KlBAnF7lG+r1IbjHk+o=,tag:jzC8uEasXEEWiha0EPqH8A==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age16vhmz79lvv4q7nes99c2mr2l5cmrq34qlnyws3dkfnhfa7jhapssqm2jkd
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzSGRDSnpVdzdsL3pWR2Vo
+            RVplb1lkWDJtTmRUOEF4dlBNbCszQ0FINERnCndRTXpQK0JUenlVakQzbEFhMkxN
+            RkxSb0x1L1lZZi94djhZQmprNGJUQVEKLS0tIHdlRHVXcnNEcnFQTllpWWtqSmRy
+            TjIyand0UUFwSmVNTWo0Wk4yOFhHdUkKfeiruGKeQvjjepuq9njYre/fsEjixG8W
+            kccX66uaP5c2fBV3axEm+57wAcZ29Zu8924A/nnzHht7AnkZJ8chfA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2022-09-02T01:13:30Z"
+    mac: ENC[AES256_GCM,data:Q4ROkkYM9kVncpeEOkQN9hygePeI2T+HSgPSOWrjgsx8WMTwhbmt0Ye2xqHz5TBNncFGseMT40SRzA6Y8X45sR07795MJGXrPgU4yF+v/E2cI6uH1NpxcJMBjpN+GMhzupJGay/nno/M1/1Ru15NCFPp4unJZkjcDqf0nbnD1OU=,iv:rqMIDwuTK4Rs5ra3Y6TvM4DaYZ8SyTq9dl0qOM+hTpw=,tag:7LAoMt0vj/IgXPeT6m5Zbw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
