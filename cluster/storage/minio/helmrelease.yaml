@@ -62,8 +62,8 @@ spec:
                   port: 9000
         tls:
           - hosts:
-              - "minio.${INTERNAL_DOMAIN}"
-              - "s3.${INTERNAL_DOMAIN}"
+              - "minio.${SECRET_DOMAIN}"
+              - "s3.${SECRET_DOMAIN}"
             secretName: ${SECRET_CERT}
     persistence:
       config:
