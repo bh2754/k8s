@@ -3,12 +3,13 @@ type: kubernetes.io/dockerconfigjson
 apiVersion: v1
 metadata:
     name: dockerconfigjson-ghcr
+    namespace: default
     annotations:
         reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
         reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
         reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
         reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
-Data:
+data:
     .dockerconfigjson:
         auths:
             ghcr.io:
