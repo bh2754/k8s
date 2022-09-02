@@ -4,7 +4,7 @@ metadata:
    name: synology-pvc
    namespace: kasten-io
 spec:
-   storageClassName: nfs
+   storageClassName: nfs-csi
    accessModes:
       - ReadWriteMany
    resources:
