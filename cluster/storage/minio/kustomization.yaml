@@ -5,3 +5,4 @@ resources:
   - nfs-pvc.yaml
   - secret.sops.yaml
   - helmrelease.yaml
+  - minio-ingress.yaml
