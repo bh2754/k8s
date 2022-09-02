@@ -3,69 +3,82 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: minio
-  namespace: default
+  namespace: data
 spec:
-  interval: 60m
+  interval: 15m
   chart:
     spec:
-      chart: minio
-      version: 11.9.3
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: bjw-s-charts
         namespace: flux-system
-      interval: 60m
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-      remediateLastFailure: true
-  # Values link: https://github.com/bitnami/charts/blob/master/bitnami/minio/values.yaml
+      interval: 15m
   values:
-    extraEnvVars:
-      - name: TZ
-        value: "${TIMEZONE}"
-      - name: MINIO_UPDATE
-        value: "off"
-      - name: MINIO_BROWSER_REDIRECT_URL
-        value: "https://minio.${SECRET_DOMAIN}"
-      - name: MINIO_SERVER_URL
-        value: "https://s3.${SECRET_DOMAIN}"
-    auth:
-      existingSecret: minio-creds
+    image:
 
+      repository: quay.io/minio/minio
+      tag: RELEASE.2022-08-26T19-53-15Z
+    nameOverride: minio
+    env:
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+      MINIO_UPDATE: "off"
+      TZ: "${TZ}"
+    envFrom:
+      - secretRef:
+          name: minio-creds
+    args:
+      - server
+      - /data
+      - --console-address
+      - :9001
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            enabled: true
+            port: 9001
+          api:
+            enabled: true
+            port: 9000
     ingress:
-      enabled: true
-      ingressClassname: "traefik"
-      hostname: &consoleHost "minio.${SECRET_DOMAIN}"
-      tls: true
-      extraTls:
-        - hosts:
-            - *consoleHost
-          secretName: ${SECRET_CERT}
-    apiIngress:
-      enabled: true
-      ingressClassname: "traefik"
-      hostname: &apiHost "s3.${SECRET_DOMAIN}"
-      tls: true
-      extraTls:
-        - hosts:
-            - *apiHost
-          secretName: ${SECRET_CERT}
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        hosts:
+          - host: "minio.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: 9001
+          - host: "s3.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: 9000
+        tls:
+          - hosts:
+              - "minio.${INTERNAL_DOMAIN}"
+              - "s3.${INTERNAL_DOMAIN}"
+            secretName: ${SECRET_CERT}
     persistence:
-      enabled: true
-      existingClaim: minio-nfs
-    prometheus:
-      servicemonitor:
-        enabled: false
-
-    podSecurityContext:
-      enabled: true
-      fsGroup: 1000
-    containerSecurityContext:
-      enabled: true
-      runAsUser: 1000
-      runAsNonRoot: true
+      config:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_SERVER}"
+            path: /volume1/minio
+        mountPath: /data
+    podAnnotations:
+      secret.reloader.stakater.com/reload: "minio-creds"
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 100m
+      limits:
+        memory: 750Mi
