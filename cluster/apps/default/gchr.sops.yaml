@@ -3,16 +3,17 @@ type: kubernetes.io/dockerconfigjson
 apiVersion: v1
 metadata:
     name: dockerconfigjson-ghcr
-    annotations:
-        reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
-        reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-        reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
+    secretTemplate:
+        annotations:
+            reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+            reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+            reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+            reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
 stringData:
     .dockerconfigjson:
         auths:
             ghcr.io:
-                auth: ENC[AES256_GCM,data:fmSgnPhi9V37o6bse1YF7ErLkmiBU6R9JTt/wuQo7KY=,iv:EHBR9SNrQND8/tqSuBFcO2UHD2hvMfvSrpSRBRUB/4E=,tag:0z6A+FYkNSTaQUBAViiDJw==,type:str]
+                auth: ENC[AES256_GCM,data:rSxfH3Iw1alVv/g7NJraile7MAc5oWGemX2WihJKbDc=,iv:dkuwVuU9WFtw2CzP1vnHcow2N87kKiBwoHtl8vOgimQ=,tag:rzsvkXa6SwidHmw8G+ne/Q==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -22,14 +23,14 @@ sops:
         - recipient: age16vhmz79lvv4q7nes99c2mr2l5cmrq34qlnyws3dkfnhfa7jhapssqm2jkd
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA3UWZEUWpkRTJ5TEJ3aWow
-            NExWVUJLS2JtNmdVaEdWSHJvZUxvY0h1ZTFFClFlc3h5My9UL1pLNHNWQ1F1Ym5W
-            UTZlREY3SHZzUkhUT0RHQjBYZkhZVGcKLS0tIEJySlJuK2VES2xtYUZSNWhWNFVW
-            TXBZWUNJZWxuQjlDOGxYR0gvM1ZJTlkKNGjpUJcSSMtMB0PyVEvumWPPaKJ0sRYy
-            6Kw7Lc0rjJvJSkv2Lrx93nQqv3jog90UqLBKKE6R0ONSE8xeiysxkA==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBSdm5DaWxYTlc0cHlWN01R
+            c01QT3RzUEVuek1lcjRHcE1Lam0vN2xmMWhZCkF0SDFQV0x2THZMcFNKWG9hTTN3
+            RjJXeVJRRVhHdjdPZkhnaHFSOFdsMTQKLS0tIFFlaXpTQW9MYnZraFRLanJtWjZF
+            SU5aVlp6M0hUUDU0SVhGaDhabFJiaU0KuPvB39848hoc9+p/sZ9X8cva/tdqgBES
+            8FrZBSO0I3F7mXCIdxaNyYJy9Itk5Q7YEqtkTz3UQk4FE6nK8d18Hw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2022-09-02T01:50:51Z"
-    mac: ENC[AES256_GCM,data:yp6w3A24SfIbhweudxmWcKgQPQsDYl2/D63/08Ix69hXePWXubPt3Pu4EwaoYcGP25L2nFIhC1ie9vM+gQUOC8vIcaKt4Jk9X6siCEDrR7r9fbq/aFlGbJdT+AnK3TQ4u95Tb8zNvpc0o4jhGuPXKunaEl5X5lRDQQvoNeoXyvI=,iv:uTABNNf2itM9fv6G5fK8saL9X7ahnoIIH0/d0GaXc5A=,tag:eJH32uhP/C7vPsHixxLWcg==,type:str]
+    lastmodified: "2022-09-02T01:59:53Z"
+    mac: ENC[AES256_GCM,data:3ViSMXFOuKRq67So9OShgGrwAQcnCF3YzMFNEhl9UbH2co4hNvWihlAG5wZveSEUkwECdXKALtcpdbeMEO18PJ3OenqlBel5Tm11uSh1rDG6Z4bpW6iNyHqOD5Et8HiwL9jeNR5d/csb+BjOCEe2+DmohTaN+zEvrRhPLtxCCQ8=,iv:ASuwnHJlF+hgquHBVEljtG3t/JKCmGfVJf9BTHoB6Ys=,tag:GX7j1j7D8sW6iml+WykF6g==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.7.3
