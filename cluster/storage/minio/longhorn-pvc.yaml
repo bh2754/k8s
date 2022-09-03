@@ -1,13 +1,33 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: longhorn-vol-pv
+spec:
+  capacity:
+    storage: 1Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: longhorn
+  csi:
+    driver: driver.longhorn.io
+    fsType: ext4
+    volumeAttributes:
+      numberOfReplicas: '3'
+      staleReplicaTimeout: '2880'
+    volumeHandle: existing-longhorn-volume
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: &name minio-data-v1
+  name: minio-data-v1
   namespace: default
 spec:
   accessModes:
     - ReadWriteMany
   storageClassName: longhorn
+  volumeName: longhorn-vol-pv
   resources:
     requests:
       storage: 1Mi
