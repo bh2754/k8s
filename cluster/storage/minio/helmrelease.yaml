@@ -68,11 +68,10 @@ spec:
     persistence:
       config:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "${NFS_SERVER}"
-            path: /volume1/minio
+        existingClaim: minio-config-v1
+      data:
+        enabled: true
+        existingClaim: minio-data-v1
         mountPath: /data
     podAnnotations:
       secret.reloader.stakater.com/reload: "minio-creds"
