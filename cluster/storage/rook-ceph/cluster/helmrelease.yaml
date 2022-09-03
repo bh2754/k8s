@@ -123,13 +123,13 @@ spec:
         nodes:
           - name: "k8s-master1"
             devices:
-              - name: "/dev/sdh"
+              - name: "/dev/sdc"
           - name: "k8s-master2"
             devices:
-              - name: "/dev/sdf"
+              - name: "/dev/sdc"
           - name: "k8s-master3"
             devices:
-              - name: "/dev/sdd"
+              - name: "/dev/sdc"
           - name: "k8s-worker1"
             devices:
               - name: "/dev/sdc"
