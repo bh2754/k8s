@@ -162,9 +162,11 @@ spec:
           requests:
             cpu: 100m
             memory: 50Mi
+            ephemeral-storage: "2Gi"
           limits:
             cpu: 200m
             memory: 100Mi
+            ephemeral-storage: "4Gi"
     prometheus:
       ingress:
         enabled: true
