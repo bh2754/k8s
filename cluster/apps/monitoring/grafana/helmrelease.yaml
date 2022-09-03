@@ -306,8 +306,9 @@ spec:
       requests:
         cpu: 34m
         memory: 94M
+        ephemeral-storage: "2Gi"
       limits:
         memory: 213M
-
+        ephemeral-storage: "4Gi"
     podAnnotations:
       configmap.reloader.stakater.com/reload: "grafana"
