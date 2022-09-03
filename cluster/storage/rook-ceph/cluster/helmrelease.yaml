@@ -131,7 +131,7 @@ spec:
           hajimari.io/appName: "rook-ceph"
 
         host:
-          name: &host "rook.${SECURE_DOMAIN}"
+          name: &host "rook.${SECRET_DOMAIN}"
           path: "/"
         tls:
           - hosts:
