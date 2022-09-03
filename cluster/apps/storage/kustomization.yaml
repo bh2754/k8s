@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - nfs
   - nfs-csi
-# - longhorn
+  - longhorn
