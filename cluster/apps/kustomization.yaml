@@ -8,8 +8,8 @@ resources:
   - networking
   - system-upgrade
   - storage
-# - media
-# - vpn
-# - downloads
-# - monitoring
-# - organizers
+  - media
+  - vpn
+  - downloads
+  - monitoring
+  - organizers
