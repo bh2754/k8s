@@ -7,9 +7,9 @@ resources:
   - kube-system
   - networking
   - system-upgrade
-# - storage
-# - media
-# - vpn
-# - downloads
-# - monitoring
-# - organizers
+  - storage
+  - media
+  - vpn
+  - downloads
+  - monitoring
+  - organizers
