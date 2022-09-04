@@ -61,14 +61,14 @@ spec:
       fsGroupChangePolicy: "OnRootMismatch"
     persistence:
       config:
-        enabled: true
+        enabled: false
         mountPath: /config
         size: "10Gi"
       # existingClaim: webtop-config-v1
       pathvarrundocker-sock:
         enabled: true
         mountPath: /var/run/docker.sock
-        accessMode: ReadOnly
+        accessMode: ReaWriteOnce
         size: 1Gi
     resources:
       requests:
