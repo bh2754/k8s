@@ -6,6 +6,8 @@ metadata:
   namespace: downloads
 spec:
   interval: 15m
+  startupProbe:
+    enabled: false
   chart:
     spec:
       chart: app-template
