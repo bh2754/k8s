@@ -6,4 +6,4 @@ resources:
   - system-upgrade-controller
   - traefik
   - snapshotter
-  - rook-ceph
+# - rook-ceph
