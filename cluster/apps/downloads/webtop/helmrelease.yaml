@@ -6,8 +6,6 @@ metadata:
   namespace: downloads
 spec:
   interval: 15m
-  startupProbe:
-    enabled: false
   chart:
     spec:
       chart: app-template
@@ -24,6 +22,8 @@ spec:
     remediation:
       retries: 5
   values:
+    startupProbe:
+      enabled: false
     image:
       repository: linuxserver/webtop
       tag: ubuntu-kde
