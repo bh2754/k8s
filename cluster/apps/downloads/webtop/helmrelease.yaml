@@ -23,7 +23,8 @@ spec:
       retries: 5
   values:
     startupProbe:
-      enabled: false
+      tcpSocket:
+        port: 3000 
     image:
       repository: linuxserver/webtop
       tag: ubuntu-kde
