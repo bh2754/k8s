@@ -22,8 +22,6 @@ spec:
     remediation:
       retries: 5
   values:
-    securityContext:
-      privileged: true
     image:
       repository: linuxserver/webtop
       tag: ubuntu-kde
@@ -60,10 +58,9 @@ spec:
       fsGroupChangePolicy: "OnRootMismatch"
     persistence:
       config:
-        enabled: false
+        enabled: true
         mountPath: /config
-        size: "10Gi"
-      # existingClaim: webtop-config-v1
+        existingClaim: webtop-config-v1
       pathvarrundocker-sock:
         enabled: true
         mountPath: /var/run/docker.sock
@@ -79,3 +76,6 @@ spec:
         ephemeral-storage: "4Gi"
     portal:
       enabled: true
+    env:
+      PUID: 0
+      PGID: 0
