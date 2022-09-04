@@ -22,20 +22,11 @@ spec:
     remediation:
       retries: 5
   values:
-    containers:
-      - image: docker.io/linuxserver/webtop:latest
-        imagePullPolicy: Always
-        name: webtop
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      imagePullSecrets:
+    image: docker.io/linuxserver/webtop:latest
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
       - name: registry-2
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
+    restartPolicy: Always
     service:
       main:
         ports:
