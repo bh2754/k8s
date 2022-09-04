@@ -22,7 +22,7 @@ spec:
     remediation:
       retries: 5
   values:
-    image: docker.io/linuxserver/webtop:latest
+    image: linuxserver/webtop:ubuntu-kde
     dnsPolicy: ClusterFirst
     imagePullSecrets:
       - name: registry-2
