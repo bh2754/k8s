@@ -22,9 +22,8 @@ spec:
     remediation:
       retries: 5
   values:
-    startupProbe:
-      tcpSocket:
-        port: 3000 
+    securityContext:
+      privileged: true
     image:
       repository: linuxserver/webtop
       tag: ubuntu-kde
