@@ -34,6 +34,8 @@ spec:
         ports:
           http:
             port: 3000
+            protocol: tcp
+            targetPort: 3000
     ingress:
       main:
         enabled: true
@@ -51,15 +53,18 @@ spec:
               - *host
             secretName: ${SECRET_CERT}
     podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
+      runAsUser: 0
+      runAsGroup: 0
       fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 0
     persistence:
       config:
         enabled: true
-        existingClaim: webtop-config-v1
+        mountPath: /config
+        size: "10Gi"
+      # existingClaim: webtop-config-v1
+      pathvarrundocker-sock:
+        enabled: true
+        mountPath: /var/run/docker.sock
     resources:
       requests:
         cpu: 10m
@@ -68,3 +73,5 @@ spec:
       limits:
         memory: 2000Mi
         ephemeral-storage: "4Gi"
+    portal:
+      enabled: true
