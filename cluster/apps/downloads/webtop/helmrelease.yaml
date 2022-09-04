@@ -22,7 +22,9 @@ spec:
     remediation:
       retries: 5
   values:
-    image: linuxserver/webtop:ubuntu-kde
+    image:
+      repository: linuxserver/webtop
+      tag: ubuntu-kde
     dnsPolicy: ClusterFirst
     imagePullSecrets:
       - name: registry-2
