@@ -39,7 +39,7 @@ spec:
           - longhorn-system
           - kasten-io
           - organizers
-
+          - rook-ceph
       name: "Brent"
     # customApps:
       # - name: Some External Cluster Service

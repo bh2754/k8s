@@ -35,6 +35,7 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          hajimari.io/enable: "true"
         host:
           name: &host "rook.${SECRET_DOMAIN}"
           path: "/"
