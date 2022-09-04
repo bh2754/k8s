@@ -67,6 +67,7 @@ spec:
       pathvarrundocker-sock:
         enabled: true
         mountPath: /var/run/docker.sock
+        accessMode: ReadOnly
     resources:
       requests:
         cpu: 10m
