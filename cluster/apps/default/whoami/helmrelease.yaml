@@ -29,17 +29,17 @@ spec:
             enabled: true
             port: 80
     ingress:
-      enabled: true
-      ingressClassName: "traefik"
-      pathType: Prefix
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        hajimari.io/enable: "true"
-      hosts:
-        - host: &host "whoami.${SECRET_DOMAIN}"
-          paths:
-            - "/"
-      tls:
-        - hosts:
-            - *host
-          secretName: ${SECRET_CERT}
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          hajimari.io/enable: "true"
+        hosts:
+          - host: &host "whoami.${SECRET_DOMAIN}"
+            paths:
+              - "/"
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_CERT}
