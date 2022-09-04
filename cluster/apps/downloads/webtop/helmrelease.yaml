@@ -68,6 +68,7 @@ spec:
         enabled: true
         mountPath: /var/run/docker.sock
         accessMode: ReadOnly
+        size: 1Gi
     resources:
       requests:
         cpu: 10m
