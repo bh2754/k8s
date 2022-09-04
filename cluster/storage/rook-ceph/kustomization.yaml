@@ -6,3 +6,4 @@ resources:
   - namespace.yaml
   - cluster
   - operator
+  - dashboard-ingress.yaml
