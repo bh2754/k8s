@@ -21,7 +21,7 @@ metadata:
   namespace: minio
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   #volumeMode: Block
   storageClassName: ceph-block
   resources:
