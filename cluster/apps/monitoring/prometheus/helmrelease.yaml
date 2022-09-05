@@ -79,15 +79,12 @@ spec:
               - *host
             secretName: "${SECRET_CERT}"
       alertmanagerSpec:
-        replicas: 3
-        podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
               resources:
                 requests:
-                  storage: 256Mi
+                  storage: 1Gi
       kube-state-metrics:
       metricLabelsAllowlist:
         - "persistentvolumeclaims=[*]"
@@ -109,6 +106,9 @@ spec:
           multicluster:
             etcd:
               enabled: true
+    coreDns:
+      enabled: true
+
     kubelet:
       enabled: true
       serviceMonitor:
@@ -117,8 +117,10 @@ spec:
             sourceLabels:
               - node
             targetLabel: instance
+
     kubeApiServer:
       enabled: true
+
     kubeControllerManager:
       enabled: true
       endpoints:
