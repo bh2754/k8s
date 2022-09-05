@@ -55,7 +55,7 @@ spec:
 
     podAnnotations:
       setGateway: "true"
-
+      backup.velero.io/backup-volumes: config
     ingress:
       main:
         enabled: true
@@ -97,8 +97,6 @@ spec:
         server: "${NFS_SERVER}"
         path: "${NFS_DOWNLOAD}"
         mountPath: /download
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
     resources:
       requests:
         cpu: 10m
