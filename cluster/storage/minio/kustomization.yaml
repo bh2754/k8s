@@ -5,3 +5,5 @@ resources:
   - helmrelease.yaml
   - rook-pvc.yaml
   - secret.sops.yaml
+  - minio-ingress.yaml
+  - s3-ingress.yaml
