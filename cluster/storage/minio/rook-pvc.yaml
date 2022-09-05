@@ -2,12 +2,15 @@
 #apiVersion: v1
 #kind: PersistentVolume
 #metadata:
- #name: minio-rook
+  #name: minio-rook
 #spec:
   #capacity:
-    #storage: 1Mi
+    #storage: 10Gi
   #accessModes:
     #- ReadWriteMany
+  #rbd:
+    #pool: ceph-blockpool
+    #image: minio
   #storageClassName: ceph-block
   #persistentVolumeReclaimPolicy: Retain
 ---
@@ -19,6 +22,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  volumeMode: Block
   storageClassName: ceph-block
   resources:
     requests:
