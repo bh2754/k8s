@@ -102,3 +102,5 @@ spec:
       limits:
         memory: 6000Mi
         ephemeral-storage: "4Gi"
+    podAnnotations:
+      backup.velero.io/backup-volumes: config

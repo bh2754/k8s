@@ -83,8 +83,8 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 10
-  # podAnnotations:
-    # backup.velero.io/backup-volumes: config
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
     persistence:
       config:
         enabled: true

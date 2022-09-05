@@ -81,7 +81,8 @@ spec:
         server: *nas
         path: ${NFS_DOWNLOAD}
         mountPath: /downloads
-
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
     resources:
       requests:
         cpu: 10m
