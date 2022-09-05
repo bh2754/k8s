@@ -105,7 +105,8 @@ spec:
     # incomplete:
       # enabled: true
       # type: emptyDir
-
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
     resources:
       requests:
         cpu: 10m

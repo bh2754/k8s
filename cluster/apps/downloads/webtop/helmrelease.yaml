@@ -66,6 +66,8 @@ spec:
         mountPath: /var/run/docker.sock
         accessMode: ReaWriteOnce
         size: 1Gi
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
     resources:
       requests:
         cpu: 10m

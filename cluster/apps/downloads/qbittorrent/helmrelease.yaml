@@ -96,7 +96,8 @@ spec:
         server: "${NFS_SERVER}"
         path: "${NFS_DOWNLOAD}"
         mountPath: /download
-
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
     resources:
       requests:
         cpu: 10m
