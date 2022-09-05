@@ -44,7 +44,7 @@ spec:
           - mountPath: /target
             name: plugins
       - name: velero-plugin-for-longhorn
-        image: add quay.io/jenting/velero-plugin:main
+        image: add quay.io/jenting/velero-plugin
         imagePullPolicy: IfNotPresent
     credentials:
       existingSecret: velero-s3-creds
