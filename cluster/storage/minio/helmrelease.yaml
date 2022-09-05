@@ -48,9 +48,11 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: "traefik"
         annotations:
-          external-dns.home.arpa/enabled: "true"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "server"
         hosts:
           - host: &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
@@ -68,7 +70,7 @@ spec:
           - hosts:
               - *host-console
               - *host-api
-            secretName: "${SECRET_CERT"
+            secretName: "${SECRET_CERT}"
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
