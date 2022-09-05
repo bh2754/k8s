@@ -22,7 +22,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  volumeMode: Block
+  #volumeMode: Block
   storageClassName: ceph-block
   resources:
     requests:
