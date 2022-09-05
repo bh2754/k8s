@@ -8,3 +8,4 @@ resources:
   - snapshotter
   - rook-ceph
   - velero
+  - prometheus
