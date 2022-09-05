@@ -55,7 +55,7 @@ spec:
     persistence:
       config:
         enabled: true
-        size: 1Gi
+        existingClaim: ombi-config-v1
     env:
       PUID: "1000"
       PGID: "1000"
@@ -68,3 +68,5 @@ spec:
         cpu: 200m
         memory: 500Mi
         ephemeral-storage: "4Gi"
+    podAnnotations:
+      backup.velero.io/backup-volumes: config

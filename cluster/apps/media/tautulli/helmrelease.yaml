@@ -57,7 +57,7 @@ spec:
     persistence:
       config:
         enabled: true
-        size: 1Gi
+        existingClaim: tautulli-config-v1
     resources:
       requests:
         cpu: 10m
@@ -66,3 +66,6 @@ spec:
       limits:
         memory: 500Mi
         ephemeral-storage: "4Gi"
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
+
