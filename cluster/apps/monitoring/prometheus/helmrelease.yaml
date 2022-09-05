@@ -70,7 +70,10 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
         hosts:
-          - &host "alert-manager.${SECRET_DOMAIN}"
+          - host: &host "alert-manager.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
           - hosts:
               - *host
@@ -164,7 +167,10 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
         hosts:
-          - &host "prometheus.${SECRET_DOMAIN}"
+          - host: &host "prometheus.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
           - hosts:
               - *host
@@ -179,7 +185,10 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
         hosts:
-          - &host "thanos-sidecar.${SECRET_DOMAIN}"
+          - host: &host "thanos-sidecar.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
           - hosts:
               - *host
