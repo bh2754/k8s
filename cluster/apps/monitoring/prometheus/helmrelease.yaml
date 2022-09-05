@@ -168,7 +168,7 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: "${SECRET_CERT"
+            secretName: "${SECRET_CERT}"
       thanosService:
         enabled: true
       thanosServiceMonitor:
@@ -183,7 +183,7 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: "${SECRET_CERT"
+            secretName: "${SECRET_CERT}"
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: "replica"
