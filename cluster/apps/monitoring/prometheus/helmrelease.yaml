@@ -132,6 +132,8 @@ spec:
         - 10.0.102.53
         - 10.0.102.54
         - 10.0.102.55
+        - 10.0.102.56
+        - 10.0.102.57
     kubeScheduler:
       enabled: true
       endpoints:
