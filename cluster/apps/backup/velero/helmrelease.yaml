@@ -54,7 +54,7 @@ spec:
       media:
         schedule: "0 * * * *"
         template:
-          defaultVolumesToRestic: true
+          #defaultVolumesToRestic: true
           includedNamespaces:
             - vpn
             - downloads

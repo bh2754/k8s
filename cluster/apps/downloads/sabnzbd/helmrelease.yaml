@@ -107,6 +107,7 @@ spec:
       # type: emptyDir
     podAnnotations:
       backup.velero.io/backup-volumes: config
+      backup.velero.io/backup-volumes: media,download
     resources:
       requests:
         cpu: 10m
