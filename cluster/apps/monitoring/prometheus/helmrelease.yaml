@@ -60,8 +60,8 @@ spec:
         inhibit_rules:
           - source_match:
               severity: "critical"
-            target_match:
-              severity: "warning"
+            #target_match:
+              #severity: "warning"
             equal: ["alertname", "namespace"]
       ingress:
         enabled: true
