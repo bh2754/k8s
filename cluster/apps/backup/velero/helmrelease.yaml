@@ -56,9 +56,9 @@ spec:
         template:
           defaultVolumesToRestic: true
           includedNamespaces:
-            #- vpn
-            #- downloads
-            #- organizers
+            - vpn
+            - downloads
+            - organizers
             - media
           labelSelector:
             matchLabels:
