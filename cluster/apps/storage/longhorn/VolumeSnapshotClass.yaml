@@ -4,6 +4,7 @@ kind: VolumeSnapshotClass
 driver: driver.longhorn.io
 metadata:
   annotations:
+    velero.io/csi-volumesnapshot-class: "true"
     snapshot.storage.kubernetes.io/is-default-class: "false"
   name: longhorn-snapclass
   namespace: longhorn-system
