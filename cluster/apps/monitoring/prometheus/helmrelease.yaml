@@ -55,7 +55,7 @@ spec:
                 - alertname =~ "InfoInhibitor|Watchdog"
             - receiver: "discord"
               match_re:
-                severity: critical|warning|error
+                severity: critical|error
               continue: true
         inhibit_rules:
           - source_match:
