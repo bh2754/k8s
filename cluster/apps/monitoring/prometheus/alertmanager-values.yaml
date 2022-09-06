@@ -62,7 +62,7 @@ alertmanager:
     tls:
       - secretName: ${SECRET_CERT}
         hosts:
-          host: - "alertmanager.${SECRET_DOMAIN}"
+          - "alertmanager.${SECRET_DOMAIN}"
   alertmanagerSpec:
     externalUrl: "https://alertmanager.${SECRET_DOMAIN}/"
     storage:
