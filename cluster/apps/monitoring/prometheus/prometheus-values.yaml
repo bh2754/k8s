@@ -1,0 +1,47 @@
+---
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      hajimari.io/enable: "true"
+      hajimari.io/appName: prometheus
+      hajimari.io/icon: chart-line-stacked
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - prometheus.${SECRET_DOMAIN}
+    tls:
+      - secretName: ${SECRET_CERT}
+        hosts:
+          - prometheus.${SECRET_DOMAIN}
+  prometheusSpec:
+    resources:
+      requests:
+        memory: 4Gi
+        cpu: 1000m
+      limits:
+        memory: 4Gi
+        cpu: 4000m
+
+    externalUrl: https://prometheus.${SECRET_DOMAIN}/
+    ruleSelector: {}
+    ruleNamespaceSelector: {}
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
+    podMonitorNamespaceSelector: {}
+    podMonitorSelectorNilUsesHelmValues: false
+    retention: 2d
+    enableAdminAPI: true
+    walCompression: true
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          resources:
+            requests:
+              storage: 20Gi
+
