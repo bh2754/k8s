@@ -55,6 +55,14 @@ spec:
         schedule: "0 */2 * * *"
         template:
           defaultVolumesToRestic: true
+          includeNamespaces:
+            - vpn
+            - downloads
+            - organizers
+            - media
+        labelSelector:
+          matchLabels:
+            application: mediabackup
           ttl: "120h"
     metrics:
       enabled: true
