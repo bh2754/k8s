@@ -55,7 +55,7 @@ spec:
         schedule: "0 */2 * * *"
         template:
           defaultVolumesToRestic: true
-          includeNamespaces:
+          includedNamespaces:
             - vpn
             - downloads
             - organizers
