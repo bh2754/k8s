@@ -68,9 +68,10 @@ spec:
           secretName: ${SECRET_CERT}
 
     resources: {}
-
     persistence:
       size: "10Gi"
       annotations: {}
       storageClass: longhorn
       existingClaim: portainer
+    podAnnotations:
+      backup.velero.io/backup-volumes: data
