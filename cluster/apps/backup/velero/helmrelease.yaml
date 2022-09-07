@@ -49,7 +49,7 @@ spec:
       daily-backup:
         schedule: "0 3 * * *"
         template:
-          defaultVolumesToRestic: true
+          #defaultVolumesToRestic: true
           ttl: "120h"
       media:
         schedule: "0 */3 * * *"
