@@ -66,7 +66,8 @@ spec:
         - hosts:
             - *host
           secretName: ${SECRET_CERT}
-
+    podAnnotations:
+      backup.velero.io/backup-volumes: data
     resources: {}
     persistence:
       data:
@@ -74,5 +75,4 @@ spec:
         size: "10Gi"
         existingClaim: portainer
         mountPath: /data
-    podAnnotations:
-      backup.velero.io/backup-volumes: data  #
+
