@@ -75,4 +75,4 @@ spec:
         existingClaim: portainer
         mountPath: /data
     podAnnotations:
-      backup.velero.io/backup-volumes: data
+      backup.velero.io/backup-volumes: data  #
