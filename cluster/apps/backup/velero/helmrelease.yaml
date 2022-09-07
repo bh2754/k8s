@@ -52,7 +52,7 @@ spec:
           defaultVolumesToRestic: true
           ttl: "120h"
       media:
-        schedule: "0 * * * *"
+        schedule: "0 */3 * * *"
         template:
           #defaultVolumesToRestic: true
           includedNamespaces:
