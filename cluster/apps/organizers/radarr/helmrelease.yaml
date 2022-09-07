@@ -27,6 +27,10 @@ spec:
       tag: 4.2.2.6503@sha256:4252feffee3058d739f63e8b4201ff55ca047db686a8ce587c1120c1964d987c
     env:
       TZ: "${TZ}"
+      RADARR__INSTANCE_NAME: Radarr
+      RADARR__PORT: &port 7878
+      RADARR__APPLICATION_URL:  "https://radarr.${SECRET_DOMAIN}"
+      RADARR__LOG_LEVEL: info
     envFrom:
       - secretRef:
           name: *app
