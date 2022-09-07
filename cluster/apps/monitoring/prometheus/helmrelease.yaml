@@ -244,7 +244,7 @@ spec:
       valuesKey: ALERT_MANAGER_DISCORD_WEBHOOK
       targetPath: alertmanager.config.global.slack_api_url
       optional: false
-    podAnnotations:
-      backup.velero.io/backup-volumes:
-        - alertmanager-kube-prometheus-stack-alertmanager-db
-        - prometheus-kube-prometheus-stack-prometheus-db
+  podAnnotations:
+    backup.velero.io/backup-volumes:
+      - alertmanager-kube-prometheus-stack-alertmanager-db
+      - prometheus-kube-prometheus-stack-prometheus-db
