@@ -69,9 +69,10 @@ spec:
 
     resources: {}
     persistence:
-      size: "10Gi"
-      annotations: {}
-      storageClass: longhorn
-      existingClaim: portainer
+      data:
+        enabled: true
+        size: "10Gi"
+        existingClaim: portainer
+        mountPath: /data
     podAnnotations:
       backup.velero.io/backup-volumes: data
