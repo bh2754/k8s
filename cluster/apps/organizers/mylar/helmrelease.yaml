@@ -42,7 +42,7 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           hajimari.io/enable: "true"
         hosts:
-          - host: mylar.bahrris.xyz #&host mylar.${SECRET_DOMAIN}
+          - host: &host mylar.bahrris.xyz #&host mylar.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
