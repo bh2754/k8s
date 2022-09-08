@@ -81,6 +81,9 @@ spec:
                   key: SONARR__API_KEY
             - name: ENABLE_ADDITIONAL_METRICS
               value: "true"
+            - name: ENABLE_UNKNOWN_QUEUE_ITEMS
+              value: "true"
+
           ports:
             - name: monitoring
               containerPort: 9707
