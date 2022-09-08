@@ -25,9 +25,6 @@ spec:
       TZ: ${TZ}
       MYLAR__INSTANCE_NAME: Mylar
       MYLAR__PORT: &port  8090
-    envFrom:
-      - secretRef:
-          name: sonarr
     service:
       main:
         ports:
@@ -65,14 +62,5 @@ spec:
         type: nfs
         server: "${NFS_SERVER}"
         path: "${NFS_DOWNLOAD}"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 63M
-        ephemeral-storage: "2Gi"
-      limits:
-#        cpu: 256m
-#        memory: 1000M
-        ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config
