@@ -32,7 +32,7 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 8090 #*port
 
     ingress:
       main:
@@ -42,14 +42,14 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           hajimari.io/enable: "true"
         hosts:
-          - host: &host mylar.bahrris.xyz #&host mylar.${SECRET_DOMAIN}
+          - host: mylar.bahrris.xyz #&host mylar.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - secretName: letsencrypt-wildcard-cert-bharris.xyz-prod # ${SECRET_CERT}
             hosts:
-              - *host
+              - mylar.bharris.xyz #*host
     persistence:
       config:
         enabled: true
