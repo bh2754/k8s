@@ -246,12 +246,12 @@ spec:
            memory: 8000Mi
         additionalScrapeConfigs:
           - job_name: traefik
-              scrape_interval: 1m
-              scrape_timeout: 10s
-              honor_timestamps: true
-              static_configs:
-                - targets:
-                    - "traefik.${SECRET_DOMAIN}:9101" 
+            scrape_interval: 1m
+            scrape_timeout: 10s
+            honor_timestamps: true
+            static_configs:
+              - targets:
+                  - "traefik.${SECRET_DOMAIN}:9101" 
   valuesFrom:
     - kind: Secret
       name: discord-webhook
