@@ -63,12 +63,12 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: "${NFS_SERVER}"
+        server: 10.0.109.29 # "${NFS_SERVER}"
         path: "${NFS_MEDIA}"
       downloads:
         enabled: true
         type: nfs
-        server: "${NFS_SERVER}"
+        server: 10.0.109.29 #"${NFS_SERVER}"
         path: "${NFS_DOWNLOAD}"
     resources:
       requests:
