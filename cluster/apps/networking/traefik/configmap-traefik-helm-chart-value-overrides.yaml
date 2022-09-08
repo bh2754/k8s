@@ -31,9 +31,9 @@ data:
       # The minimum number of seconds Traefik needs to be up and running before the DaemonSet/Deployment controller considers it available
       minReadySeconds: 0
       # Additional deployment annotations (e.g. for jaeger-operator sidecar injection)
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: 9101
+      annotations: {}
+        #prometheus.io/scrape: "true"
+        #prometheus.io/port: 9101
       # Additional deployment labels (e.g. for filtering deployment by custom labels)
       labels: {}
       # Additional pod annotations (e.g. for mesh injection or prometheus scraping)
