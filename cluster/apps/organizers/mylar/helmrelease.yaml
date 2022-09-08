@@ -20,7 +20,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/mylar3        #/linuxserver/mylar3
-      tag: latest    #version-v0.5.7
+#      tag: latest    #version-v0.5.7
     env:
       TZ: ${TZ}
       MYLAR__INSTANCE_NAME: Mylar
