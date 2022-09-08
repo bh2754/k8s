@@ -25,7 +25,7 @@ spec:
 
   values:
     image:
-      repository:  docker.io/linuxserver/webtop:ubuntu-kde
+      repository:  docker.io/linuxserver/webtop
       imagePullPolicy: IfNotPresent
 #    dnsPolicy: ClusterFirst
 #    restartPolicy: Always
