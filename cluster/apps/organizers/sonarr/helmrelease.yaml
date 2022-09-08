@@ -112,12 +112,3 @@ spec:
             for: 5m
             labels:
               severity: critical
-      exporter:
-        image:
-          repository: ghcr.io/onedr0p/exportarr
-          tag: v1.1.0
-          pullPolicy: IfNotPresent
-        env:
-          port: 9794
-          additionalMetrics: true
-          unknownQueueItems: false
