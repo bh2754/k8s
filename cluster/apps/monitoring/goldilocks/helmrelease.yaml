@@ -18,7 +18,7 @@ spec:
       interval: 5m
   values:
     vpa:
-      enabled: false
+      enabled: true
     dashboard:
       enabled: true
       ingress:
