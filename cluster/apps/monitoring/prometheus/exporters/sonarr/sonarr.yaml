@@ -69,7 +69,6 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - sonarr
-            - enableEpisodeQualityMetrics: true
           env:
             - name: PORT
               value: "9707"
@@ -80,6 +79,8 @@ spec:
                 secretKeyRef:
                   name: sonarr
                   key: SONARR__API_KEY
+            - name: ENABLE_ADDITIONAL_METRICS
+              value: true
           ports:
             - name: monitoring
               containerPort: 9707
