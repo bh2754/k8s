@@ -32,7 +32,7 @@ spec:
       main:
         ports:
           http:
-            port: 8090 #*port
+            port: *port
 
     ingress:
       main:
@@ -42,48 +42,37 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           hajimari.io/enable: "true"
         hosts:
-          - host: mylar.bahrris.xyz #&host mylar.${SECRET_DOMAIN}
+          - host: &host mylar.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: letsencrypt-wildcard-cert-bharris.xyz-prod # ${SECRET_CERT}
+          - secretName: ${SECRET_CERT}
             hosts:
-              - mylar.bharris.xyz #*host
+              - *host
     persistence:
       config:
         enabled: true
         mountPath: "/config"
         existingClaim: mylar-config-v1
-    # varrun:
-      # enabled: true
-      # existingClaim: mylar-varrun
-      # size: 1Gi
-      # accessMove: ReadWriteOnce
       media:
         enabled: true
         type: nfs
-        server: 10.0.109.29 # "${NFS_SERVER}"
-        path: /volume1/Media #"${NFS_MEDIA}"
+        server: "${NFS_SERVER}"
+        path: "${NFS_MEDIA}"
       downloads:
         enabled: true
         type: nfs
-        server: 10.0.109.29 #"${NFS_SERVER}"
-        path: /volume1/Download  #"${NFS_DOWNLOAD}"
-    resources:
-      requests:
-        cpu: 100m
-        memory: 250Mi
-        ephemeral-storage: "2Gi"
-      limits:
-        memory: 2000Mi
-        ephemeral-storage: "4Gi"
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
+        server: "${NFS_SERVER}"
+        path: "${NFS_DOWNLOAD}"
     resources:
       requests:
         cpu: 10m
         memory: 63M
+        ephemeral-storage: "2Gi"
       limits:
         cpu: 61m
         memory: 356M
+        ephemeral-storage: "4Gi"
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
