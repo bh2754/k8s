@@ -27,3 +27,4 @@ resources:
   - grafana.yaml
   - portainer.yaml
   - vmware-tanzu-charts.yaml
+  - goldilocks.yaml
