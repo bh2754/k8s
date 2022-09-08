@@ -5,3 +5,4 @@ metadata:
   name: organizers
   labels:
     routed-gateway: "true"
+    goldilocks.fairwinds.com/enabled: true
