@@ -40,13 +40,13 @@ spec:
           hajimari.io/icon: robot
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
         hosts:
-          - host: "status.${INTERNAL_DOMAIN}"
+          - host: "status.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "status.${INTERNAL_DOMAIN}"
+              - "status.${SECRET_DOMAIN}"
           - secretName: ${SECRET_CERT}
 
     persistence:
