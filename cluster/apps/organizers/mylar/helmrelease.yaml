@@ -69,7 +69,7 @@ spec:
         enabled: true
         type: nfs
         server: 10.0.109.29 #"${NFS_SERVER}"
-        path: "${NFS_DOWNLOAD}"
+        path: /volume1/Download  #"${NFS_DOWNLOAD}"
     resources:
       requests:
         cpu: 100m
