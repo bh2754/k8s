@@ -243,9 +243,9 @@ data:
       #   protocol: udp
       prometheus:
         entryPoint: metrics
-      #  addRoutersLabels: true
-      # statsd:
-      #   address: localhost:8125
+        addRoutersLabels: true
+        statsd:
+          address: localhost:8125
 
     tracing: {}
       # instana:
@@ -366,7 +366,7 @@ data:
         # You may not want to expose the metrics port on production deployments.
         # If you want to access it from outside of your cluster,
         # use `kubectl port-forward` or create a secure ingress
-        expose: false
+        expose: true
         # The exposed port for this service
         exposedPort: 9101
         # The port protocol (TCP/UDP)
