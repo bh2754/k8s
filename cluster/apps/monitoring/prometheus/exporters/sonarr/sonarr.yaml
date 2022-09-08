@@ -79,6 +79,7 @@ spec:
                 secretKeyRef:
                   name: sonarr
                   key: SONARR__API_KEY
+            - enableEpisodeQualityMetrics: true
           ports:
             - name: monitoring
               containerPort: 9707
