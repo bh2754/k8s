@@ -71,8 +71,8 @@ spec:
         memory: 63M
         ephemeral-storage: "2Gi"
       limits:
-        cpu: 256m
-        memory: 1000M
+#        cpu: 256m
+#        memory: 1000M
         ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config
