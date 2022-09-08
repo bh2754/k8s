@@ -141,9 +141,10 @@ spec:
 
     resources:
       requests:
-        memory: 350Mi
-        cpu: 250m
+        cpu: 10m
+        memory: 270M
         ephemeral-storage: "2Gi"
       limits:
-        memory: 2000Mi
+        cpu: 61m
+        memory: 1525M
         ephemeral-storage: "4Gi"

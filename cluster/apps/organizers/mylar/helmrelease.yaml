@@ -80,3 +80,10 @@ spec:
         ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config
+    resources:
+      requests:
+        cpu: 10m
+        memory: 63M
+      limits:
+        cpu: 61m
+        memory: 356M

@@ -1,0 +1,70 @@
+      spec:
+        containers:
+        - image: docker.io/linuxserver/webtop:ubuntu-kde
+          imagePullPolicy: IfNotPresent
+          name: webtop
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: registry-2
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+
+
+    - name: port-0
+      nodePort: 31895
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: webtop
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 10.0.102.82
+kind: List
+metadata:
+  resourceVersion: ""
+
+
+
+spec:
+  containers:
+  - image: docker.io/linuxserver/webtop:ubuntu-kde
+    imagePullPolicy: IfNotPresent
+    name: webtop
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-g9ff4
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  imagePullSecrets:
+  - name: registry-2
+  nodeName: k8s-master3
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300

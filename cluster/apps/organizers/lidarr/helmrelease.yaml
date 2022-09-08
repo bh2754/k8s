@@ -78,11 +78,12 @@ spec:
             secretName: "${SECRET_CERT}"
     resources:
       requests:
-        cpu: 100m
-        memory: 250Mi
+        cpu: 10m
+        memory: 544M
         ephemeral-storage: "2Gi"
       limits:
-        memory: 2000Mi
+        cpu: 1960m
+        memory: 3075M
         ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config

@@ -85,10 +85,11 @@ spec:
     resources:
       requests:
         cpu: 10m
-        memory: 250Mi
+        memory: 1923M
         ephemeral-storage: "2Gi"
       limits:
-        memory: 2000Mi
+        cpu: 1254m
+        memory: 11G
         ephemeral-storage: "4Gi"
     metrics:
       # -- Enable and configure Exportarr sidecar and Prometheus serviceMonitor.
