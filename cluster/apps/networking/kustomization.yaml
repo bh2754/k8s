@@ -8,4 +8,4 @@ resources:
   - k8s-gateway
   - traefik
   - portainer
-# - k10
+  - kyverno
