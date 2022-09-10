@@ -3,10 +3,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
-#  - whisparr
-#  - sonarr
-#  - lidarr
-#  - readarr
-#  - radarr
+  - whisparr
+  - sonarr
+  - lidarr
+  - readarr
+  - radarr
   - prowlarr
-#  - mylar
+  - mylar
