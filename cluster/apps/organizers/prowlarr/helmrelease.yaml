@@ -17,8 +17,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/k8s-at-home/prowlarr-nightly
-      tag: v0.4.5.1955
+      repository: ghcr.io/onedr0p/prowlarr-nightly
+      tag: 0.4.4.1939@sha256:03c19da31d2805be144cd8dfcf63240147f60a3ccdd005f48c15a25068e347c3
     env:
       TZ: "${TZ}"
     envFrom:
