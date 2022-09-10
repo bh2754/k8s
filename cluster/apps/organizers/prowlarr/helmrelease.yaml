@@ -57,10 +57,8 @@ spec:
       backup.velero.io/backup-volumes: config
     resources:
       requests:
-        cpu: 10m
         memory: 195M
         ephemeral-storage: "2Gi"
       limits:
-        cpu: 195m
         memory: 1664M
         ephemeral-storage: "4Gi"
