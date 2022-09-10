@@ -60,9 +60,9 @@ spec:
             - downloads
             - organizers
             - media
-          labelSelector:
-            matchLabels:
-              application: mediabackup
+#          labelSelector:
+#            matchLabels:
+#              application: mediabackup
           ttl: "120h"
     metrics:
       enabled: true
