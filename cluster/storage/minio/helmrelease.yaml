@@ -81,7 +81,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: minio-rook
+        existingClaim: minio-nfscsi
         mountPath: /data
     podAnnotations:
       secret.reloader.stakater.com/reload: minio-creds
