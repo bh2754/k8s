@@ -96,11 +96,9 @@ spec:
         mountPath: /download
     resources:
       requests:
-        cpu: 10m
         memory: 182M
         ephemeral-storage: "2Gi"
       limits:
-        cpu: 61m
         memory: 1026M
         ephemeral-storage: "4Gi"
     podAnnotations:
