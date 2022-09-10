@@ -4,14 +4,8 @@ kind: ConfigMap
 metadata:
   name: cluster-settings
   namespace: flux-system
-  annotations:
-        reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
-        reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-        reflector.v1.k8s.emberstack.com/secret-reflection-auto-namespaces: ""
 data:
   TIMEZONE: America/Indianapolis
   METALLB_LB_RANGE: 10.0.102.80-10.0.102.90
   METALLB_K8S_GATEWAY_ADDR: 10.0.102.80
   METALLB_INGRESS_ADDR: 10.0.102.90
-  METALLB_QBITTORRENT_ADDR: 10.0.102.89
