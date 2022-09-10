@@ -19,46 +19,11 @@ spec:
   install:
     createNamespace: true
   values:
-    replicaCount: 1
-    strategyType: Recreate
     image:
-      repository: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner
+      repository: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner
       tag: v4.0.2
-      pullPolicy: IfNotPresent
-    imagePullSecrets: []
     nfs:
-      server: ${NFS_SERVER}
-      path: ${NFS_KUBERNETES}
-      mountOptions:
-      volumeName: nfs-subdir-external-provisioner-root
-      reclaimPolicy: Retain
+      server: "${NFS_SERVER}"
+      path: "/volume1/kubernetes-nfs"
     storageClass:
-      create: true
       defaultClass: false
-      name: nfs-client
-      allowVolumeExpansion: true
-      reclaimPolicy: Delete
-      archiveOnDelete: true
-      onDelete:
-      pathPattern:
-      accessModes: ReadWriteOnce
-      volumeBindingMode: Immediate
-      annotations: {}
-    leaderElection:
-      enabled: true
-    rbac:
-      create: true
-    podSecurityPolicy:
-      enabled: false
-    podAnnotations: {}
-    podSecurityContext: {}
-    securityContext: {}
-    serviceAccount:
-      create: true
-      annotations: {}
-      name:
-    resources: {}
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
-    labels: {}
