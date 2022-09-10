@@ -10,7 +10,7 @@ resources:
   - storage
   - media
   - vpn
-#  - downloads
-#  - monitoring
+  - downloads
+  - monitoring
 #  - organizers
 #  - backup
