@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: minio-nfs
-  namespace: default
+  namespace: minio
 spec:
   storageClassName: nfs-client
   capacity:
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: minio-nfs
-  namespace: default
+  namespace: minio
 spec:
   accessModes:
     - ReadWriteMany
