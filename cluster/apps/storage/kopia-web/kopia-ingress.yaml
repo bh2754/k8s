@@ -12,6 +12,6 @@ spec:
       kind: Rule
       services:
         - name: kopia
-          port: 80
+          port: 8080
   tls:
     secretName: ${SECRET_CERT}
