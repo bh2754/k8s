@@ -88,7 +88,7 @@ spec:
       snapshots:
         enabled: true
         type: nfs
-        server: "nas.${SECRET_DOMAIN}"
+        server: "${NFS_SERVER}"
         path: /volume1/kubernetes/Kopia
         mountPath: /snapshots
     podAnnotations:
