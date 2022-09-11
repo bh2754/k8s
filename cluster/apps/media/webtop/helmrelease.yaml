@@ -24,6 +24,15 @@ spec:
       retries: 5
 
   values:
+    env:
+      PUID: "1000"
+      PGID: "1000"
+    podSecurityContext:
+      supplementalGroups:
+        - 1001
+        - 100
+      runAsUser: 1000
+      runAsGroup: 1000
     image:
       repository:  docker.io/linuxserver/webtop
       imagePullPolicy: IfNotPresent
