@@ -23,12 +23,24 @@ spec:
     remediation:
       retries: 5
   values:
+    initContainers:
+      wait-for-repo:
+        image: ghcr.io/onedr0p/kopia:0.11.3@sha256:72406602c99357951cb7284abbf88699081d60f6cffd22baddd8a6a2afe919f5
+        command:
+          - /bin/bash
+          - -c
+          - |-
+            until [ -f /snapshots/kopia.repository.f ]; do
+                printf "\e[1;32m%-6s\e[m\n" "Awaiting for the Kopia repo to become ready ..."
+                sleep 1
+            done
+        volumeMounts:
+          - name: snapshots
+            mountPath: /snapshots
     image:
       repository: ghcr.io/onedr0p/kopia
       tag: 0.11.3@sha256:72406602c99357951cb7284abbf88699081d60f6cffd22baddd8a6a2afe919f5
       pullPolicy: IfNotPresent
-#    imagePullSecrets:
-#    - registry-1
     env:
       TZ: "${TZ}"
       KOPIA_PASSWORD: "none"
@@ -54,7 +66,7 @@ spec:
         enabled: true
         ingressClassName: "traefik"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
           - host: &host "kopia.${SECRET_DOMAIN}"
             paths:
@@ -66,7 +78,7 @@ spec:
             secretName: ${SECRET_CERT}
     podSecurityContext:
       supplementalGroups:
-        - 1001
+        - 100
     persistence:
       config:
         enabled: true
@@ -79,13 +91,13 @@ spec:
         enabled: true
         type: nfs
         server: "${NFS_SERVER}"
-        path: "volume1/kubernetes/kopia"
+        path: /volume1/kubernetes/kopia
         mountPath: /snapshots
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
     resources:
       requests:
         cpu: 10m
-        memory: 250Mi
+        memory: 100Mi
       limits:
-        memory: 500Mi
+        memory: 250Mi
