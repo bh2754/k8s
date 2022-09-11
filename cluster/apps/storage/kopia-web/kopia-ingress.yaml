@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kopia
+  namespace: kopia
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`kopia.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: kopia
+          port: 80
+  tls:
+    secretName: ${SECRET_CERT}
