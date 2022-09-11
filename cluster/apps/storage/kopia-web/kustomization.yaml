@@ -6,7 +6,7 @@ resources:
   - helmrelease.yaml
 namespace: kopia
 configMapGenerator:
-  - name: kopia
+  - name: kopia-config
     files:
       - ./config/repository.config
 generatorOptions:
