@@ -95,7 +95,7 @@ spec:
         enabled: true
         type: nfs
         server: "${NFS_SERVER}"
-        path: /volume1/kubernetes/kopia
+        path: /volume1/kopia
         mountPath: /snapshots
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
