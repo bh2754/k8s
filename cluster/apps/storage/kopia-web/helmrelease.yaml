@@ -28,7 +28,7 @@ spec:
       tag: 0.11.3@sha256:72406602c99357951cb7284abbf88699081d60f6cffd22baddd8a6a2afe919f5
       pullPolicy: IfNotPresent
     imagePullSecrets:
-    - registry-2
+    - registry-1
     env:
       TZ: "${TZ}"
       KOPIA_PASSWORD: "none"
@@ -55,12 +55,15 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          traefik.ingress.kubernetes.io/router.middlewares: "traefik-system-internal@kubernetescrd"
         hosts:
-          - host: "{{ .Release.Name }}.${SECRET_DOMAIN_NAME}"
+          - host: &host "kopia.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_CERT}
     podSecurityContext:
       supplementalGroups:
         - 1001
