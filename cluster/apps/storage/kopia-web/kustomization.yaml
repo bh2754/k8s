@@ -9,6 +9,6 @@ namespace: kopia
 configMapGenerator:
   - name: kopia
     files:
-      - ./config/repository.config
+      - repository.config
 generatorOptions:
   disableNameSuffixHash: true
