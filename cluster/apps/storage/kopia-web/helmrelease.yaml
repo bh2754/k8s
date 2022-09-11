@@ -89,13 +89,12 @@ spec:
         enabled: true
         type: nfs
         server: "${NFS_SERVER}"
-        path: /volume1/kubernetes/Kopia
+        path: /volume1/kubernetes/kopia
         mountPath: /snapshots
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
     resources:
       requests:
-        cpu: 10m
         memory: 100Mi
       limits:
         memory: 250Mi
