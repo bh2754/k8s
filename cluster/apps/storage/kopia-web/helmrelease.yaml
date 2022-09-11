@@ -80,7 +80,7 @@ spec:
       runAsUser: 0
       runAsGroup: 0
       fsGroup: 0
-       fsGroupChangePolicy: "OnRootMismatch"
+      fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 100
     persistence:
