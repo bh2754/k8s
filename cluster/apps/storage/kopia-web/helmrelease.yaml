@@ -77,6 +77,9 @@ spec:
               - *host
             secretName: ${SECRET_CERT}
     podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
       supplementalGroups:
         - 100
     persistence:
