@@ -97,7 +97,7 @@ spec:
                           - name: KOPIA_LOG_DIR
                             value: /snapshots/{{ namespace }}/{{ appName }}/{{ claimName }}/logs
                           - name: KOPIA_PASSWORD
-                            value: "none"
+                            value: ${SECRET_KOPIA_PASSWORD}
                         command:
                           - /bin/bash
                           - -c
@@ -125,8 +125,8 @@ spec:
                           claimName: "{{ claimName }}"
                       - name: snapshots
                         nfs:
-                          server: "${NAS_SERVER}"
-                          path: /volume1/snapshot-cronjob
+                          server: "${NFS_SERVER}"
+                          path: /volume1/kopia
                     affinity:
                       podAffinity:
                         requiredDuringSchedulingIgnoredDuringExecution:
