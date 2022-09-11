@@ -43,7 +43,7 @@ spec:
       pullPolicy: IfNotPresent
     env:
       TZ: "${TZ}"
-      KOPIA_PASSWORD: 8g755%9h
+      KOPIA_PASSWORD: ${SECRET_KOPIA_PASSWORD}
     command: kopia
     args:
       - server
