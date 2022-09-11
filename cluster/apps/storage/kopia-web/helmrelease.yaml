@@ -98,9 +98,9 @@ spec:
         mountPath: /snapshots
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
-    resources:
-      requests:
-        cpu: 10m
-        memory: 100Mi
-      limits:
-        memory: 250Mi
+#    resources:
+#      requests:
+#        cpu: 10m
+#        memory: 100Mi
+#      limits:
+#        memory: 250Mi
