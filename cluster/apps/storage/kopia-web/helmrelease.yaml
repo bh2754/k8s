@@ -75,7 +75,7 @@ spec:
         subPath: repository.config
         mountPath: /config/repository.config
         readOnly: true
-      backups:
+      snapshots:
         enabled: true
         type: nfs
         server: "${NFS_SERVER}"
