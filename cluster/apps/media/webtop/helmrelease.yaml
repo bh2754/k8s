@@ -27,7 +27,7 @@ spec:
     image:
       repository:  docker.io/linuxserver/webtop
       imagePullPolicy: IfNotPresent
-#    dnsPolicy: ClusterFirst
+    dnsPolicy: ClusterFirst
 #    restartPolicy: Always
 #    schedulerName: default-scheduler
 #    terminationGracePeriodSeconds: 30
