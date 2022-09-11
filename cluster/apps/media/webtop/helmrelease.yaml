@@ -52,3 +52,7 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
+    persistence:
+      config:
+        enabled: true
+        existingClaim: webtop-config-v1
