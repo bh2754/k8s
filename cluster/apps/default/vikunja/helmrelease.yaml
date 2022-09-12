@@ -55,10 +55,10 @@ spec:
         volumeMounts:
           - name: files
             mountPath: /app/vikunja/files
-          - name: config
-            mountPath: /app/vikunja/config.yml
-            subPath: config.yml
-            readOnly: true
+#          - name: config
+#            mountPath: /app/vikunja/config.yml
+#            subPath: config.yml
+#            readOnly: true
       - name: frontend
         image: vikunja/frontend:latest
 
