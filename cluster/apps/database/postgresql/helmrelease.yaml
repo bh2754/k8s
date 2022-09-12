@@ -18,6 +18,13 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    global:
+      postgresql:
+        auth:
+          postgresPassword: 8g755%9h
+          username: brent
+          password: 8g755%9h
+          database: primary
     primary:
       persistence:
         enabled: true
