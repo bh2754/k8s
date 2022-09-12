@@ -12,7 +12,6 @@ spec:
       kind: Rule
       services:
         - name: kubernetes-dashboard
-          port: 443
-          scheme: https
+          port: 80
   tls:
     secretName: ${SECRET_CERT}

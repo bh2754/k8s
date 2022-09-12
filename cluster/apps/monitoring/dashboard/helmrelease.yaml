@@ -20,7 +20,11 @@ spec:
       name: kubernetesui/dashboard
       tag: v2.3.0
       pullPolicy: IfNotPresent
-
+    service:
+      main:
+        ports:
+          http:
+            port: 80
     ingress:
       main:
         enabled: true
