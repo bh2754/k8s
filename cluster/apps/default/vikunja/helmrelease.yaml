@@ -86,14 +86,14 @@ spec:
         enabled: true
         existingClaim: vikunja-files-pvc
         mountpath: /app/vikunja/files
-      config:
-        enabled: true
-        type: custom
-        readOnly: true
-        mountPath: "-"
-        volumeSpec:
-          configMap:
-            name: vikunja-config-yml
+#      config:
+#        enabled: true
+#        type: custom
+#        readOnly: true
+#        mountPath: "-"
+#        volumeSpec:
+#          configMap:
+#            name: vikunja-config-yml
 
     postgresql:
       postgresqlPostgresPassword: ${SECRET_VIKUNJA_POSTGRES_ADMIN_PASSWORD}
