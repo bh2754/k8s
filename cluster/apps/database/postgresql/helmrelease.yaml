@@ -18,10 +18,10 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    global:
-      postgresql:
-        auth:
-          postgresPassword: "8g755%9h"
+#    global:
+#      postgresql:
+#        auth:
+#          postgresPassword: "8g755%9h"
     primary:
       persistence:
         enabled: true
@@ -33,9 +33,11 @@ spec:
       initdb:
         scripts:
           01-init-authelia.sql: |
-            CREATE USER vikunja;
+            CREATE USER vikunja WITH PASSWORD ${SECRET_VIKUNJA_DATABASE_PASSWORD};
             CREATE DATABASE vikunja WITH OWNER = vikunja;
-#    auth:
-#      postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
+    auth:
+      postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
+      username: brent
+      password: 8g755%9h
     podAnnotations:
       backup.velero.io/backup-volumes: postgresql-v1
