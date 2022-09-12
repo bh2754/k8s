@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: komga
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`komga.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: komga
+          port: 8080
+  tls:
+    secretName: ${SECRET_CERT}
