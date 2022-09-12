@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mayan
+  namespace: mayan
+data:
+  TZ: America/Chicago
+  MAYAN_TIME_ZONE: America/Chicago
+  MAYAN_PIP_INSTALLS: django-storages boto3
+  MAYAN_DEFAULT_FROM_EMAIL: mayan@example.org
+  MAYAN_EMAIL_HOST: smtp.example.org
+  MAYAN_EMAIL_HOST_USER: postmaster@example.org
+  MAYAN_EMAIL_PORT: "465"
+  MAYAN_EMAIL_USE_SSL: "true"
+  MAYAN_EMAIL_USE_TLS: "true"
+  MAYAN_DOCUMENTS_STORAGE_BACKEND: storages.backends.s3boto3.S3Boto3Storage

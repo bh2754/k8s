@@ -14,23 +14,23 @@ spec:
   resources:
     requests:
       storage: 10Gi
+  storageClassName: longhorn
 
-  storageClassName: longhorn
-  volumeName: vikunja-files
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: vikunja-postgresql-pvc
-  namespace: default
-  labels:
-    app.kubernetes.io/name: &name vikunja
-    app.kubernetes.io/instance: *name
-    snapshot.home.arpa/enabled: "true"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: longhorn
+#  volumeName: vikunja-files
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: vikunja-postgresql-pvc
+#  namespace: default
+#  labels:
+#    app.kubernetes.io/name: &name vikunja
+#    app.kubernetes.io/instance: *name
+#    snapshot.home.arpa/enabled: "true"
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 10Gi
+#  storageClassName: longhorn

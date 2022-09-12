@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mayan
+  namespace: mayan
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      # https://gitlab.com/mayan-edms/mayan-edms/issues/500
+      proxy_set_header X-Alt-Referer https://$host$http_x_alt_referer;
+      proxy_set_header l5d-dst-override $service_name.$namespace.svc.k8s.example.org:$service_port;
+      grpc_set_header l5d-dst-override $service_name.$namespace.svc.k8s.example.org:$service_port;
+      proxy_hide_header l5d-remote-ip;
+      proxy_hide_header l5d-server-id;
+spec:
+  tls:
+    - hosts:
+        - mayan.example.org
+      secretName: mayan.example.org
+  rules:
+    - host: mayan.example.org
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mayan
+              servicePort: 8000

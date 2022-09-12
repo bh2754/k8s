@@ -29,3 +29,4 @@ resources:
   - vmware-tanzu-charts.yaml
   - goldilocks.yaml
   - kyverno.yaml
+  - kubernetes-dashboard-charts.yaml
