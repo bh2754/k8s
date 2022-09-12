@@ -1,78 +1,114 @@
----  #
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: vikunja
-  namespace: default
+  namespace: collab
 spec:
   interval: 5m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: vikunja
-      version: 6.1.2
+      version: 5.5.3
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
   values:
     image:
       repository: caddy
-      tag: 2.4.2-alpine
+      tag: 2.5.1-alpine
       pullPolicy: IfNotPresent
-    caddy:
-      noTls: false
-    vikunja:
-      config: |-
-        service:
-          jwtsecret: "myVeryComplexJWTSecret"
+
+    controllerType: deployment
+
+    strategy:
+      type: Recreate
+
     service:
       main:
-        ports:
+        port:
           http:
             port: 8080
-    ingress:
-      main:
-        enabled: false
+        annotations:
+          prometheus.io/probe: "true"
+          prometheus.io/protocol: http
+
     additionalContainers:
-      api:
-        name: api
-        image: vikunja/api:0.17.1
-        imagePullPolicy: IfNotPresent
-        # -- You can declare most Vikunja parameters as environment variables.
-        # Please consult https://vikunja.io/docs/config-options/ to see all parameters.
-        # Note that parameters that are an array cannot be defined as environment variables (like the OpenID Connect settings). Use the vikunja.config Value for that.
-        # @default -- See below
-        env: []
-          - name: VIKUNJA_SERVICE_JWTSECRET
-            value: myVeryComplexJWTSecret
+      - name: api
+        image: vikunja/api:latest
+        env:
           - name: VIKUNJA_DATABASE_TYPE
             value: "postgres"
+          - name: VIKUNJA_SERVICE_JWTSECRET
+            value: ${SECRET_VIKUNJA_JWT_SECRET}
           - name: VIKUNJA_DATABASE_HOST
-            value: db
+            value: postgresql.database.svc.cluster.local.
           - name: VIKUNJA_DATABASE_DATABASE
             value: vikunja
           - name: VIKUNJA_DATABASE_USER
-            value: "vikunja"
+            value: vikunja
           - name: VIKUNJA_DATABASE_PASSWORD
-            value: password
+            value: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
+          - name: VIKUNJA_SERVICE_FRONTENDURL
+            value: https://tasks.${SECRET_DOMAIN}
+#          - name: VIKUNJA_MAILER_FROMEMAIL
+#            value: tasks@${SECRET_DOMAIN}
+#          - name: VIKUNJA_MAILER_ENABLED
+#            value: "true"
+#          - name: VIKUNJA_MAILER_HOST
+#            value: mailu-postfix.mail.svc.cluster.local
+#          - name: VIKUNJA_MAILER_PORT
+#            value: "25"
         volumeMounts:
-          - name: vikunja-config
-            mountPath: /etc/vikunja/config.yml
-            subPath: Vikunja.yaml
           - name: files
             mountPath: /app/vikunja/files
+          - name: config
+            mountPath: /app/vikunja/config.yml
+            subPath: config.yml
+            readOnly: true
+      - name: frontend
+        image: vikunja/frontend:latest
 
-      frontend:
-        name: frontend
-        image: vikunja/frontend:0.17.0
-        imagePullPolicy: IfNotPresent
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+        hosts:
+          - host: &host vikunja.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_CERT}
 
-    # -- Configure persistence settings for the chart under this key.
-    # @default -- See values.yaml
     persistence:
       files:
         enabled: true
-        existingClaim:  vikunja-files-pvc
+        existingClaim: vikunja-files-pvc
         mountpath: /app/vikunja/files
+      config:
+        enabled: true
+        type: custom
+        readOnly: true
+        mountPath: "-"
+        volumeSpec:
+          configMap:
+            name: vikunja-config-yml
+
+    postgresql:
+      postgresqlPostgresPassword: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
+      postgresqlUsername: vikunja
+      postgresqlPassword: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
+      postgresqlDatabase: vikunja
+      enabled: true
+      persistence:
+        enabled: true
+        existingClaim: vikunja-postgresql-pvc
