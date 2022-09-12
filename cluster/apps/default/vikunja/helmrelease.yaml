@@ -98,7 +98,7 @@ spec:
         type: configMap
         readOnly: true
         mountPath: "-"
-        name: vikunja-config-yml
+        name: vikunja-config
 #        volumeSpec:
 #          configMap:
 #            name: vikunja-config-yml
