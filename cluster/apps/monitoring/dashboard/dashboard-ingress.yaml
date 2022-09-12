@@ -13,5 +13,6 @@ spec:
       services:
         - name: kubernetes-dashboard
           port: 443
+          scheme: https
   tls:
     secretName: ${SECRET_CERT}
