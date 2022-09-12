@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`status.${SECRET_DOMAIN}`)
+    - match: HOST(`uptime.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: uptime-kuma
