@@ -21,10 +21,11 @@ spec:
       tag: v2.3.0
       pullPolicy: IfNotPresent
     service:
-      main:
-        ports:
-          http:
-            port: 80
+      type: ClusterIP
+      externalPort: 444
+      clusterServiceLabel:
+        enabled: true
+        key: "kubernetes.io/cluster-service"
     ingress:
       main:
         enabled: true
