@@ -18,23 +18,20 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      registry: docker.io
-      repository: bitnami/postgresql
-      tag: "14.5.0"
-    auth:
-      enablePostgresUser: true
-      postgresPassword: "${POSTGRES_ROOT_PASSWORD}"
-      username: brent
-      password: "${POSTGRES_ROOT_PASSWORD}"
-      database: vikunja
     primary:
       persistence:
         enabled: true
-        existingClaim: postgresql-data
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
+        existingClaim:  postgresql-v1
+      service:
+        type: LoadBalancer
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: "${METALLB_POSTGRES_ADDR}"
+      initdb:
+        scripts:
+          01-init-authelia.sql: |
+            CREATE USER vikunja;
+            CREATE DATABASE vikunja WITH OWNER = vikunja;
+    auth:
+      postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
     podAnnotations:
       backup.velero.io/backup-volumes: postgresql-v1
