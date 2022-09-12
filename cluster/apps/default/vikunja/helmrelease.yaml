@@ -78,7 +78,6 @@ spec:
         ingressClassName: traefik
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
         hosts:
           - host: &host vikunja.${SECRET_DOMAIN}
             paths:
@@ -96,12 +95,13 @@ spec:
         mountpath: /app/vikunja/files
       config:
         enabled: true
-        type: custom
+        type: configMap
         readOnly: true
         mountPath: "-"
-        volumeSpec:
-          configMap:
-            name: vikunja-config-yml
+        name: vikunja-config-yml
+#        volumeSpec:
+#          configMap:
+#            name: vikunja-config-yml
 
 #    postgresql:
 #      postgresqlPostgresPassword: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
