@@ -8,12 +8,12 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: app-template
-      version: 0.1.1
+      chart: webtop
+      version: 0.0.27
       interval: 15m
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: truecharts
         namespace: flux-system
   install:
     createNamespace: true
@@ -22,46 +22,36 @@ spec:
   upgrade:
     remediation:
       retries: 5
-
   values:
     env:
-      PUID: "1000"
-      PGID: "1000"
-    podSecurityContext:
-      supplementalGroups:
-        - 1001
-        - 100
-      runAsUser: 1000
-      runAsGroup: 1000
+      KEYBOARD: ""
+      SUBFOLDER: ""
+      UMASK: ""
     image:
-      repository:  docker.io/linuxserver/webtop
-      imagePullPolicy: IfNotPresent
-    dnsPolicy: ClusterFirst
-#    restartPolicy: Always
-#    schedulerName: default-scheduler
-#    terminationGracePeriodSeconds: 30
-    service:
-      main:
-        ports:
-          http:
-            port: 3000
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: "traefik"
-        annotations:
-          hajimari.io/enable: "true"
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        hosts:
-          - host: &host "webtop.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: ${SECRET_CERT}
+      pullPolicy: IfNotPresent
+      repository: tccr.io/truecharts/webtop
+      tag: latest@sha256:ffa436b9b2d7e9acf239469fb868aaf48e9e028898c24160c65a45e99c49e33c
     persistence:
       config:
         enabled: true
+        mountPath: /config
         existingClaim: webtop-config-v1
+      pathvarrundocker-sock:
+        enabled: false
+        mountPath: /var/run/docker.sock
+    podSecurityContext:
+      runAsGroup: 0
+      runAsUser: 0
+    securityContext:
+      readOnlyRootFilesystem: false
+      runAsNonRoot: false
+    service:
+      main:
+        ports:
+          main:
+            port: 3000
+            protocol: TCP
+            targetPort: 3000
+
+    portal:
+      enabled: true
