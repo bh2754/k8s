@@ -30,7 +30,8 @@ spec:
     service:
       main:
         ports:
-          port: 8080
+          http:
+            port: 8080
         annotations:
           prometheus.io/probe: "true"
           prometheus.io/protocol: http
