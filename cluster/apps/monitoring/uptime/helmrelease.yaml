@@ -50,7 +50,6 @@ spec:
           - secretName: ${SECRET_CERT}
 
     persistence:
-      # Persist config
       config:
         enabled: true
         mountPath: /app/data
