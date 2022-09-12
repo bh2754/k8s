@@ -37,7 +37,5 @@ spec:
             CREATE DATABASE vikunja WITH OWNER = vikunja;
     auth:
       postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
-      username: brent
-      password: 8g755%9h
     podAnnotations:
       backup.velero.io/backup-volumes: postgresql-v1
