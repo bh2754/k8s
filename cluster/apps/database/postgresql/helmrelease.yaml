@@ -35,7 +35,7 @@ spec:
           01-init-authelia.sql: |
             CREATE USER vikunja;
             CREATE DATABASE vikunja WITH OWNER = vikunja;
-    auth:
-      postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
+#    auth:
+#      postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
     podAnnotations:
       backup.velero.io/backup-volumes: postgresql-v1
