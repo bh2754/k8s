@@ -26,7 +26,14 @@ spec:
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
       hosts:
-        - k8s.${SECRET_DOMAIN}
+        - host: &host k8s.${SECRET_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: ${SECRET_CERT}
     extraArgs:
       - --enable-skip-login
       - --disable-settings-authorizer
