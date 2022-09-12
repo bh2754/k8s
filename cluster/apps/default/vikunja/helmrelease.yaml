@@ -103,12 +103,12 @@ spec:
           configMap:
             name: vikunja-config-yml
 
-    postgresql:
-      postgresqlPostgresPassword: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
-      postgresqlUsername: vikunja
-      postgresqlPassword: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
-      postgresqlDatabase: vikunja
-      enabled: true
-      persistence:
-        enabled: true
-        existingClaim: vikunja-postgresql-pvc
+#    postgresql:
+#      postgresqlPostgresPassword: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
+#      postgresqlUsername: vikunja
+#      postgresqlPassword: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
+#      postgresqlDatabase: vikunja
+#      enabled: true
+#      persistence:
+#        enabled: true
+#        existingClaim: vikunja-postgresql-pvc

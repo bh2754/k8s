@@ -20,6 +20,8 @@ spec:
   values:
     auth:
       postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
+      username: root
+      password: ${SECRET_POSTGRESQL_ROOT_PASSWORD}
     primary:
       persistence:
         enabled: true
