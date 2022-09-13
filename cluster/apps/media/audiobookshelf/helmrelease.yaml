@@ -57,9 +57,9 @@ spec:
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 100
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
-      backup.velero.io/backup-volumes: metadata
+#    podAnnotations:
+#      backup.velero.io/backup-volumes: config
+#      backup.velero.io/backup-volumes: metadata
 #    persistence:
 #      config:
 #        enabled: true
