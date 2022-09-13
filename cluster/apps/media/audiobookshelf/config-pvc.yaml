@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: audiobookshelf-config-v1
-  namespace: organizers
+  namespace: media
   labels:
     app.kubernetes.io/name: &name audiobookshelf
     app.kubernetes.io/instance: *name
@@ -22,7 +22,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: audiobookshelf-metadata-v1
-  namespace: organizers
+  namespace: media
   labels:
     app.kubernetes.io/name: &name audiobookshelf
     app.kubernetes.io/instance: *name
