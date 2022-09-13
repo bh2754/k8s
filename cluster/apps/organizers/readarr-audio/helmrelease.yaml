@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app readarr-audio
+  namespace: organizers
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 0.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    image:
+      repository: ghcr.io/onedr0p/readarr-nightly
+      tag: 0.1.1.1409@sha256:fcd0ab1fb39cbccc3f3fdd4ac1c1e2adbc171ee3eb4a1664b24143fab550eaeb
+
+    env:
+      TZ: "${TZ}"
+      READARR__INSTANCE_NAME: Readarr
+      READARR__PORT: &port 80
+      READARR__LOG_LEVEL: info
+#    envFrom:
+#      - secretRef:
+#          name: *app
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "book-open-page-variant"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: &host "audio.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_CERT}
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: readarr-audio-config-v1
+      books:
+        enabled: true
+        type: nfs
+        server: &nas "${NFS_SERVER}"
+        path: ${NFS_MEDIA}/audiobooks
+        mountPath: /audiobooks
+      downloads:
+        enabled: true
+        type: nfs
+        server: *nas
+        path: ${NFS_DOWNLOAD}
+        mountPath: /downloads
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
+    resources:
+      requests:
+        memory: 377M
+        ephemeral-storage: "2Gi"
+      limits:
+        memory: 2130M
+        ephemeral-storage: "4Gi"
