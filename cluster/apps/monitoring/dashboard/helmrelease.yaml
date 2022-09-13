@@ -303,7 +303,7 @@ spec:
 
     rbac:
       # Specifies whether namespaced RBAC resources (Role, Rolebinding) should be created
-      create: true
+      create: false
 
       # Specifies whether cluster-wide RBAC resources (ClusterRole, ClusterRolebinding) to access metrics should be created
       # Independent from rbac.create parameter.
