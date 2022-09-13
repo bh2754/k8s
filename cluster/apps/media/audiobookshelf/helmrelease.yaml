@@ -31,46 +31,52 @@ spec:
     image:
       repository: ghcr.io/advplyr/audiobookshelf
       tag: 2.1.5
-    env:
-      TZ: ${TZ}
-    ingress:
-      main:
-        # primary: true
-        enabled: true
-        ingressClassName: "traefik"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        hosts:
-          - host: &host "audiobookshelf.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: &tls ${SECRET_CERT}
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 100
-    persistence:
-      config:
-        enabled: true
-        existingClaim: audiobookshelf-config-v1
-        mountpath: /config
-      metadata:
-        enabled: true
-        existingClaim: audiobookshelf-metadata-v1
-        mountpath: /metadata
-      audiobooks:
-        enabled: true
-        mountPath: /audiobooks
-        type: nfs
-        server: ${NFS_SERVER}
-        path: ${NFS_MEDIA}/audiobooks
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
-      backup.velero.io/backup-volumes: metadata
+      pullPolicy: IfNotPresent
+   env:
+     TZ: ${TZ}
+   service:
+     main:
+       ports:
+         http:
+           port: 80
+   ingress:
+     main:
+       # primary: true
+       enabled: true
+       ingressClassName: "traefik"
+       annotations:
+         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+       hosts:
+         - host: &host "audiobookshelf.${SECRET_DOMAIN}"
+           paths:
+             - path: /
+               pathType: Prefix
+       tls:
+         - hosts:
+             - *host
+           secretName: &tls ${SECRET_CERT}
+   podSecurityContext:
+     runAsUser: 568
+     runAsGroup: 568
+     fsGroup: 568
+     fsGroupChangePolicy: "OnRootMismatch"
+     supplementalGroups:
+       - 100
+   persistence:
+     config:
+       enabled: true
+       existingClaim: audiobookshelf-config-v1
+       mountpath: /config
+     metadata:
+       enabled: true
+       existingClaim: audiobookshelf-metadata-v1
+       mountpath: /metadata
+     audiobooks:
+       enabled: true
+       mountPath: /audiobooks
+       type: nfs
+       server: ${NFS_SERVER}
+       path: ${NFS_MEDIA}/audiobooks
+   podAnnotations:
+     backup.velero.io/backup-volumes: config
+     backup.velero.io/backup-volumes: metadata
