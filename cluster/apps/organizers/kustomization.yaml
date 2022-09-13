@@ -10,3 +10,4 @@ resources:
   - radarr
   - prowlarr
   - mylar
+  - readarr-audio
