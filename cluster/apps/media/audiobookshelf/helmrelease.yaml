@@ -46,8 +46,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: ${SECRET_CERT}
-            hosts:
+          - hosts:
               - *host
     persistence:
       config:
