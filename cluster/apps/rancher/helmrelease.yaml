@@ -19,6 +19,5 @@ spec:
     hostname: rancher.${SECRET_DOMAIN}
     ingress:
       ingressClassName: traefik
-      tls:
-        source: ${SECRET_CERT}
+      tls: ${SECRET_CERT}
     bootstrapPassword: "${SECRET_RANCHER_ADMIN_PASSWORD}"
