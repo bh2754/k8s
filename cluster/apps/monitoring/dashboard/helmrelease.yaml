@@ -31,7 +31,7 @@ spec:
 #        - hosts:
 #            - "dashboard.${SECRET_DOMAIN}"
 #          secretName: ${SECRET_CERT}
-#    protocolHttp: true
+    protocolHttp: true
     extraArgs:
       - --enable-skip-login
       - --disable-settings-authorizer
