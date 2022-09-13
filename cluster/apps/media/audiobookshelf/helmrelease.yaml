@@ -60,18 +60,18 @@ spec:
     podAnnotations:
       backup.velero.io/backup-volumes: config
       backup.velero.io/backup-volumes: metadata
-    persistence:
-      config:
-        enabled: true
-        mountPath: /config
-        existingClaim: audiobookshelf-config-v1
-      metadata:
-        enabled: true
-        mountPath: /metadata
-        existingClaim: audiobookshelf-metadata-v1
-      media:
-        enabled: true
-        mountPath: /audiobooks
-        type: nfs
-        server: ${NFS_SERVER}
-        path: ${NFS_MEDIA}/audiobooks
+#    persistence:
+#      config:
+#        enabled: true
+#        mountPath: /config
+#        existingClaim: audiobookshelf-config-v1
+#      metadata:
+#        enabled: true
+#        mountPath: /metadata
+#        existingClaim: audiobookshelf-metadata-v1
+#      media:
+#        enabled: true
+#        mountPath: /audiobooks
+#        type: nfs
+#        server: ${NFS_SERVER}
+#        path: ${NFS_MEDIA}/audiobooks
