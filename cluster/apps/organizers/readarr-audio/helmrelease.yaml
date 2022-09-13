@@ -35,7 +35,7 @@ spec:
 #      - secretRef:
 #          name: *app
     service:
-      audio:
+      main:
         ports:
           http:
             port: *port
