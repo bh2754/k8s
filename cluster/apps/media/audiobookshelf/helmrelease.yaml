@@ -61,11 +61,9 @@ spec:
       audiobooks:
         enabled: true
         mountPath: /audiobooks
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "${NFS_SERVER}"
-            path: "${NFS_MEDIA}/audiobooks"
+        type: nfs
+        server: ${NFS_SERVER}
+        path: ${NFS_MEDIA}/audiobooks
     podAnnotations:
       backup.velero.io/backup-volumes: config
       backup.velero.io/backup-volumes: metadata
