@@ -41,7 +41,7 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
         hosts:
-          - host: &host audio.${SECRET_DOMAIN}
+          - host: &host audio.bharris.xyz
             paths:
               - path: /
                 pathType: Prefix
