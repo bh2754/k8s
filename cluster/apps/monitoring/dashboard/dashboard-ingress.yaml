@@ -1,4 +1,13 @@
 ---
+ apiVersion: traefik.containo.us/v1alpha1
+    kind: ServersTransport
+    metadata:
+      name: mytransport
+      namespace: monitoring
+    spec:
+      serverName: "dashboard.${SECRET_DOMAIN}"
+      insecureSkipVerify: true
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -13,5 +22,6 @@ spec:
       services:
         - name: kubernetes-dashboard
           port: 443
+          serversTransport: mytransport
   tls:
     secretName: ${SECRET_CERT}
