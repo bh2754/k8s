@@ -21,17 +21,17 @@ spec:
       tag: v2.3.0
       pullPolicy: IfNotPresent
     ingress:
-      enabled: false
-      ingressClassName: "traefik"
+      enabled: true
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        kuernetes.io/ingress.class: traefik
       hosts:
-        -  "dashboard.${SECRET_DOMAIN}"
+        -  dashboard.${SECRET_DOMAIN}
         tls:
-        - hosts:
-            - "dashboard.${SECRET_DOMAIN}"
-          secretName: ${SECRET_CERT}
-    # protocolHttp: true
+          - hosts:
+              - "dashboard.${SECRET_DOMAIN}"
+            secretName: ${SECRET_CERT}
+    protocolHttp: true
     extraArgs:
       - --enable-skip-login
       - --disable-settings-authorizer
