@@ -118,6 +118,9 @@ spec:
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
+            metadata:
+              labels:
+                snapshot.home.arpa/enabled: "true"
             spec:
               resources:
                 requests:
@@ -230,6 +233,9 @@ spec:
         walCompression: true
         storageSpec:
           volumeClaimTemplate:
+            metadata:
+              labels:
+                snapshot.home.arpa/enabled: "true"
             spec:
               resources:
                 requests:
