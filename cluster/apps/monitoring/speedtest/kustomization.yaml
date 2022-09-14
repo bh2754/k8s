@@ -6,3 +6,4 @@ resources:
   - ./dashboards
 #  - ./prometheusrule.yaml
 #  - ./servicemonitor.yaml
+  - speedtest-ingress.yaml
