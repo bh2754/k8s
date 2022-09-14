@@ -91,12 +91,12 @@ spec:
         name: kopia
         subPath: repository.config
         mountPath: /config/repository.config
-        readOnly: true
+        readOnly: false
       snapshots:
         enabled: true
         type: nfs
         server: "${NFS_SERVER}"
-        path: "/volume1/kopia"
+        path: "/volume1/kubernetes/kopia"
         mountPath: /snapshots
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
