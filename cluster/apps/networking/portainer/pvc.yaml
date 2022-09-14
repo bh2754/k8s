@@ -12,6 +12,7 @@ metadata:
     app.kubernetes.io/name: portainer
     app.kubernetes.io/instance: portainer
     app.kubernetes.io/version: "ce-latest-ee-2.14.2"
+    snapshot.home.arpa/enabled: "true"
 spec:
   accessModes:
     - "ReadWriteOnce"
