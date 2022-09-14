@@ -76,13 +76,13 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
-#    podSecurityContext:
-#      runAsUser: 0
-#      runAsGroup: 0
-#      fsGroup: 0
-#      fsGroupChangePolicy: "OnRootMismatch"
-#      supplementalGroups:
-#        - 100
+    podSecurityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
     persistence:
       config:
         enabled: true
@@ -95,7 +95,7 @@ spec:
         enabled: true
         type: nfs
         server: "${NFS_SERVER}"
-        path: /volume1/kopia
+        path: /volume1/kubernetes/kopia
         mountPath: /snapshots
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
