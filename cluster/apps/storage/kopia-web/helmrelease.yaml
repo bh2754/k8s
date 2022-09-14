@@ -53,6 +53,7 @@ spec:
       - --metrics-listen-addr
       - 0.0.0.0:8080
       - --without-password
+      - --disable-csrf-token-checks
     service:
       main:
         ports:
