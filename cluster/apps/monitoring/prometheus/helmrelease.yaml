@@ -124,7 +124,7 @@ spec:
             spec:
               resources:
                 requests:
-                  storage: 1Gi
+                  storage: 10Gi
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -253,12 +253,12 @@ spec:
             honor_timestamps: true
             static_configs:
               - targets:
-                  - "traefik.${SECRET_DOMAIN}:9101" 
+                  - "traefik.${SECRET_DOMAIN}:9101"
           - job_name: speedtest
             scrape_interval: 2m
             scrape_timeout: 30s
             honor_timestamps: true
-            metrics_path: /metrics
+#            metrics_path: /metrics
             static_configs:
               - targets:
                   - "speedtest.${SECRET_DOMAIN}"
