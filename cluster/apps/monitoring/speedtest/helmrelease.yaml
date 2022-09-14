@@ -36,8 +36,8 @@ spec:
     # @default -- See below
     env:
       # -- Set the container timezone
-      TZ: UTC
-
+      TZ: ${TZ}
+      scrape_interval: 2m
     # -- Configures service settings for the chart.
     # @default -- See values.yaml
     service:
