@@ -33,6 +33,8 @@ spec:
         ports:
           http:
             enabled: true
+            protocol: TCP
+            port: 9799
           metrics:
             enabled: true
             protocol: TCP

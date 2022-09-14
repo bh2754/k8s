@@ -11,8 +11,8 @@ spec:
     - match: HOST(`speedtest.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: speedtest
-          port: 8798
+        - name: speedtest-exporter
+          port: 9799
   tls:
     secretName: ${SECRET_CERT}
 
