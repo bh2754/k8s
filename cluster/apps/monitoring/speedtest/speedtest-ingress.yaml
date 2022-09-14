@@ -12,7 +12,7 @@ spec:
       kind: Rule
       services:
         - name: speedtest-exporter
-          port: 9799
+          port: 9798
   tls:
     secretName: ${SECRET_CERT}
 
