@@ -131,7 +131,7 @@ spec:
                           claimName: "{{ claimName }}"
                       - name: snapshots
                         nfs:
-                          server: "{NFS_SERVER}"
+                          server: "${NFS_SERVER}"
                           path: /volume1/kubernetes/kopia
                     affinity:
                       podAffinity:
