@@ -15,4 +15,4 @@ resources:
   - organizers
   - backup
   - database
-#  - rancher
+  - rancher
