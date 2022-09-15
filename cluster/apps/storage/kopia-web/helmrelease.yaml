@@ -97,7 +97,7 @@ spec:
       snapshots:
         enabled: true
         type: nfs
-        server: "${NFS_SERVER}"
+        server: ${NFS_SERVER}
         path: "/volume1/kopia"
         mountPath: /snapshots
     podAnnotations:
