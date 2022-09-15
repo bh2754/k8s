@@ -38,7 +38,7 @@ spec:
           - media
           - longhorn-system
           - organizers
-          - kopia
+#          - kopia
       name: "Brent"
     # customApps:
       # - name: Some External Cluster Service
