@@ -37,9 +37,8 @@ spec:
           - traefik
           - media
           - longhorn-system
-          - kasten-io
           - organizers
-          - rook-ceph
+          - kopia
       name: "Brent"
     # customApps:
       # - name: Some External Cluster Service

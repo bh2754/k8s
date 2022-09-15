@@ -68,6 +68,8 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: ruler
         hosts:
           - host: &host "kopia.${SECRET_DOMAIN}"
             paths:
@@ -91,7 +93,7 @@ spec:
         name: kopia
         subPath: repository.config
         mountPath: /config/repository.config
-        readOnly: false
+        readOnly: true
       snapshots:
         enabled: true
         type: nfs
