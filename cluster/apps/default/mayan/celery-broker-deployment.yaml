@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,8 +34,8 @@ spec:
             - name: MAYAN_CELERY_BROKER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                    name: mayan
-                    key: MAYAN_CELERY_BROKER_PASSWORD
+                  name: mayan
+                  key: MAYAN_CELERY_BROKER_PASSWORD
           ports:
             - name: redis
               containerPort: 6379
