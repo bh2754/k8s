@@ -16,32 +16,80 @@ spec:
         name: longhorn
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
   values:
+    image:
+      longhorn:
+        engine:
+          repository: longhornio/longhorn-engine
+          tag: v1.3.1
+        manager:
+          repository: longhornio/longhorn-manager
+          tag: v1.3.1
+        ui:
+          repository: longhornio/longhorn-ui
+          tag: v1.3.1
+        instanceManager:
+          repository: longhornio/longhorn-instance-manager
+          tag: v1_20220808
+        shareManager:
+          repository: longhornio/longhorn-share-manager
+          tag: v1_20220808
+        backingImageManager:
+          repository: longhornio/backing-image-manager
+          tag: v3_20220808
+      csi:
+        attacher:
+          repository: longhornio/csi-attacher
+          tag: v3.4.0
+        provisioner:
+          repository: longhornio/csi-provisioner
+          tag: v2.1.2
+        nodeDriverRegistrar:
+          repository: longhornio/csi-node-driver-registrar
+          tag: v2.5.0
+        resizer:
+          repository: longhornio/csi-resizer
+          tag: v1.2.0
+        snapshotter:
+          repository: longhornio/csi-snapshotter
+          tag: v3.0.3
+      pullPolicy: IfNotPresent
+
+    service:
     persistence:
-      defaultClassReplicaCount: 2
+      defaultClass: true
+      defaultFsType: ext4
+      defaultClassReplicaCount: 3
+      defaultDataLocality: disabled # best-effort otherwise
+      reclaimPolicy: Delete
+      migratable: false
+    csi:
+      attacherReplicaCount: 3
+      provisionerReplicaCount: 3
+      resizerReplicaCount: 3
+      snapshotterReplicaCount: 3
     defaultSettings:
       backupTarget: ${LONGHORN_BACKUP}
-      defaultReplicaCount: 2
+      defaultDataPath: /mnt/storage
+      storageMinimalAvailablePercentage: 10
+      defaultReplicaCount: 3
       defaultLonghornStaticStorageClass: longhorn
     ingress:
       enabled: true
       ingressClassName: "traefik"
-      host: "longhorn.${SECRET_DOMAIN}"
-      path: /
+      host: longhorn.${SECRET_DOMAIN}
       tls: true
       tlsSecret: ${SECRET_CERT}
       annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hajimari.io/enable: "true"
         hajimari.io/icon: "cow"
-        # hajimari.io/group: storage
         hajimari.io/appName: "longhorn"
-    resources:
-      requests:
-        cpu: "100m"
-        memory: "50Mi"
-        ephemeral-storage: "2Gi"
-      limits:
-        cpu: "250m"
-        memory: "500Mi"
-        ephemeral-storage: "4Gi"
+    enablePSP: false
