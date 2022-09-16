@@ -11,17 +11,13 @@ spec:
   chart:
     spec:
       chart: postgresql
-      version: 11.9.1
+      version: 11.8.1
       sourceRef:
         kind: HelmRepository
         name: bitnami
         namespace: flux-system
       interval: 5m
   values:
-#  global:
-#    postgresql:
-#      auth:
-#        postgresPassword: "8g755%9h"
     primary:
       persistence:
         enabled: true

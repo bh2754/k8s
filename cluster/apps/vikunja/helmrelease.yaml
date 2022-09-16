@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: app-template
-      version: 0.2.1
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -26,35 +26,27 @@ spec:
   values:
     image:
       repository: caddy
-      tag: 2.5.2-alpine
+      tag: 2.4.2-alpine
       pullPolicy: IfNotPresent
     caddy:
-      # -- Disable auto tls if behind another loadbalancer or ingress
       noTls: true
     vikunja:
-      # -- Provide Vikunja config as YAML string
       config: |-
         service:
           jwtsecret: "myVeryComplexJWTSecret"
-
-    # -- Configures service settings for the chart.
-    # @default -- See values.yaml
     service:
       main:
         ports:
           http:
             port: 8080
-
     ingress:
-      # -- Enable and configure ingress settings for the chart under this key.
-      # @default -- See values.yaml
       main:
         enabled: false
 
     additionalContainers:
       api:
         name: api
-        image: vikunja/api:0.19.2
+        image: vikunja/api:0.17.1
         imagePullPolicy: IfNotPresent
         env: []
         volumeMounts:
@@ -63,7 +55,7 @@ spec:
             subPath: Vikunja.yaml
       frontend:
         name: frontend
-        image: vikunja/frontend:0.19.1
+        image: vikunja/frontend:0.17.0
         imagePullPolicy: IfNotPresent
     persistence:
       files:

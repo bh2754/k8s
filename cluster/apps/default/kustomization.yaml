@@ -6,5 +6,5 @@ resources:
   - hajimari
   - gchr.sops.yaml
   - whoami
-# - bookstack
-# - vikunja
+  - bookstack
+  - vikunja

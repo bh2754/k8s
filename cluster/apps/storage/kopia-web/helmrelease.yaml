@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 0.2.1
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -93,9 +93,3 @@ spec:
         mountPath: /snapshots
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
-#    resources:
-#      requests:
-#        cpu: 10m
-#        memory: 100Mi
-#      limits:
-#        memory: 250Mi

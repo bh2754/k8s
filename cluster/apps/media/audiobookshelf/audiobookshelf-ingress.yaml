@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: audiobookshelf
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`abs.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: audiobookshelf
+          port: 80
+  tls:
+    secretName: ${SECRET_CERT}

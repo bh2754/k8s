@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -39,7 +38,7 @@ spec:
     image:
       ## Repository for container
       repository: kubernetesui/dashboard
-      tag: v2.7.0
+      tag: v2.6.1
       pullPolicy: IfNotPresent
       pullSecrets: []
 
