@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: celery-broker
-          image: redis:5.0.7-alpine
+          image: redis:5.0.14-alpine
           command:
             - "redis-server"
           args:
