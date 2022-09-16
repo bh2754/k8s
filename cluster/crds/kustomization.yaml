@@ -9,4 +9,4 @@ resources:
   - rook-ceph
   - velero
   - prometheus
-  - longhorn
+# - longhorn
