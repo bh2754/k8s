@@ -52,49 +52,20 @@ spec:
         enabled: false
 
     additionalContainers:
-      # -- Set up the vikunja API container.
-      # @default -- See values.yaml
       api:
         name: api
-        # -- Vikunja api image and tag
         image: vikunja/api:0.17.1
         imagePullPolicy: IfNotPresent
-        # -- You can declare most Vikunja parameters as environment variables.
-        # Please consult https://vikunja.io/docs/config-options/ to see all parameters.
-        # Note that parameters that are an array cannot be defined as environment variables (like the OpenID Connect settings). Use the vikunja.config Value for that.
-        # @default -- See below
         env: []
-          # - name: VIKUNJA_SERVICE_JWTSECRET
-          #   value: myVeryComplexJWTSecret
-          # - name: VIKUNJA_DATABASE_TYPE
-          #   value: "postgres"
-          # - name: VIKUNJA_DATABASE_HOST
-          #   value: db
-          # - name: VIKUNJA_DATABASE_DATABASE
-          #   value: vikunja
-          # - name: VIKUNJA_DATABASE_USER
-          #   value: "vikunja"
-          # - name: VIKUNJA_DATABASE_PASSWORD
-          #   value: password
         volumeMounts:
           - name: vikunja-config
             mountPath: /etc/vikunja/config.yml
             subPath: Vikunja.yaml
-          # - name: files
-          #   mountPath: /app/vikunja/files
-
-      # -- Set up the vikunja frontend container.
-      # @default -- See values.yaml
       frontend:
         name: frontend
-        # -- Vikunja frontend image and tag
         image: vikunja/frontend:0.17.0
         imagePullPolicy: IfNotPresent
-
-    # -- Configure persistence settings for the chart under this key.
-    # @default -- See values.yaml
     persistence:
-    # -- Volume used for static files
       files:
         enabled: false
         mountpath: /app/vikunja/files

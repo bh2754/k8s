@@ -8,4 +8,3 @@ spec:
   interval: 15m
   url: https://charts.fairwinds.com/stable
   timeout: 3m
-

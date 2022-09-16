@@ -13,6 +13,6 @@ roleRef:
   kind: ClusterRole
   name: cluster-admin
 subjects:
-- kind: ServiceAccount
-  namespace: portainer
-  name: portainer-sa-clusteradmin
+  - kind: ServiceAccount
+    namespace: portainer
+    name: portainer-sa-clusteradmin

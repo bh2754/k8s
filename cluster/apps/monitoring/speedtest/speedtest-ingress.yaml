@@ -15,4 +15,3 @@ spec:
           port: 9798
   tls:
     secretName: ${SECRET_CERT}
-

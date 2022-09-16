@@ -77,13 +77,6 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
-#    podSecurityContext:
-#      runAsUser: 0
-#      runAsGroup: 0
-#      fsGroup: 0
-#      fsGroupChangePolicy: "OnRootMismatch"
-#      supplementalGroups:
-#        - 100
     persistence:
       config:
         enabled: true

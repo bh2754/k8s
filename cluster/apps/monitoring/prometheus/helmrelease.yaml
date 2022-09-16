@@ -46,23 +46,6 @@ spec:
                     {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
                     {{ end }}
                   {{ end }}
-         # - name: "null"
-         # - name: "discord"
-           # slack_configs:
-             # - channel: "#prometheus"
-               # icon_url: https://avatars3.githubusercontent.com/u/3380462
-               # username: "Prometheus"
-               # send_resolved: true
-               # title: |-
-                 # [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}
-               # text: >-
-                 # {{ range .Alerts -}}
-                   # **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-                 # **Description:** {{ if ne .Annotations.description ""}}{{ .Annotations.description }}{{else}}N/A{{ end }}
-                 # **Details:**
-                   # {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                   # {{ end }}
-                 #  {{ end }}
         route:
           group_by: ["alertname", "job"]
           group_wait: 30s
@@ -80,30 +63,30 @@ spec:
               match_re:
                 severity: critical
               continue: true
-          #group_by: ["alertname", "job"]
-          #group_wait: 30s
-          #group_interval: 5m
-          #repeat_interval: 6h
-          #receiver: "discord"
-          #routes:
-            #- receiver: "null"
-              #matchers:
-                #- alertname =~ "InfoInhibitor|Watchdog"
-            #- receiver: "discord"
-              #match_re:
-                #severity: critical|error
-              #continue: true
+        # group_by: ["alertname", "job"]
+        # group_wait: 30s
+        # group_interval: 5m
+        # repeat_interval: 6h
+        # receiver: "discord"
+        # routes:
+          # - receiver: "null"
+            # matchers:
+              # - alertname =~ "InfoInhibitor|Watchdog"
+          # - receiver: "discord"
+            # match_re:
+              # severity: critical|error
+            # continue: true
         inhibit_rules:
           - source_match:
               severity: critical
             target_match:
               severity: warning
             equal: ["alertname", "namespace"]
-          #- source_match:
-              #severity: "critical"
-            #target_match:
-              #severity: "warning"
-            #equal: ["alertname", "namespace"]
+        # - source_match:
+            # severity: "critical"
+          # target_match:
+            # severity: "warning"
+          # equal: ["alertname", "namespace"]
       ingress:
         enabled: true
         ingressClassName: "traefik"
@@ -244,8 +227,8 @@ spec:
           requests:
             cpu: 500m
             memory: 2000Mi
-         limits:
-           memory: 8000Mi
+          limits:
+            memory: 8000Mi
         additionalScrapeConfigs:
           - job_name: traefik
             scrape_interval: 1m
@@ -258,7 +241,6 @@ spec:
             scrape_interval: 60m
             scrape_timeout: 120s
             honor_timestamps: true
-#            metrics_path: /metrics
             static_configs:
               - targets:
                   - "speedtest.${SECRET_DOMAIN}"

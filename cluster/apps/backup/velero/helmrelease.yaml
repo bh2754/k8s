@@ -49,20 +49,20 @@ spec:
       daily-backup:
         schedule: "0 3 * * *"
         template:
-          #defaultVolumesToRestic: true
+        # defaultVolumesToRestic: true
           ttl: "120h"
       media:
         schedule: "0 */3 * * *"
         template:
-          #defaultVolumesToRestic: true
+        # defaultVolumesToRestic: true
           includedNamespaces:
             - vpn
             - downloads
             - organizers
             - media
-#          labelSelector:
-#            matchLabels:
-#              application: mediabackup
+#        labelSelector:
+#          matchLabels:
+#            application: mediabackup
           ttl: "120h"
     metrics:
       enabled: true
