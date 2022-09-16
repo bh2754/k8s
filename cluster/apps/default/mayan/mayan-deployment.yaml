@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: mayan
-          image: mayanedms/mayanedms:3.3.14
+          image: mayanedms/mayanedms:3.5.11
           ports:
             - name: http
               containerPort: 8000
