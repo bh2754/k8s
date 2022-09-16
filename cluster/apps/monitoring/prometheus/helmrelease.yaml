@@ -241,9 +241,9 @@ spec:
                 requests:
                   storage: 5Gi
         resources:
-         requests:
-           cpu: 500m
-           memory: 2000Mi
+          requests:
+            cpu: 500m
+            memory: 2000Mi
          limits:
            memory: 8000Mi
         additionalScrapeConfigs:
