@@ -54,7 +54,7 @@ spec:
     additionalContainers:
       api:
         name: api
-        image: vikunja/api:0.17.1
+        image: vikunja/api:0.19.2
         imagePullPolicy: IfNotPresent
         env: []
         volumeMounts:
