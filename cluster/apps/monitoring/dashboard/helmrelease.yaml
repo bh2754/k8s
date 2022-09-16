@@ -39,7 +39,7 @@ spec:
     image:
       ## Repository for container
       repository: kubernetesui/dashboard
-      tag: v2.6.1
+      tag: v2.7.0
       pullPolicy: IfNotPresent
       pullSecrets: []
 
