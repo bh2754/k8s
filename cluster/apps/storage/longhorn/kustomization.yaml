@@ -5,4 +5,4 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - longhorn-dash.yaml
-  - VolumeSnapshotClass.yaml
+# - VolumeSnapshotClass.yaml
