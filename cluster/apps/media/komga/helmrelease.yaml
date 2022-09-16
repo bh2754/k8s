@@ -27,7 +27,7 @@ spec:
       backup.velero.io/backup-volumes: config
     image:
       repository: gotson/komga
-      tag: 0.157.1
+      tag: 0.157.2
       pullPolicy: IfNotPresent
     env:
       TZ: ${TZ}
