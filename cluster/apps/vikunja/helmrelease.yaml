@@ -63,7 +63,7 @@ spec:
             subPath: Vikunja.yaml
       frontend:
         name: frontend
-        image: vikunja/frontend:0.17.0
+        image: vikunja/frontend:0.19.1
         imagePullPolicy: IfNotPresent
     persistence:
       files:
