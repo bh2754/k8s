@@ -57,7 +57,7 @@ spec:
       api:
         name: api
         # -- Vikunja api image and tag
-        image: vikunja/api:0.17.1
+        image: vikunja/api:0.19.2
         imagePullPolicy: IfNotPresent
         # -- You can declare most Vikunja parameters as environment variables.
         # Please consult https://vikunja.io/docs/config-options/ to see all parameters.
