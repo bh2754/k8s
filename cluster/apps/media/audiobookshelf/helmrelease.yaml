@@ -73,4 +73,4 @@ spec:
         mountPath: /audiobooks
         type: nfs
         server: ${NFS_SERVER}
-        path: ${NFS_MEDIA}/audiobooks
+        path: /volume1/Media/audiobooks
