@@ -7,12 +7,12 @@ resources:
   - kube-system
   - networking
   - system-upgrade
-  - storage
-  - media
-  - vpn
-  - downloads
-  - monitoring
-  - organizers
-  - backup
-  - database
-  - rancher
+# - storage
+# - media
+# - vpn
+# - downloads
+# - monitoring
+# - organizers
+# - backup
+# - database
+# - rancher
