@@ -39,12 +39,12 @@ spec:
       defaultEnable: true
       namespaceSelector:
         matchNames:
-          - default
-          - networking
-          - traefik
-          - media
-          - longhorn-system
-          - organizers
+        # - default
+        # - networking
+        # - traefik
+        # - media
+        # - longhorn-system
+        # - organizers
       name: "Brent"
       groups:
         - name: Communicate
