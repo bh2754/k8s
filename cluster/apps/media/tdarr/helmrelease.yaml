@@ -80,13 +80,13 @@ spec:
           hajimari.io/icon: alpha-t-circle
           hajimari.io/group: media
         hosts:
-          - host: tdarr.${DOMAIN}
+          - host: tdarr.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - tdarr.${DOMAIN}
+              - tdarr.${SECRET_DOMAIN}
             secretName: ${SECRET_CERT}
     affinity:
       nodeAffinity:
