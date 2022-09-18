@@ -22,54 +22,6 @@ spec:
     remediation:
       retries: 5
   values:
-    image:
-      repository: haveagitgat/tdarr
-      tag: latest
-      pullPolicy: IfNotPresent
-    env:
-      TZ: ${TZ}
-      webUIPort: "{{ .Values.service.main.ports.http.port }}"
-      serverIP: 0.0.0.0
-      serverPort: "{{ .Values.service.main.ports.server.port }}"
-      ffmpegPath: ""
-      PUID: "1000"
-      PGID: "1000"
-    service:
-      main:
-        ports:
-          http:
-            port: 8265
-          server:
-            enabled: true
-            protocol: TCP
-            port: 8266
-
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: "traefik"
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "television-box"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        hosts:
-          - host: &host "tdarr1.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: &tls ${SECRET_CERT}
-
-    node:
-      enabled: true
-      id: tdarr1
-      image:
-        repository: haveagitgat/tdarr_node
-        tag: latest
-        pullPolicy: IfNotPresent
-      resources: {}
     persistence:
       config:
         enabled: true
@@ -91,3 +43,51 @@ spec:
         type: nfs
         server: ${NFS_SERVER}
         path: ${NFS_MEDIA}/cache
+    termination:
+      gracePeriodSeconds: 120
+    resources:
+      limits:
+        cpu: 8000m
+        memory: 712Mi
+      requests:
+        cpu: 5000m
+        memory: 128Mi
+    image:
+      repository: docker.io/haveagitgat/tdarr
+      tag: 2.00.18
+      pullPolicy: IfNotPresent
+    env:
+      TZ: America/New_York
+      ffmpegPath: /usr/bin/ffmpeg
+    node:
+      enabled: true
+      id: node
+      image:
+        repository: haveagitgat/tdarr_node
+        tag: 2.00.18.2
+        pullPolicy: IfNotPresent
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8265
+          server:
+            enabled: true
+            protocol: TCP
+            port: 8266
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: "tdarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "tdarr.${SECRET_DOMAIN}"
+            secretName: ${SECRET_CERT}
