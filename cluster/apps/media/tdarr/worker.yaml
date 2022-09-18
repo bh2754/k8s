@@ -60,10 +60,8 @@ spec:
               name: shared
           resources:
             limits:
-              cpu: 2000m
-              memory: 1024Mi
+              memory: 2048Mi
             requests:
-              cpu: 500m
               memory: 218Mi
       volumes:
         - name: media
