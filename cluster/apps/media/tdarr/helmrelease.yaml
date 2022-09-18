@@ -1,0 +1,93 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app tdarr
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 0.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    image:
+      repository: haveagitgat/tdarr
+      tag: latest
+      pullPolicy: IfNotPresent
+    env:
+      TZ: ${TZ}
+      webUIPort: "{{ .Values.service.main.ports.http.port }}"
+      serverIP: 0.0.0.0
+      serverPort: "{{ .Values.service.main.ports.server.port }}"
+      ffmpegPath: ""
+      PUID: "1000"
+      PGID: "1000"
+    service:
+      main:
+        ports:
+          http:
+            port: 8265
+          server:
+            enabled: true
+            protocol: TCP
+            port: 8266
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "television-box"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: &host "tdarr1.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: &tls ${SECRET_CERT}
+
+    node:
+      enabled: true
+      id: tdarr1
+      image:
+        repository: haveagitgat/tdarr_node
+        tag: latest
+        pullPolicy: IfNotPresent
+      resources: {}
+    persistence:
+      config:
+        enabled: true
+        mountPath: /app/configs
+        existingClaim: tdarr-config-v1
+      data:
+        enabled: true
+        mountPath: /app/server
+        existingClaim: tdarr-serverdata-v1
+      media:
+        enabled: true
+        mountPath: /media
+        type: nfs
+        server: ${NFS_SERVER}
+        path: ${NFS_MEDIA}
+      shared:
+        enabled: false
+        mountPath: /shared
+        type: nfs
+        server: ${NFS_SERVER}
+        path: ${NFS_MEDIA}/cache
