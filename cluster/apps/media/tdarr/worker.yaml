@@ -63,6 +63,14 @@ spec:
               memory: 2048Mi
             requests:
               memory: 218Mi
+      podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
       volumes:
         - name: media
           nfs:
