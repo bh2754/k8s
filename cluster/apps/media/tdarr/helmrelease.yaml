@@ -58,7 +58,7 @@ spec:
       pullPolicy: IfNotPresent
     env:
       TZ: America/New_York
-      ffmpegPath: /usr/bin/ffmpeg
+      ffmpegPath: /usr/local/bin/ffmpeg
     node:
       enabled: true
       id: node
