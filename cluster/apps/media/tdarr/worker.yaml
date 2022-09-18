@@ -58,27 +58,6 @@ spec:
               name: media
             - mountPath: /shared
               name: shared
-          livenessProbe:
-            tcpSocket:
-              port: 8265
-            initialDelaySeconds: 15
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: 8265
-            initialDelaySeconds: 15
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          startupProbe:
-            tcpSocket:
-              port: 8265
-            initialDelaySeconds: 15
-            failureThreshold: 30
-            timeoutSeconds: 1
-            periodSeconds: 5
           resources:
             limits:
               cpu: 2000m
