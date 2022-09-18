@@ -53,11 +53,11 @@ spec:
           image: haveagitgat/tdarr_node:2.00.18.2
           imagePullPolicy: IfNotPresent
           name: node
-        # volumeMounts:
-          # - mountPath: /data
-            # name: media
-          # - mountPath: /shared
-            # name: shared
+          volumeMounts:
+            - mountPath: /media
+              name: media
+            - mountPath: /shared
+              name: shared
           resources:
             limits:
               memory: 2048Mi
