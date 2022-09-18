@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 0.1.1
+      version: 0.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -100,7 +100,7 @@ spec:
     persistence:
       data:
         enabled: true
-      # existingClaim: hajimari-config
-        size: 1Gi
-  # podAnnotations:
-    # configmap.reloader.stakater.com/reload: "hajimari-settings"
+        existingClaim: hajimari-config
+      # size: 1Gi
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: "hajimari-settings"
