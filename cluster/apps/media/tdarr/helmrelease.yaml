@@ -38,7 +38,7 @@ spec:
         server: ${NFS_SERVER}
         path: ${NFS_MEDIA}
       shared:
-        enabled: false
+        enabled: true
         mountPath: /shared
         type: nfs
         server: ${NFS_SERVER}
