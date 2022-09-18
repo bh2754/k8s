@@ -11,7 +11,7 @@ spec:
     - match: HOST(`prometheus.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: kube-prometheus-stack-prometheus
+        - name: kps-prometheus
           port: 9090
   tls:
     secretName: ${SECRET_CERT}
