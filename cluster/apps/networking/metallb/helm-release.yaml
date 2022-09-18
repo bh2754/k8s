@@ -18,13 +18,20 @@ spec:
     createNamespace: true
     remediation:
       retries: 5
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
   upgrade:
     remediation:
       retries: 5
   values:
-    configInline:
-      address-pools:
-        - name: default
-          protocol: layer2
-          addresses:
-            - "${METALLB_LB_RANGE}"
+  # configInline:
+    # address-pools:
+      # - name: default
+        # protocol: layer2
+        # addresses:
+          # - "${METALLB_LB_RANGE}"
+    existingConfigMap: "metallb-config"
+    crds:
+      enabled: true
