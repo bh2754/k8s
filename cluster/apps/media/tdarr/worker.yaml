@@ -74,7 +74,7 @@ spec:
       volumes:
         - name: media
           nfs:
-            path: ${NFS_MEDIA}
+            path: /volume1/Media
             server: ${NFS_SERVER}
             mountPath: /media
         - name: shared

@@ -57,7 +57,7 @@ spec:
       media:
         enabled: true
         type: nfs
-        path: ${NFS_MEDIA}
+        path: /volume1/Media
         server: ${NFS_SERVER}
         mountPath: /media
     service:
