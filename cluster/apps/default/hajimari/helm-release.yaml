@@ -22,9 +22,6 @@ spec:
   upgrade:
     remediation:
       retries: 5
-  dependsOn:
-    - name: traefik
-      namespace: traefik
   values:
     env:
       TZ: ${TZ}
@@ -48,7 +45,6 @@ spec:
           - media
           - longhorn-system
           - organizers
-          - kopia
       name: "Brent"
       groups:
         - name: Communicate
