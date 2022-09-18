@@ -26,7 +26,7 @@ spec:
     replicaCount: 1
     image:
       repository: portainer/portainer-ce
-      tag: 2.15.0
+      tag: 2.15.1
       pullPolicy: IfNotPresent
     imagePullSecrets: []
     serviceAccount:
