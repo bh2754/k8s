@@ -99,6 +99,5 @@ spec:
       data:
         enabled: true
         existingClaim: hajimari-config
-      # size: 1Gi
     podAnnotations:
       configmap.reloader.stakater.com/reload: "hajimari-settings"
