@@ -1,9 +1,9 @@
 ---
 apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
+kind: IPAddressPool
 metadata:
-  name: l2
+  name: lb-pool
   namespace: networking
 spec:
-  ipAddressPools:
-    - lb-pool
+  addresses:
+    - ${METALLB_LB_RANGE}
