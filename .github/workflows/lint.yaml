@@ -36,7 +36,6 @@ jobs:
                 fromJSON('
                   [
                     "ACTION_ACTIONLINT",
-                    #"ANSIBLE_ANSIBLE_LINT",
                     "COPYPASTE_JSCPD",
                     "KUBERNETES_KUBEVAL",
                     "MARKDOWN_MARKDOWNLINT",
