@@ -44,7 +44,7 @@ spec:
         # - traefik
         # - media
         # - longhorn-system
-        # - organizers
+          - organizers
       name: "Brent"
       groups:
         - name: Communicate
