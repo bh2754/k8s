@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: caddy
-      tag: 2.5.2-alpine
+      tag: 2.5.1-alpine
       pullPolicy: IfNotPresent
 
     controllerType: deployment
@@ -54,6 +54,14 @@ spec:
             value: ${SECRET_VIKUNJA_DATABASE_PASSWORD}
           - name: VIKUNJA_SERVICE_FRONTENDURL
             value: https://tasks.${SECRET_DOMAIN}
+        # - name: VIKUNJA_MAILER_FROMEMAIL
+          # value: tasks@${SECRET_DOMAIN}
+        # - name: VIKUNJA_MAILER_ENABLED
+          # value: "true"
+        # - name: VIKUNJA_MAILER_HOST
+          # value: mailu-postfix.mail.svc.cluster.local
+        # - name: VIKUNJA_MAILER_PORT
+          # value: "25"
         volumeMounts:
           - name: files
             mountPath: /app/vikunja/files
