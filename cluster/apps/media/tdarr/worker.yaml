@@ -26,6 +26,8 @@ spec:
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
+      nodeSelector:
+        nodetype: worker
       containers:
         - env:
             - name: TZ
