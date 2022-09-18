@@ -5,7 +5,7 @@ resources:
   - cert-manager
   - system-upgrade-controller
   - traefik
-# - snapshotter
+  - snapshotter
   - rook-ceph
   - velero
   - prometheus
