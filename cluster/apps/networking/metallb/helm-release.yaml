@@ -34,4 +34,4 @@ spec:
           # - "${METALLB_LB_RANGE}"
     existingConfigMap: "metallb-config"
     crds:
-      enabled: true
+      enabled: false
