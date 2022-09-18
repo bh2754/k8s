@@ -8,11 +8,11 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: app-template
-      version: 0.2.1
+      chart: hajimari
+      version: 1.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: hajimari
         namespace: flux-system
       interval: 15m
   install:
@@ -28,22 +28,20 @@ spec:
     image:
       repository: ghcr.io/toboshii/hajimari
       tag: v0.2.0
-    service:
-      main:
-        ports:
-          http:
-            port: 80
+    controller:
+      replicas: 3
+      strategy: RollingUpdate
     serviceAccount:
       create: true
     hajimari:
       defaultEnable: true
       namespaceSelector:
         matchNames:
-        # - default
-        # - networking
-        # - traefik
-        # - media
-        # - longhorn-system
+          - default
+          - networking
+          - traefik
+          - media
+          - longhorn-system
           - organizers
       name: "Brent"
       groups:
@@ -100,7 +98,7 @@ spec:
     persistence:
       data:
         enabled: true
-      # existingClaim: hajimari-config
-        size: 1Gi
+        existingClaim: hajimari-config
+      # size: 1Gi
     podAnnotations:
       configmap.reloader.stakater.com/reload: "hajimari-settings"
