@@ -23,6 +23,7 @@ spec:
       retries: 3
   values:
     fullnameOverride: kps
+    nameOverride: kps
     alertmanager:
       config:
         global:
