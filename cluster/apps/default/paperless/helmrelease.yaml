@@ -73,7 +73,7 @@ spec:
         enabled: true
         mountPath: /usr/src/paperless/data
         type: nfs
-        server: "${NAS_SERVER"
+        server: "${NAS_SERVER}"
         path: /volume1/paperless/data
       media:
         enabled: true
