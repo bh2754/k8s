@@ -5,5 +5,5 @@ resources:
   - ./helmrelease.yaml
   - ./secret.sops.yaml
   - ./paperless-ingress.yaml
-patchesStrategicMerge:
-  - ./patches/postgres.yaml
+#patchesStrategicMerge:
+# - ./patches/postgres.yaml
