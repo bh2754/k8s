@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - delete-cpu-limits.yaml
   - snapshot-cronjob-controller.yaml
+  - sync-postgres-secret.yaml

@@ -15,7 +15,9 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-
+  dependsOn:
+    - name: postgres
+      namespace: databases
   values:
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
@@ -28,7 +30,7 @@ spec:
       PAPERLESS_CONSUMER_RECURSIVE: "true"
       PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
       PAPERLESS_PORT: &port 8000
-      PAPERLESS_REDIS: redis://redis.database.svc.cluster.local:6379
+      PAPERLESS_REDIS: redis://redis.database.svc.cluseter.local:6379
       PAPERLESS_TASK_WORKERS: 2
       PAPERLESS_TIME_ZONE: "${TZ}"
       PAPERLESS_URL: https://paperless.${SECRET_DOMAIN}
@@ -38,61 +40,80 @@ spec:
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
       PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
       USERMAP_GID: 65543
+
     envFrom:
       - secretRef:
-          name: paperless-secrets
+          name: *app
 
     service:
       main:
         ports:
           http:
-            port: 8000
+            port: *port
 
     ingress:
       main:
         enabled: true
         ingressClassName: "traefik"
         annotations:
+          hajimari/enable: "true"
+          hajimari.io/icon: file-outline
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          hajimari.io/enable: "true"
-          auth.home.arpa/enabled: "true"
         hosts:
-          - host: &host "paperless.${SECRET_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
         tls:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
+
     persistence:
       data:
         enabled: true
         mountPath: /usr/src/paperless/data
         type: nfs
-        server: "${NAS_SERVER}"
+        server: "${NAS_SERVER"
         path: /volume1/paperless/data
       media:
         enabled: true
         mountPath: /usr/src/paperless/media
         type: nfs
-        server: "${NAS_SERVER}"
+        server: "${NFS_SERVER}"
         path: /volume1/paperless/media
       consume:
         enabled: true
         mountPath: /usr/src/paperless/consume
         type: nfs
-        server: "${NAS_SERVER}"
-        path: /volume1/paperless/incoming
+        server: "${NFS_SERVER}"
+        path: /volume1/paperless/consume
       export:
         enabled: true
         mountPath: /usr/src/paperless/export
         type: nfs
-        server: "${NAS_SERVER}"
+        server: "${NFS_SERVER}"
         path: /volume1/paperless/export
 
-    resources:
-      requests:
-        cpu: 23m
-        memory: 2975M
-      limits:
-        memory: 6572M
+    additionalContainers:
+      redis:
+        name: redis
+        image: redis:7.0
+        imagePullPolicy: IfNotPresent
+
+      gotenburg:
+        name: gotenburg
+        image: thecodingmachine/gotenberg:7.6.0
+        env:
+          - name: DISABLE_GOOGLE_CHROME
+            value: "1"
+      tika:
+        image: apache/tika:2.4.1
+        name: tika
+        imagePullPolicy: Always
+
+  # resources:
+    # requests:
+      # cpu: 23m
+      # memory: 2975M
+    # limits:
+      # memory: 6572M
