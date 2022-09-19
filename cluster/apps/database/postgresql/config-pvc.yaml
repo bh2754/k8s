@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgresql-v1
+  name: postgresql-config-v1
   namespace: database
   labels:
     app.kubernetes.io/name: &name postgresql
@@ -14,4 +14,4 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 10Gi
+      storage: 40Gi

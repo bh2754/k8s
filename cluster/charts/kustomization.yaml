@@ -31,3 +31,4 @@ resources:
   - kyverno.yaml
   - kubernetes-dashboard-charts.yaml
   - rancher-latest-charts.yaml
+  - cloudnative-pg.yaml

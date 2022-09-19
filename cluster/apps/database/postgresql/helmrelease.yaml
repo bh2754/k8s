@@ -17,21 +17,38 @@ spec:
         name: bitnami
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  # values yaml: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml
   values:
     primary:
+      extendedConfiguration: |
+        shared_buffers = 256MB
+        max_wal_size = 2048
+        min_wal_size = 160
+
       persistence:
         enabled: true
-        existingClaim: postgresql-v1
+        existingClaim: postgresql-config-v1
+
       service:
         type: LoadBalancer
         annotations:
           metallb.universe.tf/loadBalancerIPs: "${METALLB_POSTGRES_ADDR}"
-      initdb:
-        scripts:
-          01-init-authelia.sql: |
-            CREATE USER vikunja WITH PASSWORD ${SECRET_VIKUNJA_DATABASE_PASSWORD};
-            CREATE DATABASE vikunja WITH OWNER = vikunja;
-    auth:
-      postgresPassword: "${SECRET_POSTGRESQL_ROOT_PASSWORD}"
+
     podAnnotations:
       backup.velero.io/backup-volumes: postgresql-v1
+
+    resources:
+      requests:
+        cpu: 22m
+        memory: 256M
+      limits:
+        memory: 5129M
