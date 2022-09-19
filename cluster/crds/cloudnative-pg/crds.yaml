@@ -9,7 +9,7 @@ spec:
   url: https://github.com/cloudnative-pg/charts.git
   ref:
     # renovate: datasource=github-releases depName=cloudnative-pg/charts
-    tag: cloudnative-pg-v0.14.0
+    tag: cloudnative-pg-v0.14.3
   ignore: |
     # exclude all
     /*
