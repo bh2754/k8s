@@ -7,4 +7,4 @@ resources:
   - gchr.sops.yaml
   - whoami
   - bookstack
-  - vikunja
+# - vikunja
