@@ -6,4 +6,3 @@ resources:
   - mariadb
   - postgresql
   - redis
-  - postgres
