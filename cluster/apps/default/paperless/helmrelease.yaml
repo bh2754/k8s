@@ -22,7 +22,7 @@ spec:
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
       tag: 1.8.0
-
+      imagePullPolicy: IfNotPresent
     env:
       COMPOSE_PROJECT_NAME: paperless
       PAPERLESS_OCR_LANGUAGE: eng
@@ -67,6 +67,13 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
     persistence:
       data:
         enabled: true
@@ -102,13 +109,14 @@ spec:
       gotenburg:
         name: gotenburg
         image: thecodingmachine/gotenberg:7.6.0
+        imagePullPolicy: IfNotPresent
         env:
           - name: DISABLE_GOOGLE_CHROME
             value: "1"
       tika:
         image: apache/tika:2.4.1
+        imagePullPolicy: IfNotPresent
         name: tika
-        imagePullPolicy: Always
 
     # resources:
     #   requests:
