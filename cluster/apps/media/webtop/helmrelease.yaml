@@ -29,8 +29,8 @@ spec:
       UMASK: ""
     image:
       pullPolicy: IfNotPresent
-      repository: linuxserver/webtop
-      tag: ubuntu-xfce
+      repository: linuxserver/webtop:ubuntue-xfce
+    # tag: ubuntu-xfce
     persistence:
       config:
         enabled: true
