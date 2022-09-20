@@ -15,13 +15,14 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-  dependsOn:
-    - name: postgres
-      namespace: database
+# dependsOn:
+  # - name: postgres
+    # namespace: database
   values:
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
       tag: 1.8.0
+
     env:
       COMPOSE_PROJECT_NAME: paperless
       PAPERLESS_OCR_LANGUAGE: eng
