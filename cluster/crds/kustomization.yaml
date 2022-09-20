@@ -9,4 +9,3 @@ resources:
   - rook-ceph
   - velero
   - prometheus
-  - cloudnative-pg
