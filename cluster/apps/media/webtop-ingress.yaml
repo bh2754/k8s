@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: webtop
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`webtop.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: webtop
+          port: 3000
+  tls:
+    secretName: ${SECRET_CERT}
