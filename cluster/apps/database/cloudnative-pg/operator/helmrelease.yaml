@@ -21,6 +21,13 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  values:
+    image:
+      repository: ghcr.io/cloudnative-pg/cloudnative-pg-testing
+      tag: dev-413
+    config:
+      data:
+        INHERITED_ANNOTATIONS: kyverno.io/ignore
   postRenderers:
     - kustomize:
         patches:
