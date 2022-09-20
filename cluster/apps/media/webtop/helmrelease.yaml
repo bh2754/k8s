@@ -47,8 +47,8 @@ spec:
       runAsNonRoot: false
     service:
       main:
-        main:
-          ports:
+        ports:
+          http:
             port: 3000
 
     portal:
