@@ -60,7 +60,8 @@ spec:
               name: shared
           resources:
             limits:
-              memory: 2048Mi
+              memory: 3963M
+              cpu: 5807m
             requests:
               memory: 218Mi
       podSecurityContext:

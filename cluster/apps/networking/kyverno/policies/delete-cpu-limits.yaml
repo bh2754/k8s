@@ -23,6 +23,7 @@ spec:
               namespaces:
                 - calico-system
                 - tigera-operator
+                - media
               kinds: [Pod]
               selector:
                 matchLabels:
