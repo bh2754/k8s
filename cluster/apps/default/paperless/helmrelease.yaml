@@ -16,8 +16,8 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   dependsOn:
-    - name: postgres
-      namespace: databases
+    - name: postgres-rw
+      namespace: database
   values:
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
