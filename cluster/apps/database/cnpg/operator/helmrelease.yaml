@@ -1,0 +1,42 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cnpg
+  namespace: database
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: cloudnative-pg
+      version: 0.15.0
+      sourceRef:
+        kind: HelmRepository
+        name: cloudnative-pg
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+
+  values:
+    image:
+      repository: ghcr.io/cloudnative-pg/cloudnative-pg-testing
+      pullPolicy: IfNotPresent
+      # -- Overrides the image tag whose default is the chart appVersion.
+      tag: "dev-413"
+    config:
+      data:
+        INHERITED_ANNOTATIONS: kyverno.io/ignore
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: cnpg-controller-manager-config
+    resources:
+      requests:
+        cpu: 15m
+        memory: 128Mi
+      limits:
+        cpu: 15m
+        memory: 192Mi
