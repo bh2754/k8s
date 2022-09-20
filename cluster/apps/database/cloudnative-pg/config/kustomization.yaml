@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - dashboard
   - secret.sops.yaml
-# - cluster.yaml
+  - cluster.yaml
 # - scheduled-backup.yaml
