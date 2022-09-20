@@ -68,9 +68,9 @@ spec:
               - *host
             secretName: ${SECRET_CERT}
     podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 65543
-      fsGroup: 1000
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 100
