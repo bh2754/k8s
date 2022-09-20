@@ -29,7 +29,7 @@ spec:
       UMASK: ""
     image:
       pullPolicy: IfNotPresent
-      repository: tccr.io/truecharts/webtop
+      repository: linuxserver/webtop
       tag: ubuntu-xfce
     persistence:
       config:
