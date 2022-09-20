@@ -23,10 +23,6 @@ spec:
     remediation:
       retries: 5
   values:
-    env:
-      KEYBOARD: ""
-      SUBFOLDER: ""
-      UMASK: ""
     image:
       pullPolicy: IfNotPresent
       repository: linuxserver/webtop:ubuntue-xfce
