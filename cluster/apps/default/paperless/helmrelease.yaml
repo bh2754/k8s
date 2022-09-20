@@ -16,7 +16,7 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   dependsOn:
-    - name: postgres-cloudnative-pg
+    - name: postgres
       namespace: database
   values:
     image:
