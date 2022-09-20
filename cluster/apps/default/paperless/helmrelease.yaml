@@ -69,7 +69,7 @@ spec:
             secretName: ${SECRET_CERT}
     podSecurityContext:
       runAsUser: 1000
-      runAsGroup: 1000
+      runAsGroup: 65543
       fsGroup: 1000
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
