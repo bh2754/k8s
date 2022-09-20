@@ -22,14 +22,6 @@ spec:
     remediation:
       retries: 5
   values:
-    webhook:
-      port: 9443
-      mutating:
-        create: true
-        failurePolicy: Fail
-      validating:
-        create: true
-        failurePolicy: Fail
     config:
       data:
         INHERITED_ANNOTATIONS: kyverno.io/ignore
