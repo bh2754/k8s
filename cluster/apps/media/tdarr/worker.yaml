@@ -61,7 +61,7 @@ spec:
           resources:
             limits:
               memory: 3963M
-              cpu: 5807m
+              cpu: 5m
             requests:
               memory: 218Mi
       podSecurityContext:
