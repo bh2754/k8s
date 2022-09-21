@@ -29,7 +29,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: linuxserver/rdesktop
-      tag: ubuntu-kde
+      tag: ubuntu-xfce
     persistence:
       config:
         enabled: true
