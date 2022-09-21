@@ -36,7 +36,8 @@ spec:
       config:
         enabled: true
         mountPath: /config
-        existingClaim: rdesktop-config-v1
+        size: 40Gi
+
       pathvarrundocker-sock:
         enabled: false
         mountPath: /var/run/docker.sock
