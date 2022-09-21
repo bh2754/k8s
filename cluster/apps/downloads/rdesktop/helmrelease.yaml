@@ -24,8 +24,8 @@ spec:
       retries: 5
   values:
     env:
-      PUID: 0
-      PGID: 0
+      PUID: 1000
+      PGID: 1000
     image:
       pullPolicy: IfNotPresent
       repository: linuxserver/rdesktop
