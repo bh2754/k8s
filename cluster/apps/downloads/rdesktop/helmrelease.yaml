@@ -44,7 +44,7 @@ spec:
     service:
       main:
         ports:
-          http:
+          rdp:
             port: 3389
 
     portal:

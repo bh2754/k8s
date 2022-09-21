@@ -6,7 +6,7 @@ metadata:
   namespace: downloads
 spec:
   entryPoints:
-    - websecure
+    - rdp
   routes:
     - match: HOST(`rdesktop.${SECRET_DOMAIN}`)
       kind: Rule
