@@ -41,8 +41,6 @@ spec:
     securityContext:
       readOnlyRootFilesystem: false
       runAsNonRoot: false
-    args:
-      - --security-opt seccomp=unconfined
     service:
       main:
         ports:
