@@ -41,6 +41,9 @@ spec:
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
+    privileged: true
+    seccomp:
+      enabled: false
     securityContext:
       readOnlyRootFilesystem: false
       runAsNonRoot: false
