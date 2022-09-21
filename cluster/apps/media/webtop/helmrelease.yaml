@@ -26,7 +26,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: linuxserver/webtop
-      tag: ubuntu
+      tag: ubuntu-xfce
     persistence:
       config:
         enabled: true
