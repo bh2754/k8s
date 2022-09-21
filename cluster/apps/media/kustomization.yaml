@@ -9,4 +9,4 @@ resources:
   - komga
   - audiobookshelf
   - tdarr
-  - webtop-ingress.yaml
+#  - webtop-ingress.yaml
