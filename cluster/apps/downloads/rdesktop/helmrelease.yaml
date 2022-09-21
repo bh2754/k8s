@@ -23,6 +23,9 @@ spec:
     remediation:
       retries: 5
   values:
+    env:
+      PUID: 1000
+      PGID: 1000
     image:
       pullPolicy: IfNotPresent
       repository: linuxserver/rdesktop
