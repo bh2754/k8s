@@ -30,13 +30,13 @@ spec:
       PGID: 1000
     image:
       pullPolicy: IfNotPresent
-      repository: linuxserver/rdesktop
-      tag: ubuntu-xfce
+      repository: gchr.io/ubuntu
+      tag: latest
     persistence:
       config:
         enabled: true
         mountPath: /config
-        size: 40Gi
+        existingClaim: ubuntu-config-v1
 
       pathvarrundocker-sock:
         enabled: false
@@ -54,7 +54,7 @@ spec:
       main:
         ports:
           http:
-            port: 3389
+            port: 23
             protocol: TCP
     portal:
       enabled: true
