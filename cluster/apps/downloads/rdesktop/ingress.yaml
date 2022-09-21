@@ -1,6 +1,6 @@
 ---
 apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRouteTCP
+kind: IngressRouteTCPs
 metadata:
   name: rdesktop
   namespace: downloads
