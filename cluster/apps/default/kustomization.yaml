@@ -8,3 +8,4 @@ resources:
   - whoami
   - bookstack
   - paperless
+  - rdesk
