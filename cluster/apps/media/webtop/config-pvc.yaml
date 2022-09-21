@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: webtop-config-v1
-  namespace: dpwm;pads
+  namespace: downloads
   labels:
     app.kubernetes.io/name: &name webtop
     app.kubernetes.io/instance: *name
