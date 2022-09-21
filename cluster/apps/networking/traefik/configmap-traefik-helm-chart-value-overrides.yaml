@@ -366,6 +366,13 @@ data:
         protocol: TCP
         tls:
           enabled: false
+      ssh:
+        port: 23
+        expose: true
+        exposedPort: 23
+        protocol: TCP
+        tls:
+          enabled: false
       metrics:
         port: 9101
         # hostPort: 9100
