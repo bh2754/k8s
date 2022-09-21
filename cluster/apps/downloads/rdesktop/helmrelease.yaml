@@ -44,8 +44,8 @@ spec:
     service:
       main:
         ports:
-          rdp:
+          http:
             port: 3389
-
+            protocol: tcp
     portal:
       enabled: true
