@@ -4,8 +4,6 @@ kind: HelmRelease
 metadata:
   name: rdesktop
   namespace: downloads
-  labels:
-    setGateway: "false"
 spec:
   interval: 15m
   chart:
@@ -25,6 +23,8 @@ spec:
     remediation:
       retries: 5
   values:
+    labels:
+      setGateway: "false"
     env:
       PUID: 1000
       PGID: 1000
