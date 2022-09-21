@@ -5,5 +5,5 @@ resources:
   - namespace.yaml
   - mariadb
   - postgresql
-# - redis
+  - redis
   - cloudnative-pg
