@@ -359,6 +359,13 @@ data:
           #   sans:
           #     - foo.example.com
           #     - bar.example.com
+      rdp:
+        port: 3389
+        expose: true
+        exposedPort: 3389
+        protocol: TCP
+        tls:
+          enabled: false
       metrics:
         port: 9101
         # hostPort: 9100
