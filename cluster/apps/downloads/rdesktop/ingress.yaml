@@ -1,6 +1,6 @@
 ---
 apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+kind: IngressRouteTCP
 metadata:
   name: rdesktop
   namespace: downloads
@@ -8,10 +8,10 @@ spec:
   entryPoints:
     - rdp
   routes:
-    - match: HOST(`rdesktop.${SECRET_DOMAIN}`)
+    - match: HostSNI(`rdesktop.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: rdesktop
           port: 3389
   tls:
-    secretName: ${SECRET_CERT}
+    passthrough: true
