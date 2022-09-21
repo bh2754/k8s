@@ -32,3 +32,4 @@ resources:
   - kubernetes-dashboard-charts.yaml
   - rancher-latest-charts.yaml
   - cloudnative-pg.yaml
+  - dandydeveloper-charts.yaml
