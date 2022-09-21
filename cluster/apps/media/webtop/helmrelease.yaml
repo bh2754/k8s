@@ -26,7 +26,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: linuxserver/webtop
-      tag: ubuntu-i3
+      tag: ubuntu
     persistence:
       config:
         enabled: true
