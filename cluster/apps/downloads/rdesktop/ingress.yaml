@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - rdp
   routes:
-    - match: HostSNI(`rdesktop.${SECRET_DOMAIN}`)
+    - match: HostSNI(`*`)
       kind: Rule
       services:
         - name: rdesktop
