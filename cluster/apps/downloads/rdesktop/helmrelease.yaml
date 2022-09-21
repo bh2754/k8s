@@ -4,6 +4,8 @@ kind: HelmRelease
 metadata:
   name: rdesktop
   namespace: downloads
+  labels:
+    setGateway: "false"
 spec:
   interval: 15m
   chart:
