@@ -9,9 +9,6 @@ spec:
     - rdp
   routes:
     - match: HostSNI(`*`)
-      kind: Rule
       services:
         - name: rdesktop
           port: 3389
-  tls:
-    passthrough: true
