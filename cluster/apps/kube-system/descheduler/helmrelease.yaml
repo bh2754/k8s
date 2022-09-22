@@ -68,12 +68,13 @@ spec:
         LowNodeUtilization:
           enabled: true
           params:
-            thresholds:
-              "cpu": 10
-              "memory": 10
-            targetThresholds:
-              "cpu": 35
-              "memory": 35
+            nodeResourceUtilizationThresholds:
+              thresholds:
+                "cpu": 10
+                "memory": 10
+              targetThresholds:
+                "cpu": 35
+                "memory": 35
 
         RemoveFailedPods:
           enabled: true
