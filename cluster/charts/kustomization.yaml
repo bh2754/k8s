@@ -33,3 +33,4 @@ resources:
   - rancher-latest-charts.yaml
   - cloudnative-pg.yaml
   - dandydeveloper-charts.yaml
+  - descheduler.yaml
