@@ -37,10 +37,6 @@ spec:
         enabled: true
         mountPath: /config
         existingClaim: ubuntu-config-v1
-
-      pathvarrundocker-sock:
-        enabled: false
-        mountPath: /var/run/docker.sock
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
@@ -56,5 +52,3 @@ spec:
           http:
             port: 23
             protocol: TCP
-    portal:
-      enabled: true
