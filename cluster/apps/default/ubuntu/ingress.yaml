@@ -14,3 +14,4 @@ spec:
           port: 23
   tls:
     secretName: ${SECRET_CERT}
+    passthrough: true
