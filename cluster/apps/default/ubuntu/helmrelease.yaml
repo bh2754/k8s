@@ -30,7 +30,7 @@ spec:
       PGID: 1000
     image:
       pullPolicy: IfNotPresent
-      repository: ubuntu
+      repository: docker.io/ubuntu
       tag: latest
     persistence:
       config:
