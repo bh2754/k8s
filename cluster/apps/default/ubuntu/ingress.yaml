@@ -12,3 +12,5 @@ spec:
       services:
         - name: ubuntu
           port: 23
+  tls:
+    secretName: ${SECRET_CERT}
