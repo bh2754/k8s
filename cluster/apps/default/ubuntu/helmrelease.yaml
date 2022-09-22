@@ -30,7 +30,7 @@ spec:
       PGID: 1000
     image:
       pullPolicy: IfNotPresent
-      repository: gchr.io/ubuntu
+      repository: ubuntu
       tag: latest
     persistence:
       config:
