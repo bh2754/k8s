@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`webtops.${SECRET_DOMAIN}`)
+    - match: HOST(`webtop.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: webtop

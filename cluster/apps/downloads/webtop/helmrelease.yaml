@@ -47,5 +47,5 @@ spec:
           http:
             port: 3000
 
-    portal:
-      enabled: true
+  # portal:
+    # enabled: true
