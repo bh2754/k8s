@@ -47,9 +47,6 @@ spec:
     service:
       main:
         ports:
-        # http:
-          # port: 23
-          # protocol: TCP
-          ssh:
+          http:
             port: 23
             protocol: TCP
