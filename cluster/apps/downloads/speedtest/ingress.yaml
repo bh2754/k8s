@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: speedtest
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`speedtest.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: speedtest-exporter
+          port: 9798
+  tls:
+    secretName: ${SECRET_CERT}
