@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`speedtest.${SECRET_DOMAIN}`)
+    - match: HOST(`speedtest-downloads.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: speedtest-exporter
