@@ -8,10 +8,7 @@ spec:
   entryPoints:
     - rdp
   routes:
-    - match: HostSNI(`rdesktop.${SECRET_DOMAIN}`)
+    - match: HostSNI(`*`)
       services:
         - name: rdesktop
           port: 3389
-  tls:
-    secretName: ${SECRET_CERT}
-    passthrough: true
