@@ -14,3 +14,4 @@ spec:
           port: 3389
   tls:
     secretName: ${SECRET_CERT}
+    passthrough: true
