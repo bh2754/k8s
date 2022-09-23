@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: &app speedtest-exporter
+  name: &app speedtest-downloads
   namespace: downloads
   labels: &labels
     app.kubernetes.io/instance: *app
