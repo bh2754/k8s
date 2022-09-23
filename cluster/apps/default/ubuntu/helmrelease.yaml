@@ -38,17 +38,15 @@ spec:
         mountPath: /config
         existingClaim: ubuntu-config-v1
     podSecurityContext:
-      runAsGroup: 0
-      runAsUser: 0
+      runAsGroup: 1000
+      runAsUser: 1000
     privileged: true
-    seccomp:
-      enabled: false
     securityContext:
       readOnlyRootFilesystem: false
       runAsNonRoot: false
-    service:
-      main:
-        ports:
-          http:
-            port: 23
-            protocol: TCP
+  # service:
+    # main:
+      # ports:
+        # http:
+          # port: 23
+          # protocol: TCP
