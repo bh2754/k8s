@@ -44,9 +44,12 @@ spec:
     securityContext:
       readOnlyRootFilesystem: false
       runAsNonRoot: false
-  # service:
-    # main:
-      # ports:
+    service:
+      main:
+        ports:
         # http:
           # port: 23
           # protocol: TCP
+          ssh:
+            port: 23
+            protocol: TCP
