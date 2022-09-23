@@ -5,5 +5,5 @@ resources:
   - namespace.yaml
   - sabnzbd
   - qbittorrent
-# - rdesktop
+  - rdesktop
   - webtop

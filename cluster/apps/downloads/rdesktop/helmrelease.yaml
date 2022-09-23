@@ -55,5 +55,3 @@ spec:
           http:
             port: 3389
             protocol: TCP
-    portal:
-      enabled: true
