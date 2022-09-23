@@ -8,5 +8,5 @@ resources:
   - whoami
   - bookstack
   - paperless
-  - rdesk
+# - rdesk
   - ubuntu
