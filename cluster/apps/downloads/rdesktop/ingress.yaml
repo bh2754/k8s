@@ -12,5 +12,5 @@ spec:
       services:
         - name: rdesktop
           port: 3389
-      tls:
-        secretName: ${SECRET_CERT}
+  tls:
+    secretName: ${SECRET_CERT}
