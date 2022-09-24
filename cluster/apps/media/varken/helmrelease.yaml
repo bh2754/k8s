@@ -35,9 +35,9 @@ spec:
         enabled: true
         mountPath: /config
         existingClaim: varken-config-v1
-   # service:
-    # main:
+    service:
+      main:
         ports:
-        # http:
-          # port: 3389
-          # protocol: TCP
+          http:
+            port: 80
+            protocol: TCP
