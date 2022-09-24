@@ -56,9 +56,9 @@ spec:
       ##
       usePasswordFiles: false
       admin:
-        username: ${INFLUXDB_USER}
-        password: ${INFLUXDB_PASS}
-        token: ${INFLUXDB_TOKEN}
+        username: ${INFLUXDB_ADMIN_USER}
+        password: ${INFLUXDB_ADMIN_USER_PASSWORD}
+        token: ${INFLUXDB_ADMIN_USER_TOKEN}
         org: primary
         bucket: primary
     influxdb:
