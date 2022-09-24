@@ -34,3 +34,4 @@ resources:
   - cloudnative-pg.yaml
   - dandydeveloper-charts.yaml
   - descheduler.yaml
+  - influxdata.yaml
