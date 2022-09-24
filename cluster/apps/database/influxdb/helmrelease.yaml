@@ -192,15 +192,15 @@ spec:
       collectd: {}
       opentsdb:
         enabled: "true"
-        bind-address: ":4242"
-        database: "opentsdb"
-        #retention-policy = ""
-        #consistency-level = "one"
-        tls-enabled: false
-        log-point-errors: true
-        batch-size: 1000
-        batch-pending: 5
-        batch-timeout: "1s"
+      # bind-address: ":4242"
+      # database: "opentsdb"
+      # retention-policy = ""
+      # consistency-level = "one"
+      # tls-enabled: false
+      # log-point-errors: true
+      # batch-size: 1000
+      # batch-pending: 5
+      # batch-timeout: "1s"
       udp: {}
       continuous_queries: {}
       tls: {}
