@@ -1,0 +1,40 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ubuntu
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 0.2.1
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    image:
+      pullPolicy: IfNotPresent
+      repository: docker.io/ubuntu
+      tag: latest
+    persistence:
+      data:
+        enabled: true
+        mountPath: /data
+        existingClaim: varken-config-v1
+    service:
+      main:
+        ports:
+          http:
+            port: 23
+            protocol: TCP
