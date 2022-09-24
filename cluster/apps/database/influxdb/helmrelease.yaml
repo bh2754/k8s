@@ -79,10 +79,13 @@ spec:
     ## ref: http://kubernetes.io/docs/user-guide/services/
     ##
     service:
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: "${METALLB_INFLUXDB_IP}"
+
       ## Add annotations to service
       # annotations: {}
-      type: loadBalancer
-      externalIPs: ${METALLB_INFLUX_IP}
+      # type: loadBalancer
       # externalTrafficPolicy: ""
       # nodePort(s) value for the LoadBalancer and NodePort service types
       nodePorts:
