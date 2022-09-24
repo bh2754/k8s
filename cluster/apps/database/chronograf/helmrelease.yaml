@@ -33,7 +33,7 @@ spec:
   values:
     image:
       repository: "chronograf"
-      tag: 1.9.4
+      tag: 1.10.0
       pullPolicy: IfNotPresent
     service:
       replicas: 1
