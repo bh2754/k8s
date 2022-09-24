@@ -7,3 +7,4 @@ resources:
   - postgresql
   - redis
   - cloudnative-pg
+  - influxdb
