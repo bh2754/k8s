@@ -373,6 +373,13 @@ data:
         protocol: TCP
         tls:
           enabled: false
+      influx:
+        port: 8086
+        expose: true
+        exposedPort: 8086
+        protocol: TCP
+        tls:
+          enabled: false
       metrics:
         port: 9101
         # hostPort: 9100
