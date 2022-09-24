@@ -12,6 +12,6 @@ spec:
       kind: Rule
       services:
         - name: chronograf
-          port: 8989
+          port: 80
   tls:
     secretName: ${SECRET_CERT}
