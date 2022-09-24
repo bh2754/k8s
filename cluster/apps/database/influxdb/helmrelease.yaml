@@ -8,12 +8,12 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      # renovate: registryUrl=https://helm.influxdata.com/
       chart: influxdb
-      version: 5.4.5
+      version: 4.12.0
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: influxdata-charts
         namespace: flux-system
       interval: 5m
   install:
@@ -31,164 +31,151 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
-    global:
-      imageRegistry: ""
-      imagePullSecrets: []
-      storageClass: "longhorn"
-    diagnosticMode:
-      enabled: false
-      command:
-        - sleep
-      args:
-        - infinity
+    ## influxdb image version
+    ## ref: https://hub.docker.com/r/library/influxdb/tags/
     image:
-      registry: docker.io
-      repository: bitnami/influxdb
-      tag: 2.4.0-debian-11-r11
-      digest: ""
+      repository: "influxdb"
+      tag: "1.8.10-alpine"
       pullPolicy: IfNotPresent
-      pullSecrets: []
-      debug: false
+      ## If specified, use these secrets to access the images
+      # pullSecrets:
+      #   - registry-secret
 
-    auth:
+
+    serviceAccount:
+      create: true
+      name:
+      annotations: {}
+
+    ## Customize liveness, readiness and startup probes
+    ## ref: https://docs.influxdata.com/influxdb/v1.8/tools/api/#ping-http-endpoint
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+    ##
+    livenessProbe: {}
+      # path: "/ping"
+      # initialDelaySeconds: 30
+      # timeoutSeconds: 5
+      # scheme: HTTP
+
+    readinessProbe: {}
+      # path: "/ping"
+      # initialDelaySeconds: 5
+      # timeoutSeconds: 1
+      # scheme: HTTP
+
+    securityContext: {}
+      # runAsUser: 999
+      # runAsGroup: 999
+
+    startupProbe:
+      enabled: false
+      # path: "/ping"
+      # failureThreshold: 6
+      # periodSeconds: 5
+      # scheme: HTTP
+
+    ## Specify a service type and optional port
+    ## NodePort is default
+    ## ref: http://kubernetes.io/docs/user-guide/services/
+    ##
+    service:
+      ## Add annotations to service
+      # annotations: {}
+      type: ClusterIP
+      # externalIPs: []
+      # externalTrafficPolicy: ""
+      # nodePort(s) value for the LoadBalancer and NodePort service types
+      nodePorts:
+        http: ""
+
+    ## Persist data to a persistent volume
+    ##
+    persistence:
       enabled: true
-      ## @param auth.usePasswordFiles Whether to use files to provide secrets instead of env vars.
+      ## A manually managed Persistent Volume and Claim
+      ## Requires persistence.enabled: true
+      ## If defined, PVC must be created manually before volume will be bound
+      existingClaim: influxdb-data
+      ## influxdb data Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
       ##
-      usePasswordFiles: false
-      admin:
-        username: ${INFLUXDB_ADMIN_USER}
-        password: ${INFLUXDB_ADMIN_USER_PASSWORD}
-        token: ${INFLUXDB_ADMIN_USER_TOKEN}
-        org: primary
-        bucket: primary
-    influxdb:
-      replicaCount: 1
-      podManagementPolicy: OrderedReady
-      startupProbe:
-        enabled: false
-        initialDelaySeconds: 180
-        periodSeconds: 45
-        timeoutSeconds: 30
-        successThreshold: 1
-        failureThreshold: 6
-      livenessProbe:
-        enabled: true
-        initialDelaySeconds: 180
-        periodSeconds: 45
-        timeoutSeconds: 30
-        successThreshold: 1
-        failureThreshold: 6
-      readinessProbe:
-        enabled: true
-        initialDelaySeconds: 180
-        periodSeconds: 45
-        timeoutSeconds: 45
-        successThreshold: 1
-        failureThreshold: 6
-      containerPorts:
-        http: 8086
-        rpc: 8088
-      service:
-        type: LoadBalancer
-        port: 8086
-        rpcPort: 8088
-        externalIPs:
-          - "${METALLB_INFLUXDB_IP}"
-        externalTrafficPolicy: Local
+      storageClass: "longhorn"
+      accessMode: ReadWriteOnce
+    setDefaultUser:
+      enabled: false
+      user:
+        existingSecret: influxdb-auth
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 0.1
+      limits:
+        memory: 16Gi
+    #    cpu: 8
+
+    # Annotations to be added to InfluxDB pods
+    podAnnotations: {}
+
+    # Labels to be added to InfluxDB pods
+    podLabels: {}
+
     ingress:
       enabled: true
       tls: true
-      pathType: ImplementationSpecific
-      hostname: influxdb.${SECRET_DOMAIN}
-      path: /
+        secretName:#{SECRET_CERT}
+      hostname: influxdb.bharris.xyz
+      className: null
       annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-    collectd:
-      enabled: false
-      service:
-        type: ClusterIP
-        port: 25826
-        nodePort: ""
-        loadBalancerIP: ""
-        loadBalancerSourceRanges: []
-        clusterIP: ""
-        annotations: {}
-    metrics:
-      enabled: false
-      service:
-        type: ClusterIP
-        port: 9122
-        nodePort: ""
-        loadBalancerIP: ""
-        loadBalancerSourceRanges: []
-        clusterIP: ""
-        annotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/port: "{{ .Values.metrics.service.port }}"
-          prometheus.io/path: "/metrics"
-        externalTrafficPolicy: Cluster
-        extraPorts: []
-        sessionAffinity: None
-        sessionAffinityConfig: {}
-      serviceMonitor:
-        enabled: false
-        namespace: ""
-        interval: ""
-        scrapeTimeout: ""
-        relabelings: []
-        metricRelabelings: []
-        selector: {}
-        honorLabels: false
-    networkPolicy:
-      enabled: false
-      allowExternal: true
-    persistence:
-      enabled: true
-      existingClaim: "influxdb-data"
-      storageClass: "longhorn"
-      accessModes:
-        - ReadWriteOnce
-    serviceAccount:
-      create: true
-      name: ""
-      automountServiceAccountToken: true
-      annotations: {}
-    psp:
-      create: false
-    rbac:
-      create: false
-    volumePermissions:
-      enabled: false
-      image:
-        registry: docker.io
-        repository: bitnami/bitnami-shell
-        tag: 11-debian-11-r37
-        digest: ""
-        pullPolicy: IfNotPresent
-        pullSecrets: []
-      securityContext:
-        runAsUser: 0
-    backup:
-      enabled: false
-      directory: "/backups"
-      retentionDays: 10
-      cronjob:
-        schedule: "0 2 * * *"
-        historyLimit: 1
-        podAnnotations: {}
-        securityContext:
-          enabled: true
-          fsGroup: 1001
-          runAsUser: 1001
-      podAffinityPreset: ""
-      podAntiAffinityPreset: soft
-      nodeAffinityPreset:
-        type: ""
-        key: ""
-        values: []
-      affinity: {}
-      nodeSelector: {}
-      tolerations: []
+        kubernetes.io/ingress.class: "traefik"
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      path: /
+    extraContainers: {}
+    #  - name: my-sidecar
+    #    image: nginx:latest
+
+    ## Use an alternate scheduler, e.g. "stork".
+    ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+    ##
+    # schedulerName:
+
+    ## Node labels for pod assignment
+    ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+    ##
+    nodeSelector: {}
+
+    ## Affinity for pod assignment
+    ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ##
+    affinity: {}
+
+    ## Tolerations for pod assignment
+    ## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+    ##
+    tolerations: []
+    # - key: "key"
+    #   operator: "Equal|Exists"
+    #   value: "value"
+    #   effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
+
+    ## The InfluxDB image uses several environment variables to automatically
+    ## configure certain parts of the server.
+    ## Ref: https://hub.docker.com/_/influxdb/
+    env: {}
+      # - name: INFLUXDB_DB
+      #   value: "demo"
+
+    ## The name of a secret in the same kubernetes namespace which contain values
+    ## to be added to the environment.
+    ## This can be used, for example, to set the INFLUXDB_HTTP_SHARED_SECRET
+    ## environment variable.
+    envFromSecret: {}
+
+    ## InfluxDB configuration
+    ## ref: https://docs.influxdata.com/influxdb/v1.8/administration/config
     config:
       reporting_disabled: false
       rpc: {}
@@ -204,7 +191,7 @@ spec:
       graphite: {}
       collectd: {}
       opentsdb:
-        enabled: true
+        enabled: "true"
         bind-address: ":4242"
         database: "opentsdb"
         #retention-policy = ""
@@ -217,3 +204,91 @@ spec:
       udp: {}
       continuous_queries: {}
       tls: {}
+
+    # Allow executing custom init scripts
+    #
+    # If the container finds any files with the extensions .sh or .iql inside of the
+    # /docker-entrypoint-initdb.d folder, it will execute them. The order they are
+    # executed in is determined by the shell. This is usually alphabetical order.
+    initScripts:
+      enabled: false
+      scripts:
+        init.iql: |+
+          CREATE DATABASE "telegraf" WITH DURATION 30d REPLICATION 1 NAME "rp_30d"
+          CREATE DATABASE "opentsdb" WITH DURATION 30d REPLICATION 1 NAME "rp1_30d"
+    backup:
+      enabled: false
+      ## By default emptyDir is used as a transitory volume before uploading to object store.
+      ## As such, ensure that a sufficient ephemeral storage request is set to prevent node disk filling completely.
+      resources:
+        requests:
+          # memory: 512Mi
+          # cpu: 2
+          ephemeral-storage: "8Gi"
+        # limits:
+          # memory: 1Gi
+          # cpu: 4
+          # ephemeral-storage: "16Gi"
+      ## If backup destination is PVC, or want to use intermediate PVC before uploading to object store.
+      persistence:
+        enabled: false
+        ## If defined, storageClassName: <storageClass>
+        ## If set to "-", storageClassName: "", which disables dynamic provisioning
+        ## If undefined (the default) or set to null, no storageClassName spec is
+        ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+        ##   GKE, AWS & OpenStack)
+        ##
+        # storageClass: "-"
+        annotations:
+        accessMode: ReadWriteOnce
+        size: 8Gi
+      schedule: "0 0 * * *"
+      startingDeadlineSeconds: ""
+      annotations: {}
+      podAnnotations: {}
+      nodeSelector: {}
+
+      ## Google Cloud Storage
+      # gcs:
+        # serviceAccountSecret: influxdb-backup-key
+        # serviceAccountSecretKey: key.json
+        # destination: gs://bucket/influxdb
+
+      ## Azure
+      ## Secret is expected to have connection string stored in `connection-string` field
+      ## Existing container will be used or private one withing storage account will be created.
+      # azure:
+        # storageAccountSecret: influxdb-backup-azure-key
+        # destination_container: influxdb-container
+        # destination_path: ""
+
+      ## Amazon S3 or compatible
+      ## Secret is expected to have AWS (or compatible) credentials stored in `credentials` field.
+      ## Please look at https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where
+      ## for the credentials format.
+      ## The bucket should already exist.
+      # s3:
+        # credentialsSecret: aws-credentials-secret
+        # destination: s3://bucket/path
+        ## Optional. Specify if you're using an alternate S3 endpoint.
+        # endpointUrl: ""
+
+    backupRetention:
+      enabled: false
+      resources:
+        requests:
+          # memory: 512Mi
+          # cpu: 2
+        # limits:
+          # memory: 1Gi
+          # cpu: 4
+      schedule: "0 0 * * *"
+      startingDeadlineSeconds:
+      annotations: {}
+      podAnnotations: {}
+      daysToRetain: 7
+      # s3:
+      #   credentialsSecret: aws-credentials-secret
+      #   bucketName: bucket
+      #   ## Optional. Specify if you're using an alternate S3 endpoint.
+      #   # endpointUrl: ""
