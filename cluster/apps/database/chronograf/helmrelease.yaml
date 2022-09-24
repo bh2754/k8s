@@ -12,8 +12,8 @@ spec:
       chart: chronograf
       version: 1.2.5
       sourceRef:
-        kind: influxdata-charts
-        name: bitnami
+        kind: HelmRepository
+        name: influxdata-charts
         namespace: flux-system
       interval: 5m
   install:
