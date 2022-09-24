@@ -82,7 +82,7 @@ spec:
       ## Add annotations to service
       # annotations: {}
       type: ClusterIP
-      # externalIPs: []
+      externalIPs: ${METALLB_INFLUX_IP}
       # externalTrafficPolicy: ""
       # nodePort(s) value for the LoadBalancer and NodePort service types
       nodePorts:
