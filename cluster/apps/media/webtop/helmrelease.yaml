@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ubuntu
-  namespace: media
+  name: webtop
+  namespace: downloads
 spec:
   interval: 15m
   chart:
@@ -25,16 +25,31 @@ spec:
   values:
     image:
       pullPolicy: IfNotPresent
-      repository: docker.io/ubuntu
-      tag: latest
+      repository: linuxserver/webtop
+      tag: ubuntu-xfce
     persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        existingClaim: webtop-config-v1
       data:
         enabled: true
         mountPath: /data
-        existingClaim: varken-config-v1
+        existingClaim: varken-config-va
+      pathvarrundocker-sock:
+        enabled: false
+        mountPath: /var/run/docker.sock
+    podSecurityContext:
+      runAsGroup: 0
+      runAsUser: 0
+    securityContext:
+      readOnlyRootFilesystem: false
+      runAsNonRoot: false
     service:
       main:
         ports:
           http:
-            port: 23
-            protocol: TCP
+            port: 3000
+
+  # portal:
+    # enabled: true
