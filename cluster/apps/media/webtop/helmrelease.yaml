@@ -36,9 +36,6 @@ spec:
         enabled: true
         mountPath: /data
         existingClaim: varken-config-v1
-      pathvarrundocker-sock:
-        enabled: false
-        mountPath: /var/run/docker.sock
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
