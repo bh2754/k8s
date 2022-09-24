@@ -8,3 +8,4 @@ resources:
   - redis
   - cloudnative-pg
   - influxdb
+  - chronograf

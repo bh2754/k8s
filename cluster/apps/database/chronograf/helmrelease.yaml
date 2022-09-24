@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: chronograf
+  namespace: database
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://helm.influxdata.com/
+      chart: chronograf
+      version: 1.2.5
+      sourceRef:
+        kind: influxdata-charts
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    remediation:
+      retries: 3
+  upgrade:
+    timeout: 10m
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    image:
+      repository: "chronograf"
+      tag: 1.9.4
+      pullPolicy: IfNotPresent
+    service:
+      replicas: 1
+      type: ClusterIP
+    persistence:
+      enabled: false
+      accessMode: ReadWriteOnce
+      existingClaim: chronograf-config-v1
+    startupProbe:
+      enabled: true
+    ingress:
+      enabled: true
+      tls: true
+      hostname: chronograf.bharris.xyz
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
+        secretName: ${SECRET_CERT}
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+      path: /
+    updateStrategy:
+      type: RollingUpdate
+    influxdb:
+      existingSecret: influxdb-auth
