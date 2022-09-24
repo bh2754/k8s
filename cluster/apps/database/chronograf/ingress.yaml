@@ -11,7 +11,7 @@ spec:
     - match: HOST(`chronograf.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: chronograf
+        - name: chronograf-chronograf
           port: 80
   tls:
     secretName: ${SECRET_CERT}
