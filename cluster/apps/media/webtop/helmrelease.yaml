@@ -35,7 +35,7 @@ spec:
       data:
         enabled: true
         mountPath: /data
-        existingClaim: varken-config-va
+        existingClaim: varken-config-v1
       pathvarrundocker-sock:
         enabled: false
         mountPath: /var/run/docker.sock
