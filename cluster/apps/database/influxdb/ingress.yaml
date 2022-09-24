@@ -6,7 +6,7 @@ metadata:
   namespace: database
 spec:
   entryPoints:
-    - websecure
+    - influx
   routes:
     - match: HOST(`influxdb.${SECRET_DOMAIN}`)
       kind: Rule
