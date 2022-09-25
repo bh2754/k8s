@@ -24,7 +24,7 @@ spec:
   releaseName: whisparr
   values:
     controller:
-      replicas: 3
+      replicas: 1
     addons:
       netshoot:
         enabled: true
