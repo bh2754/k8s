@@ -23,6 +23,7 @@ spec:
       retries: 5
   releaseName: whisparr
   values:
+    replicas: 3
     addons:
       netshoot:
         enabled: true
