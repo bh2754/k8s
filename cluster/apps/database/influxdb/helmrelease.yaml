@@ -219,6 +219,7 @@ spec:
         init.iql: |+
           CREATE DATABASE "telegraf" WITH DURATION 30d REPLICATION 1 NAME "rp_30d"
           CREATE DATABASE "opentsdb" WITH DURATION 30d REPLICATION 1 NAME "rp1_30d"
+          CREATE DATABASE "varken" WITH DURATION 30d REPLICATION 1 NAME "rp_30d"
     backup:
       enabled: false
       ## By default emptyDir is used as a transitory volume before uploading to object store.
