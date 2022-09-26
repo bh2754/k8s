@@ -3,40 +3,67 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: loki
+  namespace: monitoring
 spec:
-  interval: 15m
   chart:
     spec:
       chart: loki
       version: 3.1.0
+      interval: 5m
       sourceRef:
         kind: HelmRepository
-        name: grafana
+        name: grafana-charts
         namespace: flux-system
-      interval: 15m
+  interval: 5m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     loki:
       structuredConfig:
         auth_enabled: false
-
+        querier:
+          engine:
+            timeout: 5m
+          query_timeout: 5m
         server:
           log_level: info
           http_listen_port: 3100
           grpc_listen_port: 9095
-
+          grpc_server_max_recv_msg_size: 8388608
+          grpc_server_max_send_msg_size: 8388608
+          grpc_server_max_concurrent_streams: 250
+          http_server_read_timeout: 90s
         memberlist:
           join_members: ["loki-memberlist"]
-
         limits_config:
-          retention_period: 14d
           enforce_metric_name: false
           reject_old_samples: true
           reject_old_samples_max_age: 168h
+          retention_period: 168h
+          max_query_lookback: 168h
+          max_query_series: 5000
+          max_streams_matchers_per_query: 10000
+          max_entries_limit_per_query: 250000
           max_cache_freshness_per_query: 10m
+          per_stream_rate_limit: "25MB"
+          per_stream_rate_limit_burst: "50MB"
           split_queries_by_interval: 15m
-          ingestion_rate_mb: 8
-          ingestion_burst_size_mb: 16
-
+        storage_config:
+          aws:
+            access_key_id: ${SECRET_MINIO_ACCESS_KEY}
+            bucketnames: loki
+            endpoint: s3.minio.svc.cluster.local:9000
+            insecure: true
+            s3forcepathstyle: true
+            secret_access_key: ${SECRET_MINIO_SECRET_KEY}
+          boltdb_shipper:
+            resync_interval: 5s
+            cache_ttl: 168h
+            shared_store: s3
         schema_config:
           configs:
             - from: "2021-08-01"
@@ -46,19 +73,12 @@ spec:
               index:
                 prefix: loki_index_
                 period: 24h
-
         common:
           path_prefix: /var/loki
-          replication_factor: 3
-          storage:
-            s3:
-              s3: null
-              insecure: true
-              s3forcepathstyle: true
+          replication_factor: 1
           ring:
             kvstore:
               store: memberlist
-
         ruler:
           enable_api: true
           enable_alertmanager_v2: true
@@ -71,58 +91,51 @@ spec:
           ring:
             kvstore:
               store: memberlist
-
         distributor:
           ring:
             kvstore:
               store: memberlist
-
         compactor:
           working_directory: /var/loki/boltdb-shipper-compactor
           shared_store: s3
-          compaction_interval: 10m
           retention_enabled: true
+          compaction_interval: 10m
           retention_delete_delay: 2h
           retention_delete_worker_count: 150
-
         ingester:
           max_chunk_age: 1h
           lifecycler:
             ring:
               kvstore:
                 store: memberlist
-
         analytics:
           reporting_enabled: false
-
     gateway:
-      enabled: true
-      replicas: 1
-      ingress:
-        enabled: true
-        ingressClassName: "traefik"
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/appName: "Loki"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        hosts:
-          - host: &host "loki.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: ${SECRET_CERT}
-
+      enabled: false
     write:
       replicas: 1
+      tolerations:
+        - key: "node.kubernetes.io/unreachable"
+          operator: "Exists"
+          effect: "NoExecute"
+          # Evict pods from the node if the node becomes unreachable after this toleration timer expires.
+          tolerationSeconds: 15
       persistence:
-        size: 10Gi
-        storageClass: longhorn
-
+        size: 5Gi
+      resources:
+        limits:
+          memory: 2048Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
     read:
       replicas: 1
+      tolerations:
+        - key: "node.kubernetes.io/unreachable"
+          operator: "Exists"
+          effect: "NoExecute"
+          # Evict pods from the node if the node becomes unreachable after this toleration timer expires.
+          tolerationSeconds: 15
       extraVolumeMounts:
         - name: loki-rules
           mountPath: /rules/fake
@@ -139,29 +152,18 @@ spec:
         - name: loki-tmp
           emptyDir: {}
       persistence:
-        size: 10Gi
-        storageClass: longhorn
-
+        size: 5Gi
+      resources:
+        limits:
+          memory: 2048Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
     monitoring:
       selfMonitoring:
         enabled: false
+        lokiCanary:
+          enabled: false
+        # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml#L595
         grafanaAgent:
           installOperator: false
-
-  valuesFrom:
-    - kind: Secret
-      name: loki-secrets
-      valuesKey: S3_BUCKET_NAME
-      targetPath: loki.structuredConfig.common.storage.s3.bucketnames
-    - kind: Secret
-      name: loki-secrets
-      valuesKey: S3_BUCKET_HOST
-      targetPath: loki.structuredConfig.common.storage.s3.endpoint
-    - kind: Secret
-      name: loki-secrets
-      valuesKey: S3_ACCESS_KEY
-      targetPath: loki.structuredConfig.common.storage.s3.access_key_id
-    - kind: Secret
-      name: loki-secrets
-      valuesKey: S3_SECRET_KEY
-      targetPath: loki.structuredConfig.common.storage.s3.secret_access_key
