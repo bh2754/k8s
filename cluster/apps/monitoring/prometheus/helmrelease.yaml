@@ -1,4 +1,3 @@
-# yamllint disable
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -6,119 +5,115 @@ metadata:
   name: kube-prometheus-stack
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 15m
+  maxHistory: 2
+  timeout: 20m
   chart:
     spec:
-      # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      version: 40.1.2
+      version: 40.0.2
       sourceRef:
         kind: HelmRepository
-        name: prometheus-community
+        name: prometheus-community-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   install:
     createNamespace: true
     remediation:
-      retries: 3
-  values:
-    defaultRules:
-      create: true
-      rules:
-        alertmanager: true
-        etcd: true
-        configReloaders: true
-        general: true
-        k8s: true
-        kubeApiserverAvailability: true
-        kubeApiserverBurnrate: true
-        kubeApiserverHistogram: true
-        kubeApiserverSlos: true
-        kubeControllerManager: true
-        kubelet: true
-        kubeProxy: true
-        kubePrometheusGeneral: true
-        kubePrometheusNodeRecording: true
-        kubernetesApps: true
-        kubernetesResources: true
-        kubernetesStorage: true
-        kubernetesSystem: true
-        kubeScheduler: true
-        kubeStateMetrics: true
-        network: true
-        node: true
-        nodeExporterAlerting: true
-        nodeExporterRecording: true
-        prometheus: true
-        prometheusOperator: true
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
 
-    fullnameOverride: prometheus
+  values:
     alertmanager:
       config:
-        global:
-          resolve_timeout: 8h
         receivers:
           - name: "null"
-          - name: "discord_webhook"
-            webhook_configs:
-              - url: "http://alertmanager-discord.observability.svc.cluster.local:9094"
           - name: "discord"
             slack_configs:
-              - channel: "prometheus"
+              - channel: "#prometheus"
                 icon_url: https://avatars3.githubusercontent.com/u/3380462
                 username: "Prometheus"
-                text: |-
+                send_resolved: true
+                title: |-
+                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
+                text: >-
                   {{ range .Alerts -}}
-                    **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-                  **Description:** {{ if ne .Annotations.description ""}}{{ .Annotations.description }}{{else}}N/A{{ end }}
-                  **Details:**
+                    *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+                  {{ if ne .Annotations.summary ""}}*Summary:* {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}*Message:* {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}*Description:* {{ .Annotations.description }}{{ end }}
+                  *Details:*
                     {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
                     {{ end }}
                   {{ end }}
-                title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}'
         route:
           group_by: ["alertname", "job"]
           group_wait: 30s
           group_interval: 5m
-          repeat_interval: 12h
-          receiver: "discord_webhook"
+          repeat_interval: 6h
+          receiver: "discord"
           routes:
             - receiver: "null"
-              match:
-                alertname: Watchdog
-            - receiver: "null"
-              match:
-                alertname: InfoInhibitor
-            - receiver: discord
+              matchers:
+                - alertname =~ "InfoInhibitor|Watchdog"
+            - receiver: "discord"
               match_re:
+                # severity: critical|warning
                 severity: critical
               continue: true
 
+        inhibit_rules:
+          - source_match:
+              severity: "critical"
+            target_match:
+              severity: "warning"
+            equal: ["alertname", "namespace"]
+
       ingress:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: traefik
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        pathType: Prefix
         hosts:
-          - &host "alert-manager.${SECRET_DOMAIN}"
+          - &host_alertmanager alertmanager.${SECRET_DOMAIN}
         tls:
           - hosts:
-              - *host
-            secretName: "${SECRET_CERT}"
+              - *host_alertmanager
+            secretName: ${SECRET_CERT}
+
       alertmanagerSpec:
         replicas: 3
+        podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
-            metadata:
-              labels:
-                snapshot.home.arpa/enabled: "true"
             spec:
-             storageClassName: "longhorn"
-             resources:
-               requests:
-                 storage: 10Gi
+              storageClassName: longhorn
+              resources:
+                requests:
+                  storage: 1Gi
+
+        resources:
+          requests:
+            cpu: 11m
+            memory: 50M
+          limits:
+            memory: 99M
+
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
+
+    kubeStateMetrics:
+      enabled: true
     kube-state-metrics:
-      fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
         - "persistentvolumeclaims=[*]"
       prometheus:
@@ -131,6 +126,13 @@ spec:
               sourceLabels:
                 - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
+      resources:
+        requests:
+          cpu: 15m
+          memory: 127M
+        limits:
+          memory: 153M
+
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -139,6 +141,7 @@ spec:
           multicluster:
             etcd:
               enabled: true
+
     kubelet:
       enabled: true
       serviceMonitor:
@@ -147,100 +150,180 @@ spec:
             sourceLabels:
               - node
             targetLabel: instance
-    coreDns:
-      enabled: true
+
     kubeApiServer:
       enabled: true
+
     kubeControllerManager:
-      enabled: true
+      enabled: false
       endpoints:
         - 10.0.102.51
         - 10.0.102.52
         - 10.0.102.53
+
     kubeScheduler:
-      enabled: true
+      enabled: false
       endpoints:
         - 10.0.102.51
         - 10.0.102.52
         - 10.0.102.53
+
     kubeProxy:
-      enabled: true
-      endpoints:
-        - 10.0.102.51
-        - 10.0.102.52
-        - 10.0.102.53
+      enabled: false
+
     kubeEtcd:
-      enabled: true
+      enabled: false
       endpoints:
         - 10.0.102.51
         - 10.0.102.52
         - 10.0.102.53
-      service:
-        enabled: true
-        port: 2381
-        targetPort: 2381
-    kubeStateMetrics:
-      enabled: true
+
+    ###
+    ### Prometheus instance values
+    ###
     prometheus:
       ingress:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: traefik
+        pathType: Prefix
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - "prometheus.${SECRET_DOMAIN}"
+          - &host_prometheus prom.${SECRET_DOMAIN}
         tls:
           - hosts:
-              - "prometheus.${SECRET_DOMAIN}"
+              - *host_prometheus
             secretName: ${SECRET_CERT}
+
+      thanos:
+        image: quay.io/thanos/thanos:v0.28.0@sha256:12f1b46277902803e1f0a43fdd20aa8910f9d658ea4a3a86a0e7739996356bff
+        objectStorageConfig:
+          name: thanos
+          key: objstore.yml
+        # renovate: datasource=docker depName=quay.io/thanos/thanos
+        version: "v0.28.0"
+      walCompression: true
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
+      thanosIngress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - &host "thanos-sidecar.${SECRET_DOMAIN}"
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_CERT}
+
       prometheusSpec:
-        replicas: 1
+        replicas: 3
         replicaExternalLabelName: __replica__
+        externalLabels:
+          cluster: local
+        thanos:
+          image: quay.io/thanos/thanos:v0.28.0
+          # renovate: datasource=docker depName=quay.io/thanos/thanos
+          version: "v0.28.0"
+        podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        retention: 6h
+        retention: 14d
+        retentionSize: 45GB
         enableAdminAPI: true
         walCompression: true
         storageSpec:
           volumeClaimTemplate:
-            metadata:
-              labels:
-                snapshot.home.arpa/enabled: "true"
             spec:
               storageClassName: "longhorn"
               resources:
                 requests:
                   storage: 50Gi
+
         resources:
-         requests:
-           cpu: 500m
-           memory: 2000Mi
-         limits:
-           memory: 8000Mi
+          requests:
+            cpu: 587m
+            memory: 4993M
+          limits:
+            memory: 5977M
+
         additionalScrapeConfigs:
-          - job_name: traefik
+          - job_name: node-exporter
             scrape_interval: 1m
             scrape_timeout: 10s
             honor_timestamps: true
-            metrics_path: /metrics
             static_configs:
               - targets:
-                  - "traefik.traefik.svc.cluster.local:9101"
-        # - job_name: speedtest
-          # scrape_interval: 60m
-          # scrape_timeout: 120s
-          # honor_timestamps: true
+                  # - "fw.${SECRET_DOMAIN}:9100"
+                  - "k8s-master1.${SECRET_DOMAIN}:9100"
+                  - "k8s-master2.${SECRET_DOMAIN}:9100"
+                  - "k8s-master3.${SECRET_DOMAIN}:9100"
+                  - "k8s-worker1.${SECRET_DOMAIN}:9100"
+                  - "k8s-worker2.${SECRET_DOMAIN}:9100"
+                  - "k8s-worker3.${SECRET_DOMAIN}:9100"
+                  - "k8s-worker4.${SECRET_DOMAIN}:9100"
+        # - job_name: "netdata-scrape"
+          # metrics_path: "/api/v1/allmetrics"
+          # params:
+            # format: [prometheus_all_hosts]
+          # honor_labels: true
           # static_configs:
             # - targets:
-                # - "speedtest.${SECRET_DOMAIN}"
-          - honor_timestamps: true
-            job_name: minio
-            metrics_path: /minio/v2/metrics/cluster
-            static_configs:
-              - targets:
-                  - minio.minio.svc.cluster.local:9000
+                # - nas-0.${SECRET_DOMAIN}:19999
+                # - nas-1.${SECRET_DOMAIN}:19999
+
+    nodeExporter:
+      enabled: true
+
+    prometheus-node-exporter:
+      resources:
+        requests:
+          cpu: 23m
+          memory: 64M
+        limits:
+          memory: 64M
+
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
+
+    ###
+    ### Prometheus operator values
+    ###
+    prometheusOperator:
+      resources:
+        requests:
+          cpu: 35m
+          memory: 273M
+        limits:
+          memory: 326M
+
+      prometheusConfigReloader:
+        # resource config for prometheusConfigReloader
+        resources:
+          requests:
+            cpu: 11m
+            memory: 32M
+          limits:
+            memory: 32M
+
+    ###
+    ### Alertmanager values
+    ###
+
   valuesFrom:
     - kind: Secret
       name: discord-webhook
