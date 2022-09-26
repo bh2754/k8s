@@ -22,8 +22,37 @@ spec:
     remediation:
       retries: 3
   values:
-    fullnameOverride: kps
-    nameOverride: kps
+    defaultRules:
+      create: true
+      rules:
+        alertmanager: true
+        etcd: true
+        configReloaders: true
+        general: true
+        k8s: true
+        kubeApiserverAvailability: true
+        kubeApiserverBurnrate: true
+        kubeApiserverHistogram: true
+        kubeApiserverSlos: true
+        kubeControllerManager: true
+        kubelet: true
+        kubeProxy: true
+        kubePrometheusGeneral: true
+        kubePrometheusNodeRecording: true
+        kubernetesApps: true
+        kubernetesResources: true
+        kubernetesStorage: true
+        kubernetesSystem: true
+        kubeScheduler: true
+        kubeStateMetrics: true
+        network: true
+        node: true
+        nodeExporterAlerting: true
+        nodeExporterRecording: true
+        prometheus: true
+        prometheusOperator: true
+
+    fullnameOverride: prometheus
     alertmanager:
       config:
         global:
@@ -38,10 +67,7 @@ spec:
               - channel: "prometheus"
                 icon_url: https://avatars3.githubusercontent.com/u/3380462
                 username: "Prometheus"
-                send_resolved: true
-                title: |-
-                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}
-                text: >-
+                text: |-
                   {{ range .Alerts -}}
                     **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
                   **Description:** {{ if ne .Annotations.description ""}}{{ .Annotations.description }}{{else}}N/A{{ end }}
@@ -49,6 +75,7 @@ spec:
                     {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
                     {{ end }}
                   {{ end }}
+                title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}'
         route:
           group_by: ["alertname", "job"]
           group_wait: 30s
@@ -66,12 +93,7 @@ spec:
               match_re:
                 severity: critical
               continue: true
-        inhibit_rules:
-          - source_match:
-              severity: "critical"
-            target_match:
-              severity: warning
-            equal: ["alertname", "namespace"]
+
       ingress:
         enabled: true
         ingressClassName: "traefik"
@@ -96,6 +118,7 @@ spec:
                requests:
                  storage: 10Gi
     kube-state-metrics:
+      fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
         - "persistentvolumeclaims=[*]"
       prometheus:
@@ -171,7 +194,7 @@ spec:
               - "prometheus.${SECRET_DOMAIN}"
             secretName: ${SECRET_CERT}
       prometheusSpec:
-        replicas: 3
+        replicas: 1
         replicaExternalLabelName: __replica__
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
@@ -201,16 +224,23 @@ spec:
             scrape_interval: 1m
             scrape_timeout: 10s
             honor_timestamps: true
+            metrics_path: /metrics
             static_configs:
               - targets:
-                  - "traefik.${SECRET_DOMAIN}:9101"
-          - job_name: speedtest
-            scrape_interval: 60m
-            scrape_timeout: 120s
-            honor_timestamps: true
+                  - "traefik.traefik.svc.cluster.local:9101"
+        # - job_name: speedtest
+          # scrape_interval: 60m
+          # scrape_timeout: 120s
+          # honor_timestamps: true
+          # static_configs:
+            # - targets:
+                # - "speedtest.${SECRET_DOMAIN}"
+          - honor_timestamps: true
+            job_name: minio
+            metrics_path: /minio/v2/metrics/cluster
             static_configs:
               - targets:
-                  - "speedtest.${SECRET_DOMAIN}"
+                  - minio.minio.svc.cluster.local:9000
   valuesFrom:
     - kind: Secret
       name: discord-webhook
