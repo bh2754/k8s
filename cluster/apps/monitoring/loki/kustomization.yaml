@@ -6,4 +6,5 @@ resources:
   - ./helmrelease.yaml
   - ./secret.sops.yaml
   - ./prometheus-rule.yaml
-# - ./ingress.yaml
+  - ./ingress.yaml
+  - dashboard
