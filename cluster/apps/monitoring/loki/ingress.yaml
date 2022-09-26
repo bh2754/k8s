@@ -9,6 +9,8 @@ spec:
     - websecure
   routes:
     - match: Host(`loki.${SECRET_DOMAIN}`)
+      middlewares:
+        - svc-loki-headers
       kind: Rule
       services:
         - name: loki-gateway
