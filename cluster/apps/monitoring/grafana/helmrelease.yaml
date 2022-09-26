@@ -79,7 +79,7 @@ spec:
           - name: AlertManager
             type: alertmanager
             access: proxy
-            url: http://alertmanager-operated.system-monitoring:9093
+            url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
             jsonData:
               implementation: "prometheus"
 
