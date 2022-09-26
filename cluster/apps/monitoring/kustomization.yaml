@@ -10,3 +10,4 @@ resources:
   - uptime
 # - dashboard
   - speedtest
+  - loki
