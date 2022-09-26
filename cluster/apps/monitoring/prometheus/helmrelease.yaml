@@ -261,8 +261,7 @@ spec:
             honor_timestamps: true
             static_configs:
               - targets:
-                  # - "fw.${SECRET_DOMAIN}:9100"
-                  - "k8s-master1.${SECRET_DOMAIN}:9100"
+                # - "k8s-master1.${SECRET_DOMAIN}:9100"
                   - "k8s-master2.${SECRET_DOMAIN}:9100"
                   - "k8s-master3.${SECRET_DOMAIN}:9100"
                   - "k8s-worker1.${SECRET_DOMAIN}:9100"
