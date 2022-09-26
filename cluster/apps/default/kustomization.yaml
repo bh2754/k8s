@@ -8,5 +8,3 @@ resources:
   - whoami
   - bookstack
   - paperless
-# - rdesk
-  - ubuntu
