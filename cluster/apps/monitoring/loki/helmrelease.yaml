@@ -115,7 +115,7 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: "websecure,wss"
+          traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: "wss"
         hosts:
           - host: &host "loki.${SECRET_DOMAIN}"
             paths:
