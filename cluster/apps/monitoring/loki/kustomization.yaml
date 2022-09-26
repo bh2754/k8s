@@ -7,4 +7,5 @@ resources:
   - ./secret.sops.yaml
   - ./prometheus-rule.yaml
   - ./ingress.yaml
-  - dashboard
+  - ./dashboard
+  - ./configmap.yaml
