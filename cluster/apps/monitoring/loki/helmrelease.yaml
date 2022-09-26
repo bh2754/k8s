@@ -111,11 +111,10 @@ spec:
                     {{- include "loki.gatewaySelectorLabels" . | nindent 12 }}
                 topologyKey: kubernetes.io/hostname
       ingress:
-        enabled: true
+        enabled: false
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: "wss"
         hosts:
           - host: &host "loki.${SECRET_DOMAIN}"
             paths:
