@@ -114,6 +114,7 @@ spec:
     kubeStateMetrics:
       enabled: true
     kube-state-metrics:
+      fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
         - "persistentvolumeclaims=[*]"
       prometheus:
@@ -132,7 +133,7 @@ spec:
           memory: 127M
         limits:
           memory: 153M
-
+    fullnameOverride: prometheus
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -282,6 +283,7 @@ spec:
       enabled: true
 
     prometheus-node-exporter:
+      fullnameOverride: node-exporter
       resources:
         requests:
           cpu: 23m
