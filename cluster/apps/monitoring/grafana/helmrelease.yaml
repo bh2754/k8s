@@ -75,7 +75,7 @@ spec:
           - name: Loki
             type: loki
             access: proxy
-            url: http://loki.system-monitoring:3100
+            url: http://loki-gateway.monitoring.svc.cluster.local:80
           - name: AlertManager
             type: alertmanager
             access: proxy
