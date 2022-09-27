@@ -2,19 +2,17 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
-  name: traefik-crd-source
+  name: traefik-source
   namespace: flux-system
 spec:
   interval: 30m
   url: https://github.com/traefik/traefik-helm-chart.git
   ref:
-    # renovate: registryUrl=https://helm.traefik.io/traefik chart=traefik
-    tag: 10.24.3
+    # renovate: datasource=github-tags depName=traefik/traefik-helm-chart
+    tag: v10.24.4
   ignore: |
-    # exclude all
     /*
-    # path to crds
-    !/traefik/crds/
+    !/traefik/crds/*.yaml
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -27,4 +25,4 @@ spec:
   wait: true
   sourceRef:
     kind: GitRepository
-    name: traefik-crd-source
+    name: traefik-source
