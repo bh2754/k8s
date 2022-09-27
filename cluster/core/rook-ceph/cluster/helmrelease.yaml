@@ -52,7 +52,7 @@ spec:
         urlPrefix: /
         ssl: false
       storage:
-        useAllNodes: no
+        useAllNodes: false
         useAllDevices: false
         config:
           osdsPerDevice: "1"
