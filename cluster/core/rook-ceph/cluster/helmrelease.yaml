@@ -154,7 +154,7 @@ spec:
               codingChunks: 1
           preservePoolsOnDelete: true
           gateway:
-            port: 80
+            port: 27541
             resources:
               requests:
                 cpu: 1000m
