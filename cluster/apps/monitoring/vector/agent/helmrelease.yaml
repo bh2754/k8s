@@ -3,9 +3,14 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: vector-agent
-  namespace: monitoring
+  namespace: system-monitoring
 spec:
-  interval: 15m
+  dependsOn:
+    - name: loki
+      namespace: monitoring
+    - name: kube-prometheus-stack
+      namespace: monitoring
+  interval: 5m
   chart:
     spec:
       chart: vector
@@ -14,53 +19,55 @@ spec:
         kind: HelmRepository
         name: vector-charts
         namespace: flux-system
+      interval: 5m
   install:
     createNamespace: true
-    remediation:
-      retries: 5
+    remediation: # perform remediation when helm install fails
+      retries: 3
   upgrade:
-    remediation:
-      retries: 5
-  dependsOn:
-    - name: loki
-      namespace: monitoring
-    - name: vector-aggregator
-      namespace: monitoring
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
   values:
-    image:
-      repository: timberio/vector
-      tag: 0.24.1-debian
-    role: Agent
+    role: "Agent"
+
+    podMonitor:
+      enabled: true
+
+    service:
+      enabled: false
+
+    tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+
     customConfig:
       data_dir: /vector-data-dir
+
       api:
         enabled: false
+
+      # Sources
       sources:
-        journal_logs:
-          type: journald
-          journal_directory: /var/log/journal
         kubernetes_logs:
           type: kubernetes_logs
-          pod_annotation_fields:
-            container_image: container_image
-            container_name: container_name
-            pod_annotations: pod_annotations
-            pod_labels: pod_labels
-            pod_name: pod_name
+
+      # Sinks
       sinks:
-        loki_journal_sink:
-          type: vector
-          inputs:
-            - journal_logs
-          address: vector-aggregator:6000
-          version: "2"
         loki_kubernetes_sink:
           type: vector
           inputs:
             - kubernetes_logs
-          address: vector-aggregator:6010
+          address: "vector-aggregator.system-monitoring:6000"
           version: "2"
-    service:
-      enabled: false
-    securityContext:
-      privileged: true
+
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: vector-agent
+
+    resources:
+      requests:
+        cpu: 22m
+        memory: 249M
+      limits:
+        memory: 918M
