@@ -93,7 +93,7 @@ spec:
         analytics:
           reporting_enabled: false
     gateway:
-      enabled: false
+      enabled: true
       replicas: 3
       ingress:
         enabled: true
