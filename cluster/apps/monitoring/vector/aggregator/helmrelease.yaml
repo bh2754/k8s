@@ -89,11 +89,11 @@ spec:
           type: loki
           inputs:
             - journal_logs
-          endpoint: http://loki-gateway:80
+          endpoint: http://loki-gateway.monitoring.svc:80
           encoding:
             codec: json
           batch:
-            max_bytes: 4096000
+            max_bytes: 1024000
           out_of_order_action: accept
           remove_label_fields: true
           remove_timestamp: true
