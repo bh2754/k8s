@@ -5,3 +5,4 @@ resources:
   - object-bucket-claim.yaml
   - config-map.yaml
   - helmrelease.yaml
+  - dashboard
