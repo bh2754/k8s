@@ -71,7 +71,7 @@ spec:
               - name: "/dev/sdc"
           - name: k8s-worker2
             devices:
-              - name: "/dev/sdd"
+              - name: "/dev/sdc"
           - name: k8s-worker3
             devices:
               - name: "/dev/sdc"

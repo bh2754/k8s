@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - cluster-issuers
   - letsencrypt-wildcard-cert
-# - rook-ceph
+  - rook-ceph
