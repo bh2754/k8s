@@ -11,4 +11,4 @@ resources:
 # - dashboard
   - speedtest
   - loki
-# - vector
+  - vector
