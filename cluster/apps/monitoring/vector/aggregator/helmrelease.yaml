@@ -93,7 +93,7 @@ spec:
           encoding:
             codec: json
           batch:
-            max_bytes: 2049000
+            max_bytes: 4096000
           out_of_order_action: accept
           remove_label_fields: true
           remove_timestamp: true
