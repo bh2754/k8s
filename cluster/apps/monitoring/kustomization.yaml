@@ -10,5 +10,5 @@ resources:
   - uptime
 # - dashboard
   - speedtest
-  - loki
-  - vector
+# - loki
+# - vector
