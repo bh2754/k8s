@@ -45,6 +45,7 @@ spec:
     adminPassword: "${SECRET_PASSWORD}"
     grafana.ini:
       server:
+        enable_gzip: true
         root_url: "https://grafana.${SECRET_DOMAIN}"
       paths:
         data: /var/lib/grafana/data
@@ -89,7 +90,7 @@ spec:
         providers:
           - name: "default"
             orgId: 1
-            folder: "default"
+            folder: "Default"
             type: file
             disableDeletion: false
             editable: true
@@ -98,17 +99,16 @@ spec:
 
           - name: "cilium"
             orgId: 1
-            folder: "cilium"
+            folder: "Cilium"
             type: file
             disableDeletion: false
             editable: true
             options:
               path: /var/lib/grafana/dashboards/cilium
 
-
           - name: "ceph"
             orgId: 1
-            folder: "ceph"
+            folder: "Ceph"
             type: file
             disableDeletion: false
             editable: true
@@ -117,7 +117,7 @@ spec:
 
           - name: "flux"
             orgId: 1
-            folder: "flux"
+            folder: "Flux"
             type: file
             disableDeletion: false
             editable: true
@@ -126,12 +126,21 @@ spec:
 
           - name: "organizers"
             orgId: 1
-            folder: "organizers"
+            folder: "Organizers"
             type: file
             disableDeletion: false
             editable: true
             options:
               path: /var/lib/grafana/dashboards/organizarrs
+
+          - name: "loki"
+            orgId: 1
+            folder: "Loki"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/Loki
 
     dashboards:
       default:
@@ -191,6 +200,7 @@ spec:
           gnetId: 5342
           revision: 5
           datasource: Prometheus
+
       flux:
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
@@ -212,7 +222,10 @@ spec:
         qbittorrent:
           url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
           datasource: Prometheus
-
+        sabnzbd:
+          gnetId: 9567
+          revision: 1
+          datasource: Prometheus
     sidecar:
       dashboards:
         enabled: true
@@ -255,7 +268,9 @@ spec:
     persistence:
       enabled: true
       existingClaim: grafana-config-v1
-
+      type: pvc
+      finalizers:
+        - kubernetes.io/pvc-protection
     resources:
       requests:
         cpu: 34m
