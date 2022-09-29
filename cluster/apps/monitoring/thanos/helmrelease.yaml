@@ -50,7 +50,7 @@ spec:
 
       ingress:
         enabled: true
-        hostname: "thanos-cluster.$SECRET_DOMAIN}"
+        hostname: "thanos-cluster.${SECRET_DOMAIN}"
         ingressClassName: "traefik"
         annotations:
           hajimari.io/enable: "true"
