@@ -237,7 +237,7 @@ spec:
         enabled: true
 
       prometheusSpec:
-        replicas: 3
+        replicas: 1
         replicaExternalLabelName: __replica__
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
@@ -280,7 +280,7 @@ spec:
             scheme: http
             static_configs:
               - targets:
-                  - minio.minio.svc:9000"
+                  - minio.minio.svc.cluster.local:9000"
           - job_name: sabnzbd-exporter
             honor_timestamps: true
             scrape_interval: 5s
