@@ -36,3 +36,4 @@ resources:
   - descheduler.yaml
   - influxdata.yaml
   - vector-charts.yaml
+  - deliveryhero-charts.yaml
