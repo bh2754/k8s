@@ -280,8 +280,17 @@ spec:
             scheme: http
             static_configs:
               - targets:
-                  - s3.minio.svc:9000"
-
+                  - minio.minio.svc:9000"
+          - job_name: sabnzbd-exporter
+            honor_timestamps: true
+            scrape_interval: 5s
+            scrape_timeout: 5s
+            metrics_path: /metrics
+            scheme: http
+            follow_redirects: true
+            static_configs:
+              - targets:
+                  - sabnzbd-exporter.monitoring.svc:9387
   valuesFrom:
     - kind: Secret
       name: discord-webhook
