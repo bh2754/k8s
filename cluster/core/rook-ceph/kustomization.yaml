@@ -6,6 +6,6 @@ resources:
   - namespace.yaml
   - cluster
   - operator
-# - ingress.yaml
-# - dashboard
-# - rook-direct-mount
+  - ingress.yaml
+  - dashboard
+  - rook-direct-mount
