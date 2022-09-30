@@ -10,7 +10,7 @@ resources:
   - uptime
 # - dashboard
   - speedtest
-  - loki
-  - vector
-  - thanos
+# - loki
+# - vector
+# - thanos
   - node-problem
