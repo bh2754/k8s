@@ -14,9 +14,6 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-  dependsOn:
-    - name: mysql-operator
-      namespace: default
   values:
     image:
       repository: linuxserver/grocy
