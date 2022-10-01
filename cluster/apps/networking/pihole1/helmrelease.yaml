@@ -99,7 +99,7 @@ spec:
       annotations:
         metallb.universe.tf/allow-shared-ip: pihole-svc
 
-    virtualHost: pihole1.bharris.xyz
+  # virtualHost: pihole1.${SECRET_DOMAIN}
 
     # -- Configuration for the Ingress
     ingress:
@@ -113,7 +113,7 @@ spec:
         hajimari.io/icon: "card-off"
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
       hosts:
-        - host: &host pihole1.bharris.xyz
+        - host: &host pihole1.{SECRET_DOMAIN}
           paths:
             - path: /
               pathType: Prefix
