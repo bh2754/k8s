@@ -323,6 +323,13 @@ data:
         protocol: TCP
         tls:
           enabled: false
+      vpn:
+        port: 51820
+        expose: 51820
+        exposedPort:L 51820
+        protocol: UDP
+        tls:
+          enabled: false
       ssh:
         port: 23
         expose: true
