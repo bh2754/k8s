@@ -8,14 +8,46 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: app-template
-      version: 0.2.1
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: wireguard
+      version: 1.4.2
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: k8s-at-home
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: ghcr.io/k8s-at-home/wireguard
+      tag: v1.0.20210914
+    env:
+      TZ: "America/Indianapolis"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        hosts:
+          - host: "wireguard.${INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "wireguard.${SECRET_DOMAIN}"
+          - secretName: ${SECRET_CERT}
+    podSecurityContext:
+      fsGroup: 0
+      supplementalGroups:
+        - 100
+    persistence:
+      config:
+        enabled: true
+        existingClaim: wireguard-config-v1
+        mountPath: /etc/wireguard
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 500m
     addons:
       codeserver:
         enabled: true
@@ -46,77 +78,3 @@ spec:
         volumeMounts:
           - name: config
             mountPath: /config
-
-    image:
-      repository: ghcr.io/linuxserver/wireguard
-      tag: latest
-      pullPolicy: IfNotPresent
-    env:
-      TZ: "America/Indianapolis"
-      KILLSWITCH: false
-      PEERS: 4
-      SERVERURL: wireguard.bharris.xyz
-      SERVERPORT: 51810
-    ingress:
-      main:
-        enabled: false
-        ingressClassName: "traefik"
-        hosts:
-          - host: &host "wireguard.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: "${SECRET_CERT}"
-    service:
-      main:
-        enabled: true
-        externalIPs:
-          - "${METALLB_WIREGUARD_ADDR}"
-        ports:
-          vpn:
-            enabled: true
-            port: 51810
-            protocol: UDP
-          http:
-            enabled: false
-        externalTrafficPolicy: Local
-
-    podSecurityContext:
-      fsGroup: 0
-      supplementalGroups:
-        - 100
-    persistence:
-      config:
-        enabled: true
-        existingClaim: wireguard-config-v1
-        mountPath: /etc/wireguard
-    resources:
-      requests:
-        memory: 250Mi
-        cpu: 500m
-    securityContext:
-      capabilities:
-        add:
-          - NET_ADMIN
-          - SYS_MODULE
-    probes:
-      liveness:
-        enabled: true
-        ## Set this to true if you wish to specify your own livenessProbe
-        custom: true
-        ## The spec field contains the values for the default livenessProbe.
-        ## If you selected custom: true, this field holds the definition of the livenessProbe.
-        spec:
-          exec:
-            command: ["bash", "-c", "if [[ $(curl -s https://ipinfo.io) ]]; then exit 0; else exit $?; fi"]
-          initialDelaySeconds: 0
-          timeoutSeconds: 1
-          periodSeconds: 5
-          failureThreshold: 5
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
