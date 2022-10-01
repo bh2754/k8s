@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: pihole1
+  name: pihole2
   namespace: networking
 spec:
   interval: 15m
@@ -34,7 +34,7 @@ spec:
       externalTrafficPolicy: Local
 
       # -- A fixed `spec.loadBalancerIP` for the DNS Service
-      loadBalancerIP: ${METALLB_PIHOLE1_ADDR}
+      loadBalancerIP: ${METALLB_PIHOLE2_ADDR}
 
       # -- Annotations for the DNS service
       annotations:
@@ -93,13 +93,13 @@ spec:
       externalTrafficPolicy: Local
 
       # -- A fixed `spec.loadBalancerIP` for the web interface Service
-      loadBalancerIP: ${METALLB_PIHOLE1_ADDR}
+      loadBalancerIP: ${METALLB_PIHOLE2_ADDR}
 
       # -- Annotations for the DHCP service
       annotations:
         metallb.universe.tf/allow-shared-ip: pihole-svc
 
-    virtualHost: pihole1.bharris.xyz
+    virtualHost: pihole2.bharris.xyz
 
     # -- Configuration for the Ingress
     ingress:
@@ -109,11 +109,11 @@ spec:
       ingressClassName: traefik
       annotations:
         hajimari.io/enable: "true"
-        hajimari.io/appName: "Pihole1"
+        hajimari.io/appName: "Pihole2"
         hajimari.io/icon: "card-off"
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
       hosts:
-        - host: &host pihole1.bharris.xyz
+        - host: &host pihole2.bharris.xyz
           paths:
             - path: /
               pathType: Prefix
@@ -127,9 +127,10 @@ spec:
       # -- set to true to use pvc
       enabled: true
       # -- specify an existing `PersistentVolumeClaim` to use
-      existingClaim: pihole1-config-pvc
+      existingClaim: pihole2-config-pvc
       accessModes:
         - ReadWriteMany
+      size: "2Gi"
 
     adminPassword: ${SECRET_PASSWORD}
 
@@ -309,7 +310,7 @@ spec:
     webHttps: "443"
 
     # -- hostname of pod
-    hostname: "pihole1"
+    hostname: "pihole2"
 
     # -- should the container use host network
     hostNetwork: "false"
@@ -338,10 +339,10 @@ spec:
       #   subPath: external.conf
 
     # -- Additional annotations for pods
-    podAnnotations:
+    podAnnotations: {}
       # Example below allows Prometheus to scape on metric port (requires pihole-exporter sidecar enabled)
-      prometheus.io/port: '9617'
-      prometheus.io/scrape: 'true'
+      # prometheus.io/port: '9617'
+      # prometheus.io/scrape: 'true'
 
     monitoring:
       # -- Preferably adding prometheus scrape annotations rather than enabling podMonitor.

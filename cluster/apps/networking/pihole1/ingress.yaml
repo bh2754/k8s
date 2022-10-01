@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pihole1
+  namespace: networking
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`pihole1.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: pihole1
+          port: 80
+  tls:
+    secretName: ${SECRET_CERT}
