@@ -12,6 +12,6 @@ spec:
       kind: Rule
       services:
         - name: pihole1-web
-          port: 443
+          port: 80
   tls:
     secretName: ${SECRET_CERT}
