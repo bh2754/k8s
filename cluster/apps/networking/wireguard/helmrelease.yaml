@@ -54,7 +54,7 @@ spec:
     env:
       TZ: "America/Indianapolis"
       KILLSWITCH: false
-      PEERS: 5
+      PEERS: 4
       SERVERURL: wireguard.bharris.xyz
       SEVERPORT: 51810
     ingress:
