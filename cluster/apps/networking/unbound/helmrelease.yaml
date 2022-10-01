@@ -1,0 +1,157 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: unbound
+  namespace: networking
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: unbound
+      version: 1.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: savepointsam-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    diagnosticMode:
+      enabled: false
+      command:
+        - sleep
+      args:
+        - infinity
+    unbound:
+      verbosity: 1
+      numThreads: 1
+      port: 53
+      interface: "0.0.0.0@53"
+      accessControlRules:
+        - "127.0.0.1/32 allow"
+        - "192.168.0.0/16 allow"
+        - "172.16.0.0/12 allow"
+        - "10.0.0.0/8 allow"
+      forwardingAddresses:
+        - "9.9.9.9@853#dns.quad9.net"
+        - "149.112.112.112@853#dns.quad9.net"
+      image:
+        registry: docker.io
+        repository: savepointsam/unbound
+        tag: "1.15.0"
+        pullPolicy: IfNotPresent
+        pullSecrets: []
+        debug: false
+      replicaCount: 3
+      containerPorts:
+        dns: 53
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 10
+        successThreshold: 1
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 5
+        successThreshold: 1
+      startupProbe:
+        enabled: false
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 20
+        successThreshold: 1
+      customLivenessProbe: {}
+      customReadinessProbe: {}
+      customStartupProbe: {}
+      resources:
+        requests:
+          memory: 32Mi
+          cpu: 100m
+      podSecurityContext:
+        enabled: false
+        fsGroup: 1001
+      ##
+      containerSecurityContext:
+        enabled: false
+        runAsUser: 1001
+        runAsNonRoot: true
+        readOnlyRootFilesystem: false
+      existingConfigmap:
+      command: []
+      args: []
+      hostAliases: []
+      podLabels: {}
+      podAnnotations: {}
+      podAffinityPreset: ""
+      podAntiAffinityPreset: soft
+      pdb:
+        create: false
+        minAvailable: 1
+        maxUnavailable: ""
+      autoscaling:
+        enabled: false
+        minReplicas: ""
+        maxReplicas: ""
+        targetCPU: ""
+        targetMemory: ""
+      nodeAffinityPreset:
+        type: ""
+        key: ""
+        values: []
+      affinity: {}
+      nodeSelector: {}
+      tolerations: []
+      updateStrategy:
+        type: RollingUpdate
+      podManagementPolicy: OrderedReady
+      priorityClassName: ""
+      topologySpreadConstraints: {}
+      schedulerName: ""
+      terminationGracePeriodSeconds: ""
+      lifecycleHooks: {}
+      extraEnvVars: []
+      extraEnvVarsCM: ""
+      extraEnvVarsSecret: ""
+      extraVolumes: []
+      extraVolumeMounts: []
+      sidecars: {}
+      initContainers: {}
+    service:
+      type: LoadBalancer
+      ports:
+        dns: 53
+      ## Node ports to expose
+      ## @param service.nodePorts.dns Node port for DNS
+      ## NOTE: choose port between <30000-32767>
+      ##
+      nodePorts:
+        dns: ""
+      ## @param service.clusterIP Unbound service Cluster IP
+      clusterIP: ""
+      loadBalancerIP: "${METTALB_UNBOUND_ADDR}"
+      loadBalancerSourceRanges: []
+      externalTrafficPolicy: Local
+      ## @param service.annotations Additional custom annotations for Unbound service
+      ##
+      annotations: {}
+      extraPorts: []
+      sessionAffinity: None
+      sessionAffinityConfig: {}
+    serviceAccount:
+      create: true
+      name: ""
+      annotations: {}
+      automountServiceAccountToken: true

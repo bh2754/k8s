@@ -9,4 +9,5 @@ resources:
   - traefik
   - portainer
   - kyverno
-  - wireguard
+# - wireguard
+  - unbound
