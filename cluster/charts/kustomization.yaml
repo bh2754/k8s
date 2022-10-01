@@ -37,3 +37,4 @@ resources:
   - influxdata.yaml
   - vector-charts.yaml
   - deliveryhero-charts.yaml
+  - savepointsam-charts.yaml
