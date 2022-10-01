@@ -326,7 +326,7 @@ data:
       vpn:
         port: 51820
         expose: 51820
-        exposedPort:L 51820
+        exposedPort: 51820
         protocol: UDP
         tls:
           enabled: false
