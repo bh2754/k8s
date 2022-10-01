@@ -316,27 +316,6 @@ data:
           options: ""
           certResolver: ""
           domains: []
-      rdp:
-        port: 3389
-        expose: true
-        exposedPort: 3389
-        protocol: TCP
-        tls:
-          enabled: false
-      vpn:
-        port: 51820
-        expose: 51820
-        exposedPort: 51820
-        protocol: UDP
-        tls:
-          enabled: false
-      ssh:
-        port: 23
-        expose: true
-        exposedPort: 23
-        protocol: TCP
-        tls:
-          enabled: false
       influx:
         port: 8086
         expose: true
