@@ -38,3 +38,4 @@ resources:
   - vector-charts.yaml
   - deliveryhero-charts.yaml
   - savepointsam-charts.yaml
+  - pihole-charts.yaml
