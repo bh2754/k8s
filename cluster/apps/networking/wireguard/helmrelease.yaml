@@ -55,7 +55,7 @@ spec:
       TZ: "America/Indianapolis"
       KILLSWITCH: false
       PEERS: 5
-      PEER_DNS: 10.0.103.66
+      SERVERURL: wireguard.bharris.xyz
     ingress:
       main:
         enabled: false
