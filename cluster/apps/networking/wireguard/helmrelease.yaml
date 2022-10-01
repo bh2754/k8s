@@ -53,7 +53,6 @@ spec:
       pullPolicy: IfNotPresent
     env:
       TZ: "America/Indianapolis"
-      IPTABLES_BACKEND: nft
       KILLSWITCH: false
       PEERS: 5
       PEER_DNS: 10.0.103.66
@@ -73,7 +72,6 @@ spec:
     service:
       main:
         enabled: true
-        type: LoadBalancer
         externalIPs:
           - "${METALLB_WIREGUARD_ADDR}"
         ports:
