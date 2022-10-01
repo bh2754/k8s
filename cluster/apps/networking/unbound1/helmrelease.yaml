@@ -141,7 +141,7 @@ spec:
         dns: ""
       ## @param service.clusterIP Unbound service Cluster IP
       clusterIP: ""
-      loadBalancerIP: "${METALLB_UNBOUND_ADDR}"
+      loadBalancerIP: "${METALLB_UNBOUND1_ADDR}"
       loadBalancerSourceRanges: []
       externalTrafficPolicy: Local
       ## @param service.annotations Additional custom annotations for Unbound service

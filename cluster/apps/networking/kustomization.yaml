@@ -10,4 +10,5 @@ resources:
   - portainer
   - kyverno
 # - wireguard
-  - unbound
+  - unbound1
+  - unbound2
