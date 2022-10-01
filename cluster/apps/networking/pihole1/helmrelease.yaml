@@ -16,122 +16,31 @@ spec:
         namespace: flux-system
       interval: 15m
   values:
-    dualStack:
-      # -- set this to true to enable creation of DualStack services or creation of separate IPv6 services if `serviceDns.type` is set to `"LoadBalancer"`
-      enabled: false
-    # -- Configuration for the DNS service on port 53
     serviceDns:
-      # -- deploys a mixed (TCP + UDP) Service instead of separate ones
       mixedService: false
-
-      # -- `spec.type` for the DNS Service
       type: LoadBalancer
-
-      # -- The port of the DNS service
       port: 53
-
-      # -- `spec.externalTrafficPolicy` for the DHCP Service
       externalTrafficPolicy: Local
-
-      # -- A fixed `spec.loadBalancerIP` for the DNS Service
       loadBalancerIP: ${METALLB_PIHOLE1_ADDR}
-
-      # -- Annotations for the DNS service
       annotations:
         metallb.universe.tf/allow-shared-ip: pihole-svc
-        # metallb.universe.tf/address-pool: network-services
-        # metallb.universe.tf/allow-shared-ip: pihole-svc
-
-    # -- Configuration for the DHCP service on port 67
     serviceDhcp:
-
-      # -- Generate a Service resource for DHCP traffic
       enabled: false
-
-      # -- `spec.type` for the DHCP Service
-      type: NodePort
-
-      # -- The port of the DHCP service
-      port: 67
-
-      # -- Optional node port for the DHCP service
-      nodePort: ""
-
-      # -- `spec.externalTrafficPolicy` for the DHCP Service
-      externalTrafficPolicy: Local
-
-      # -- A fixed `spec.loadBalancerIP` for the DHCP Service
-      loadBalancerIP: ""
-      # -- A fixed `spec.loadBalancerIP` for the IPv6 DHCP Service
-      loadBalancerIPv6: ""
-
-      # -- Annotations for the DHCP service
-      annotations: {}
-
-    # -- Configuration for the web interface service
     serviceWeb:
-      # -- Configuration for the HTTP web interface listener
-      http:
-        # -- Generate a service for HTTP traffic
-        enabled: true
-
-        # -- The port of the web HTTP service
-        port: 80
-
-      # -- Configuration for the HTTPS web interface listener
-      https:
-        # -- Generate a service for HTTPS traffic
-        enabled: true
-
-        # -- The port of the web HTTPS service
-        port: 443
-
-      # -- `spec.type` for the web interface Service
       type: LoadBalancer
-
-      # -- `spec.externalTrafficPolicy` for the web interface Service
       externalTrafficPolicy: Local
-
-      # -- A fixed `spec.loadBalancerIP` for the web interface Service
       loadBalancerIP: ${METALLB_PIHOLE1_ADDR}
-
-      # -- Annotations for the DHCP service
       annotations:
         metallb.universe.tf/allow-shared-ip: pihole-svc
-
-  # virtualHost: pihole1.${SECRET_DOMAIN}
-
-    # -- Configuration for the Ingress
-    ingress:
-      # -- Generate a Ingress resource
-      enabled: true
-      # -- Annotations for the ingress
-      ingressClassName: traefik
-      annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/appName: "Pihole1"
-        hajimari.io/icon: "card-off"
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-      hosts:
-        - host: &host "pihole.${SECRET_DOMAIN}"
-      tls:
-        - secretName: ${SECRET_CERT}
-          hosts:
-            - *host
-
-    # -- `spec.PersitentVolumeClaim` configuration
     persistentVolumeClaim:
-      # -- set to true to use pvc
       enabled: true
-      # -- specify an existing `PersistentVolumeClaim` to use
       existingClaim: pihole1-config-pvc
       accessModes:
         - ReadWriteMany
-
     adminPassword: ${SECRET_PASSWORD}
 
     extraEnvVars:
-      TZ: "America/Indianapolis"
+      TZ: "${TZ}"
 
     # -- default upstream DNS 1 server to use
     DNS1: "${METALLB_UNBOUND1_ADDR}"
@@ -173,38 +82,6 @@ spec:
         - rev-server=10.0.109.0/24,10.0.103.11
         - rev-server=10.0.255.0/24,10.0.103.10
         - rev-server=10.0.255.0/24,10.0.103.11
-      # -- Add custom dns entries to override the dns resolution. All lines will be added to the pihole dnsmasq configuration.
-      customDnsEntries: []
-
-      # -- Dnsmasq reads the /etc/hosts file to resolve ips. You can add additional entries if you like
-      additionalHostsEntries: []
-      # - 192.168.0.3     host4
-      # - 192.168.0.4     host5
-
-      # -- Static DHCP config
-      staticDhcpEntries: []
-      # staticDhcpEntries:
-      # - dhcp-host=MAC_ADDRESS,IP_ADDRESS,HOSTNAME
-
-      # -- Other options
-      customSettings:
-      # otherSettings:
-      # - rebind-domain-ok=/plex.direct/
-
-      # -- Here we specify custom cname entries that should point to `A` records or
-      # elements in customDnsEntries array.
-      # The format should be:
-      #  - cname=cname.foo.bar,foo.bar
-      #  - cname=cname.bar.foo,bar.foo
-      #  - cname=cname record,dns record
-      customCnameEntries: []
-      # Here we specify custom cname entries that should point to `A` records or
-      # elements in customDnsEntries array.
-      # The format should be:
-      #   - cname=cname.foo.bar,foo.bar
-      #   - cname=cname.bar.foo,bar.foo
-      #   - cname=cname record,dns record
-
     adlists:
       # DEFAULT LISTS
       - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
@@ -262,8 +139,6 @@ spec:
       - https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts
       - https://urlhaus.abuse.ch/downloads/hostfile/
       - https://v.firebog.net/hosts/Prigent-Malware.txt
-    # -- list of whitelisted domains to import during initial start of the container
-
     whitelist:
       - www.livejasmin.com
       - adserver1.harris.local
@@ -272,13 +147,9 @@ spec:
       - napps-1.com
       - collector.github.com
       - api.mixpanel.com
-    # -- list of blacklisted domains to import during initial start of the container
     blacklist:
       - www.googleadservices.com
-    # -- list of blacklisted regex expressions to import during initial start of the container
     regex:
-      # Add regular expression blacklist items
-      # - (^|\.)facebook\.com$
       - ^ad([sxv]?[0-9]*|system)[_.-]([^.[:space:]]+\.){1,}|[_.-]ad([sxv]?[0-9]*|system)[_.-]
       - ^(.+[_.-])?telemetry[_.-]
       - ^adim(age|g)s?[0-9]*[_.-]
@@ -293,61 +164,13 @@ spec:
       - ^pixels?[-.]
       - ^stat(s|istics)?[0-9]*[_.-]
       - ^(.+[_.-])?adse?rv(er?|ice)?s?[0-9]*[_.-]
-
-    # -- values that should be added to pihole-FTL.conf
-    ftl: {}
-      # Add values for pihole-FTL.conf
-      # MAXDBDAYS: 14
-
-    # -- port the container should use to expose HTTP traffic
-    webHttp: "80"
-
-    # -- port the container should use to expose HTTPS traffic
-    webHttps: "443"
-
-    # -- hostname of pod
-    hostname: "pihole1"
-
-    # -- should the container use host network
-    hostNetwork: "false"
-
-    # -- should container run in privileged mode
-    privileged: "false"
-
-    customVolumes:
-      # -- set this to true to enable custom volumes
-      enabled: false
-      # -- any volume type can be used here
-      config: {}
-        # hostPath:
-        #   path: "/mnt/data"
-
-    # -- any extra volumes you might want
-    extraVolumes: {}
-      # external-conf:
-      #   configMap:
-      #     name: pi-hole-lighttpd-external-conf
-
-    # -- any extra volume mounts you might want
-    extraVolumeMounts: {}
-      # external-conf:
-      #   mountPath: /etc/lighttpd/external.conf
-      #   subPath: external.conf
-
-    # -- Additional annotations for pods
     podAnnotations:
-      # Example below allows Prometheus to scape on metric port (requires pihole-exporter sidecar enabled)
       prometheus.io/port: '9617'
       prometheus.io/scrape: 'true'
-
     monitoring:
-      # -- Preferably adding prometheus scrape annotations rather than enabling podMonitor.
       podMonitor:
-        # -- set this to true to enable podMonitor
         enabled: true
-      # -- Sidecar configuration
       sidecar:
-        # -- set this to true to enable podMonitor as sidecar
         enabled: true
         port: 9617
         image:
@@ -367,8 +190,3 @@ spec:
       nameservers:
         - ${METALLB_PIHOLE1_ADDR}
         - ${METALLB_PIHOLE2_ADDR}
-    # tolerations:
-    #   - key: dns-master
-    #     operator: Equal
-    #     value: "active"
-    #     effect: NoSchedule
