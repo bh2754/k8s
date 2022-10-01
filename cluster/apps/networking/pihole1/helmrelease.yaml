@@ -34,7 +34,7 @@ spec:
         metallb.universe.tf/allow-shared-ip: pihole-svc
     persistentVolumeClaim:
       enabled: true
-      existingClaim: pihole1-config-pvc
+      existingClaim: pihole1-config-v1
       accessModes:
         - ReadWriteMany
     adminPassword: ${SECRET_PASSWORD}
