@@ -55,6 +55,8 @@ spec:
       TZ: "America/Indianapolis"
       IPTABLES_BACKEND: nft
       KILLSWITCH: false
+      PEERS: 5
+      PEER_DNS: 10.0.103.66
     ingress:
       main:
         enabled: false
