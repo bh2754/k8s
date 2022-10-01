@@ -56,7 +56,7 @@ spec:
       KILLSWITCH: false
       PEERS: 4
       SERVERURL: wireguard.bharris.xyz
-      SEVERPORT: 51810
+      SERVERPORT: 51810
     ingress:
       main:
         enabled: false
