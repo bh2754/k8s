@@ -79,7 +79,10 @@ spec:
     dnsConfig: {}
     enableServiceLinks: true
     podSecurityContext: {}
-    securityContext: {}
+    securityContext:
+      sysctls:
+        - name: so-rcvbuf
+          value: "4194304"
     lifecycle: {}
     initContainers: {}
     additionalContainers: {}
