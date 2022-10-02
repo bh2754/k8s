@@ -19,6 +19,7 @@ spec:
     image:
       repository: ghcr.io/0xerr0r/blocky
       tag: v0.18
+      pullPolicy: IfNotPresent
     controller:
       enabled: true
       type: deployment
@@ -113,7 +114,7 @@ spec:
             bootstrapDns: tcp+udp:1.1.1.1
 
             redis:
-              address: redis-headless.system.svc:6379
+              address: redis-redis-ha-haproxy.database.svc:6379
               database: 2
               required: true
               connectionAttempts: 10
