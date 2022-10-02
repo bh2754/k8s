@@ -12,4 +12,3 @@ resources:
 # - wireguard
   - unbound1
   - unbound2
-  - blocky
