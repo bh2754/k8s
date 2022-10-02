@@ -74,7 +74,7 @@ spec:
 
     # -- Override the command(s) for the default container
     command:
-      curl --output /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+      # curl --output root.hints https://www.internic.net/domain/named.cache
     # -- Override the args for the default container
     args: []
 
