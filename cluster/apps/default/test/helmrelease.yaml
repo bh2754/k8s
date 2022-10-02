@@ -79,13 +79,10 @@ spec:
     dnsConfig: {}
     enableServiceLinks: true
     podSecurityContext:
-      sysctls:
-        - name: net.core.rmem_max
-          value: "8000000"
     securityContext:
       sysctls:
         - name: net.core.rmem_max
-          value: "4197304"
+          value: "8000"
     lifecycle: {}
     initContainers: {}
     additionalContainers: {}
