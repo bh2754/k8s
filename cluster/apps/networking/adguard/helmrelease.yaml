@@ -32,8 +32,10 @@ spec:
 
     service:
       main:
+        enabled: true
         ports:
-          port: 3000
+          http:
+            port: 3000
 
       dns:
         enabled: true
