@@ -274,48 +274,9 @@ spec:
     # @default -- See below
     service:
       main:
-        # -- Enables or disables the service
         enabled: true
-
-        # -- Make this the primary service (used in probes, notes, etc...).
-        # If there is more than 1 service, make sure that only 1 service is marked as primary.
         primary: true
-
-        # -- Override the name suffix that is used for this service
-        nameOverride:
-
-        # -- Set the service type
         type: ClusterIP
-
-        # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
-        # -- [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
-        externalTrafficPolicy:
-
-        # -- Specify the ip policy. Options: SingleStack, PreferDualStack, RequireDualStack
-        ipFamilyPolicy:
-        # -- The ip families that should be used. Options: IPv4, IPv6
-        ipFamilies: []
-
-        # -- Provide additional annotations which may be required.
-        annotations: {}
-
-        # -- Provide additional labels which may be required.
-        labels: {}
-
-        # -- Configure a serviceMonitor for this Service.
-        # @default -- See below
-        monitor:
-          # -- Enables or disables the serviceMonitor.
-          enabled: false
-          # -- Configures the endpoints for the serviceMonitor.
-          # @default -- See values.yaml
-          endpoints:
-            - port: http
-              scheme: http
-              path: /metrics
-              interval: 1m
-              scrapeTimeout: 10s
-
         # -- Configure the Service port information here.
         # Additional ports can be added by adding a dictionary key similar to the 'http' service.
         # @default -- See below
@@ -324,10 +285,12 @@ spec:
             enabled: true
             primary: false
             protocol: tcp
+            port: 53
           dns-udp:
             enabled: true
             primary: true
             protocol: udp
+            port: 53
           http:
             # -- Enables or disables the port
             enabled: false
