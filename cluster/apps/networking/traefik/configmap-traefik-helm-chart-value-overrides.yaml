@@ -57,7 +57,7 @@ data:
       # Additional initContainers (e.g. for setting file permission as shown below)
       initContainers:
         - name: volume-permissions
-          image: busybox:1.31.1
+          image: busybox:1.35.0
           command: ["sh", "-c", "chmod -Rv 600 /data/*"]
           volumeMounts:
             - name: data
