@@ -128,36 +128,7 @@ spec:
       extraEnvVarsSecret: ""
       extraVolumes: []
       extraVolumeMounts: []
-      sidecars:
-        codeserver:
-          enabled: true
-          image:
-            repository: codercom/code-server
-            tag: 3.9.0
-          workingDir: "/config"
-          args:
-            - --auth
-            - "none"
-            - --user-data-dir
-            - "/config/.vscode"
-            - --extensions-dir
-            - "/config/.vscode"
-          ingress:
-            enabled: true
-            annotations:
-              traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-            hosts:
-              - host: &host app-config.${SECRET_DOMAIN}
-                paths:
-                  - path: /
-                    pathType: Prefix
-            tls:
-              - hosts:
-                  - *host
-                secretName: ${SECRET_CERT}
-          volumeMounts:
-            - name: config
-              mountPath: /config
+      sidecars: []
       initContainers: {}
     service:
       type: LoadBalancer
