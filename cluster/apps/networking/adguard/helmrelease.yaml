@@ -20,7 +20,7 @@ spec:
     image:
       repository: adguard/adguardhome
       tag: v0.108.0-b.3
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
 
     persistence:
       config:
@@ -98,7 +98,7 @@ spec:
     image:
       repository: adguard/adguardhome
       tag: v0.108.0-b.3
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
 
     persistence:
       config:
