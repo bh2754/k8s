@@ -39,13 +39,11 @@ spec:
         - "192.168.0.0/16 allow"
         - "172.16.0.0/12 allow"
         - "10.0.0.0/8 allow"
-      forwardingAddresses:
-        - "9.9.9.9@853#dns.quad9.net"
-        - "149.112.112.112@853#dns.quad9.net"
+      forwardingAddresses: []
       image:
         registry: docker.io
-        repository: savepointsam/unbound
-        tag: "1.15.0"
+        repository: extremeshok/unbound
+        tag: latest
         pullPolicy: IfNotPresent
         pullSecrets: []
         debug: false

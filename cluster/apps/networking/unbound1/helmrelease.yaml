@@ -41,8 +41,6 @@ spec:
         - "172.16.0.0/12 allow"
         - "10.0.0.0/8 allow"
       forwardingAddresses: []
-      # - "9.9.9.9@853#dns.quad9.net"
-      # - "149.112.112.112@853#dns.quad9.net"
       image:
         registry: docker.io
         repository: extremeshok/unbound
