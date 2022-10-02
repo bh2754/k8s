@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: adguard-0-config-pvc
+  name: adguard-1-config-pvc
   namespace: networking
 spec:
   accessModes:
@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: adguard-1-config-pvc
+  name: adguard-2-config-pvc
   namespace: networking
 spec:
   accessModes:
