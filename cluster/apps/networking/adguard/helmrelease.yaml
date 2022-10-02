@@ -38,7 +38,7 @@ spec:
       dns:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: ${METALLB_SVC_ADGUARD_ADDRESS}
+        loadBalancerIP: ${METALLB_SVC_ADGUARD1_ADDRESS}
         externalTrafficPolicy: Local
         ports:
           tcp:
@@ -117,7 +117,7 @@ spec:
       dns:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: ${METALLB_SVC_ADGUARD_ADDRESS}
+        loadBalancerIP: ${METALLB_SVC_ADGUARD2_ADDRESS}
         externalTrafficPolicy: Local
         ports:
           tcp:
