@@ -32,7 +32,7 @@ spec:
 
     service:
       main:
-        port:
+        ports:
           port: 3000
 
       dns:
