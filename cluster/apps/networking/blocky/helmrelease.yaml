@@ -101,8 +101,7 @@ spec:
           config.yml: |-
             upstream:
               default:
-                - udp:10.0.102.100
-                - udp:10.0.102.101
+                - 10.0.102.100:53
 
             upstreamTimeout: 5
 
