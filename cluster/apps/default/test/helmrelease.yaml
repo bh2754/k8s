@@ -78,11 +78,14 @@ spec:
     dnsPolicy:  # ClusterFirst
     dnsConfig: {}
     enableServiceLinks: true
-    podSecurityContext: {}
+    podSecurityContext:
+      sysctls:
+        - name: net.core.rmem_max
+          value: "8000000"
     securityContext:
       sysctls:
         - name: net.core.rmem_max
-          value: "4194304"
+          value: "4197304"
     lifecycle: {}
     initContainers: {}
     additionalContainers: {}
