@@ -101,7 +101,8 @@ spec:
           config.yml: |-
             upstream:
               default:
-              # - 10.0.102.100:53
+                - 10.0.102.100:53
+                - 10.0.102.101:53
 
             upstreamTimeout: 5
 
@@ -146,7 +147,7 @@ spec:
               refreshPeriod: 0
 
             clientLookup:
-              upstream: 10.0.102.100,10.0.102.101
+              upstream: udp:10.0.103.10
               singleNameOrder:
                 - 2
                 - 1
