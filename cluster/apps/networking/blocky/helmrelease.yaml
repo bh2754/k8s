@@ -101,17 +101,20 @@ spec:
           config.yml: |-
             upstream:
               default:
-                - tcp-tls:one.one.one.one
-                - tcp-tls:1.0.0.1:853
-                - https://cloudflare-dns.com/dns-query
+                - 10.0.102.100
+                - 10.0.102.101
 
             upstreamTimeout: 5
 
             conditional:
               mapping:
-                ${SECRET_DOMAIN}: 192.168.42.5:53
+                ${SECRET_DOMAIN}: 10.0.103.10:53,10.0.103.11:53
+                ${SECRET_DOMAIN_LOCAL}: 10.0.103.10:53,10.0.103.11:53
+                ${SECRET_DOMAIN_CC}: 10.0.103.10:53,10.0.103.11:53
+                ${SECRET_DOMAIN_CO}: 10.0.103.10:53,10.0.103.11:53
+                ${SECRET_DOMAIN_TV}: 10.0.103.10:53,10.0.103.11:53
 
-            bootstrapDns: tcp+udp:1.1.1.1
+            bootstrapDns: tcp+udp:10.0.102.100
 
             redis:
               address: redis-redis-ha-haproxy.database.svc:6379
@@ -144,9 +147,7 @@ spec:
               refreshPeriod: 0
 
             clientLookup:
-              upstream:
-                -  tcp+udp:10.0.102.100
-                -  tcp+udp:10.0.102.101
+              upstream: 10.0.102.100,10.0.102.101
               singleNameOrder:
                 - 2
                 - 1
