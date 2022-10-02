@@ -2,16 +2,33 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: adguard
+  name: adguard1
   namespace: networking
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`adguard.${SECRET_DOMAIN}`)
+    - match: HOST(`adguard1.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: adguard-home-0
+          port: 3000
+  tls:
+    secretName: ${SECRET_CERT}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard1
+  namespace: networking
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`adguard2.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: adguard-home-1
           port: 3000
   tls:
     secretName: ${SECRET_CERT}
