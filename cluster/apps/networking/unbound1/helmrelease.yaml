@@ -46,7 +46,7 @@ spec:
       image:
         registry: docker.io
         repository: extremeshok/unbound
-        tag: "1.15.0"
+        tag: latest
         pullPolicy: IfNotPresent
         pullSecrets: []
         debug: false
