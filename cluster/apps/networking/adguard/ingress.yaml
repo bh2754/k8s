@@ -11,7 +11,7 @@ spec:
     - match: HOST(`adguard1.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: adguard-home-0
+        - name: adguard-home-1
           port: 3000
   tls:
     secretName: ${SECRET_CERT}
@@ -28,7 +28,7 @@ spec:
     - match: HOST(`adguard2.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: adguard-home-1
+        - name: adguard-home-2
           port: 3000
   tls:
     secretName: ${SECRET_CERT}
