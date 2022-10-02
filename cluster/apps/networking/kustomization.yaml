@@ -13,3 +13,4 @@ resources:
   - unbound1
   - unbound2
   - pihole1
+  - adguard
