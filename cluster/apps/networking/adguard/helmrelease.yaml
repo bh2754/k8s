@@ -21,20 +21,16 @@ spec:
       repository: adguard/adguardhome
       tag: v0.108.0-b.3
       pullPolicy: IfNotPresent
-
     persistence:
       config:
         enabled: true
         existingClaim: adguard-1-config-pvc
-
     env:
       TZ: "${TZ}"
-
     service:
       main:
         port:
           port: 3000
-
       dns:
         enabled: true
         type: LoadBalancer
@@ -51,7 +47,6 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-
     ingress:
       main:
         enabled: true
@@ -67,9 +62,6 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
-
-    # nodeSelector:
-    #   node-role.kubernetes.io/worker: "true"
     resources:
       requests:
         memory: 1000Mi
@@ -104,15 +96,12 @@ spec:
       config:
         enabled: true
         existingClaim: adguard-2-config-pvc
-
     env:
       TZ: "${TZ}"
-
     service:
       main:
         port:
           port: 3000
-
       dns:
         enabled: true
         type: LoadBalancer
@@ -129,7 +118,6 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-
     ingress:
       main:
         enabled: true
@@ -145,9 +133,6 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
-
-    # nodeSelector:
-    #   node-role.kubernetes.io/worker: "true"
     resources:
       requests:
         memory: 1000Mi
