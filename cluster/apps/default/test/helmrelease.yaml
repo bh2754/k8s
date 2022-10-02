@@ -41,7 +41,7 @@ spec:
       revisionHistoryLimit: 3
       podManagementPolicy:
     image:
-      repository: alpinelinux/unbound
+      repository: extremeshok/unbound
       tag: latest
       pullPolicy: IfNotPresent
     imagePullSecrets: []
