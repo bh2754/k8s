@@ -81,7 +81,7 @@ spec:
     podSecurityContext: {}
     securityContext:
       sysctls:
-        - name: so-rcvbuf
+        - name: net.core.rmem_max
           value: "4194304"
     lifecycle: {}
     initContainers: {}
