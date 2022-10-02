@@ -284,12 +284,12 @@ spec:
           dns-tcp:
             enabled: true
             primary: false
-            protocol: tcp
+            protocol: TCP
             port: 53
           dns-udp:
             enabled: true
             primary: true
-            protocol: udp
+            protocol: UDP
             port: 53
           http:
             # -- Enables or disables the port
