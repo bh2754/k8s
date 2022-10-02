@@ -11,7 +11,7 @@ spec:
     - match: HOST(`adguard.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: adguard
+        - name: adguard-home-0
           port: 3000
   tls:
     secretName: ${SECRET_CERT}
