@@ -45,7 +45,7 @@ spec:
       # - "149.112.112.112@853#dns.quad9.net"
       image:
         registry: docker.io
-        repository: savepointsam/unbound
+        repository: extremeshok/unbound
         tag: "1.15.0"
         pullPolicy: IfNotPresent
         pullSecrets: []
