@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`sonarr.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: sonarr
           port: 8989
