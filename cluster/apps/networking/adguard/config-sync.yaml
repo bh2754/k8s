@@ -20,13 +20,13 @@ spec:
           args: ["run"]
           env:
             - name: ORIGIN_URL
-              value: http://adguard-home-0:3000
+              value: http://adguard-home-1:3000
             # - name: ORIGIN_USERNAME
             #   value:
             # - name: ORIGIN_PASSWORD
             #   value:
             - name: REPLICA_URL
-              value: http://adguard-home-1:3000
+              value: http://adguard-home-2:3000
             # - name: REPLICA_USERNAME
             #   value:
             # - name: REPLICA_PASSWORD
