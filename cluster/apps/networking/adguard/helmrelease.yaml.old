@@ -3,38 +3,34 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: adguard-home-1
-  namespace: network
+  namespace: networking
 spec:
   interval: 5m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: adguard-home
-      version: 5.3.2
+      version: 5.5.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: k8s-at-home
         namespace: flux-system
       interval: 5m
   values:
     image:
       repository: adguard/adguardhome
-      tag: v0.108.0-b.3
-      pullPolicy: Always
-
+      tag: v0.107.14
+      pullPolicy: IfNotPresent
     persistence:
       config:
         enabled: true
         existingClaim: adguard-1-config-pvc
-
     env:
       TZ: "${TZ}"
-
     service:
       main:
         port:
           port: 3000
-
       dns:
         enabled: true
         type: LoadBalancer
@@ -51,17 +47,12 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-
     ingress:
       main:
         enabled: true
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          hajimari.io/enable: "true"
-          hajimari.io/icon: shield-check
-          hajimari.io/group: network
-          hajimari.io/appName: adguard1
         hosts:
           - host: &host "adguard1.${SECRET_DOMAIN}"
             paths:
@@ -71,57 +62,50 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
-
-    # nodeSelector:
-    #   node-role.kubernetes.io/worker: "true"
     resources:
       requests:
         memory: 1000Mi
         cpu: 200m
       limits:
         memory: 2000Mi
-
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: adguard-home-2
-  namespace: network
+  namespace: networking
 spec:
   interval: 5m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: adguard-home
-      version: 5.3.2
+      version: 5.5.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: k8s-at-home
         namespace: flux-system
       interval: 5m
   values:
     image:
       repository: adguard/adguardhome
-      tag: v0.108.0-b.3
-      pullPolicy: Always
+      tag: v0.107.14
+      pullPolicy: IfNotPresent
 
     persistence:
       config:
         enabled: true
         existingClaim: adguard-2-config-pvc
-
     env:
       TZ: "${TZ}"
-
     service:
       main:
         port:
           port: 3000
-
       dns:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: ${METALLB_SVC_ADGUARD1_ADDRESS}
+        loadBalancerIP: ${METALLB_SVC_ADGUARD2_ADDRESS}
         externalTrafficPolicy: Local
         ports:
           tcp:
@@ -134,17 +118,12 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-
     ingress:
       main:
         enabled: true
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          hajimari.io/enable: "true"
-          hajimari.io/icon: shield-check
-          hajimari.io/group: network
-          hajimari.io/appName: adguard2
         hosts:
           - host: &host "adguard2.${SECRET_DOMAIN}"
             paths:
@@ -154,9 +133,6 @@ spec:
           - hosts:
               - *host
             secretName: ${SECRET_CERT}
-
-    # nodeSelector:
-    #   node-role.kubernetes.io/worker: "true"
     resources:
       requests:
         memory: 1000Mi
