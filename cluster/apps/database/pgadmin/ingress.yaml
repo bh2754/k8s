@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pgadmin
+  namespace: database
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`pgadmin.${SECRET_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: pgadmin
+          port: 80
+  tls:
+    secretName: ${SECRET_CERT}
