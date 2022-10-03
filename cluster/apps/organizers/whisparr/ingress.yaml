@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: prowlarr
+  name: whisparr
   namespace: organizers
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`prowlarr.${SECRET_DOMAIN}`)
+    - match: HOST(`whisparr.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: prowlarr
-          port: 9696
+        - name: whisparr
+          port: 6969
   tls:
     secretName: ${SECRET_CERT}

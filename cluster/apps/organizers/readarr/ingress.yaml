@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: radarr
+  name: readarr
   namespace: organizers
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`radarr.${SECRET_DOMAIN}`)
+    - match: HOST(`readarr.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: radarr
-          port: 7878
+        - name: readarr
+          port: 80
   tls:
     secretName: ${SECRET_CERT}
