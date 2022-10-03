@@ -40,3 +40,4 @@ resources:
   - deliveryhero-charts.yaml
   - savepointsam-charts.yaml
   - pihole-charts.yaml
+  - runix.yaml
