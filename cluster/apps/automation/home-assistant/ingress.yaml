@@ -12,6 +12,6 @@ spec:
       kind: Rule
       services:
         - name: home-assistant
-          port: 8989
+          port: 8123
   tls:
     secretName: ${SECRET_CERT}
