@@ -5,4 +5,4 @@ resources:
   - ./secret.sops.yaml
   - ./config-pvc.yaml
   - ./helmrelease.yaml
-  - ./whisparr-ingress.yaml
+  - ./ingress.yaml
