@@ -11,7 +11,7 @@ spec:
     - match: HOST(`pgadmin.${SECRET_DOMAIN}`)
       kind: Rule
       services:
-        - name: pgadmin
+        - name: pgadmin-pgadmin4
           port: 80
   tls:
     secretName: ${SECRET_CERT}
