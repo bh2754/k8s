@@ -22,7 +22,7 @@ spec:
       PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
     envFrom:
       - secretRef:
-          name: *app
+          name: pgadmin
     service:
       main:
         ports:
