@@ -6,5 +6,5 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./ingress.yaml
-patchesStrategicMerge:
-  - patches/postgres.yaml
+#patchesStrategicMerge:
+# - patches/postgres.yaml
