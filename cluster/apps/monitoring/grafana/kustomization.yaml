@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./config-pvc.yaml
   - ./helmrelease.yaml
-  - ./grafana-ingress.yaml
+  - ./ingress.yaml
