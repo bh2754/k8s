@@ -16,5 +16,6 @@ spec:
       services:
         - name: home-assistant
           port: 8123
+          scheme: http
   tls:
     secretName: ${SECRET_CERT}
