@@ -15,10 +15,20 @@ spec:
         name: k8s-at-home
         namespace: flux-system
       interval: 5m
+  dependsOn:
+    - name: traefik
+      namespace: traefik
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     addons:
       netshoot:
-        enabled: true
+        enabled: false
     image:
       repository: ghcr.io/onedr0p/prowlarr-nightly
       tag: 0.4.7.1999@sha256:05409e455c3e4c7a825a179cd2345ed3226b5e9739afd4d0bd5ca3486a5416c6
@@ -32,6 +42,7 @@ spec:
         enabled: true
         ingressClassName: "traefik"
         annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           hajimari.io/enable: "true"
           hajimari.io/icon: "radar"

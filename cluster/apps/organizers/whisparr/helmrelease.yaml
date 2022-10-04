@@ -22,6 +22,9 @@ spec:
     remediation:
       retries: 5
   releaseName: whisparr
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     controller:
       replicas: 1
@@ -54,6 +57,7 @@ spec:
         enabled: true
         ingressClassName: traefik
         annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           hajimari.io/enable: "true"
           hajimari.io/icon: "television-box"
