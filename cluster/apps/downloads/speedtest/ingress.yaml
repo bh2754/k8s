@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`speedtest-downloads.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: speedtest-exporter
           port: 9798

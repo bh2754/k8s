@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`hajimari.bharris.xyz`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: hajimari
           port: 3000

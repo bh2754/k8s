@@ -9,6 +9,9 @@ spec:
     - rdp
   routes:
     - match: HostSNI(`*`)
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: rdesktop
           port: 3389

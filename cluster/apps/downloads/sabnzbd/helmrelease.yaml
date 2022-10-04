@@ -21,6 +21,11 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
+    - name: downloads-gateway
+      namespace: vpn
   values:
     image:
       repository: ghcr.io/onedr0p/sabnzbd
@@ -55,6 +60,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "download"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

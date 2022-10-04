@@ -30,6 +30,11 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
+  dependsOn:
+    - name: traefik
+      namespace: traefik
+    - name: influxdb
+      namespace: database
   values:
     image:
       repository: "chronograf"
@@ -52,6 +57,7 @@ spec:
         kubernetes.io/ingress.class: "traefik"
         secretName: ${SECRET_CERT}
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
       path: /
     updateStrategy:
       type: RollingUpdate

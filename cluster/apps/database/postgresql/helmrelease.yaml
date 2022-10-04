@@ -26,6 +26,9 @@ spec:
       retries: 3
       remediateLastFailure: true # remediate the last failure, when no retries remain
     cleanupOnFail: true
+  dependsOn:
+    - name: mettalb
+      namespace: networking
   # values yaml: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml
   values:
     primary:

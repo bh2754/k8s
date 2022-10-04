@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`grocy.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: grocy
           port: 80

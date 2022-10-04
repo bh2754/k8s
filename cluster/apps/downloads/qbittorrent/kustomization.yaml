@@ -5,4 +5,4 @@ namespace: downloads
 resources:
   - ./helmrelease.yaml
   - ./config-pvc.yaml
-  - ./qbittorrent-ingress.yaml
+  - ./ingress.yaml

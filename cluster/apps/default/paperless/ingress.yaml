@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`paperless.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: paperless
           port: 8000

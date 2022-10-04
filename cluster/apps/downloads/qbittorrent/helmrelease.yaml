@@ -24,6 +24,8 @@ spec:
   dependsOn:
     - name: downloads-gateway
       namespace: vpn
+    - name: traefik
+      namespace: traefik
   values:
     hostname: qbittorrent
     image:
@@ -62,6 +64,7 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-download"
         hosts:

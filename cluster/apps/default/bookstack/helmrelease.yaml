@@ -10,6 +10,12 @@ spec:
   dependsOn:
     - name: mariadb
       namespace: database
+    - name: postgres
+      namespace: atabase
+    - name: redis
+      namespace: database
+    - name: traefik
+      namespace: traefik
   interval: 15m
   chart:
     spec:
@@ -43,6 +49,7 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "bookstack.${SECRET_DOMAIN}"
             paths:

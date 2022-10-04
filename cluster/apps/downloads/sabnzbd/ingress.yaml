@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: webtop
+  name: sabnzbd
   namespace: downloads
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`ubuntu.${SECRET_DOMAIN}`)
+    - match: HOST(`sabnzbd.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: webtop
-          port: 3000
+        - name: sabnzbd
+          port: 8080
   tls:
     secretName: ${SECRET_CERT}

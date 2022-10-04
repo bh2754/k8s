@@ -14,6 +14,16 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     image:
       repository: linuxserver/grocy

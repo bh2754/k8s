@@ -16,6 +16,18 @@ spec:
         name: k8s-at-home
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
+    - name: postgresql
+      namespace: database
   values:
     image:
       repository: caddy
@@ -77,7 +89,9 @@ spec:
         enabled: true
         ingressClassName: traefik
         annotations:
+          hajimari.io/enable: "true"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host vikunja.${SECRET_DOMAIN}
             paths:

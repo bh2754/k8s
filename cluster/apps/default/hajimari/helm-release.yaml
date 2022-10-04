@@ -22,10 +22,14 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     image:
       repository: ghcr.io/toboshii/hajimari
       tag: v0.3.0
+      pullPolicy: IfNotPresent
     serviceAccount:
       create: true
     hajimari:
@@ -86,6 +90,7 @@ spec:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "weather-sunset"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: "hajimari.${SECRET_DOMAIN}"
             paths:

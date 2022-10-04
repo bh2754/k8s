@@ -14,10 +14,21 @@ spec:
         kind: HelmRepository
         name: runix
         namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     image:
       repository: dpage/pgadmin4
       tag: "6.14"
+      pullPolicy: IfNotPresent
     env:
       PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
       email: ${PGADMIN_EMAIL}
@@ -31,6 +42,11 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "television-box"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

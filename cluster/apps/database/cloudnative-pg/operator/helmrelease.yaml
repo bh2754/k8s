@@ -25,6 +25,7 @@ spec:
     image:
       repository: ghcr.io/cloudnative-pg/cloudnative-pg-testing
       tag: dev-413
+      pullPolicy: IfNotPresent
     config:
       data:
         INHERITED_ANNOTATIONS: kyverno.io/ignore
