@@ -24,6 +24,7 @@ spec:
       retries: 5
   dependsOn:
     - name: traefik
+      namespace: traefik
   values:
     global:
       nameOverride: *app
