@@ -11,7 +11,7 @@ spec:
     - name: mariadb
       namespace: database
     - name: postgres
-      namespace: atabase
+      namespace: database
     - name: redis
       namespace: database
     - name: traefik
