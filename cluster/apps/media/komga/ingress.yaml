@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ombi
+  name: komga
   namespace: media
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`ombi.${SECRET_DOMAIN}`)
+    - match: HOST(`komga.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: ombi
-          port: 3579
+        - name: komga
+          port: 8080
   tls:
     secretName: ${SECRET_CERT}

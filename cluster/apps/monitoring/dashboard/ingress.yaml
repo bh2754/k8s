@@ -19,6 +19,9 @@ spec:
   routes:
     - match: HOST(`dashboard.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: kubernetes-dashboard
           port: 443

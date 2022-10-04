@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: speedtest
+  name: uptime
   namespace: monitoring
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`speedtest.${SECRET_DOMAIN}`)
+    - match: HOST(`uptime.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: speedtest-exporter
-          port: 9798
+        - name: uptime-kuma
+          port: 3001
   tls:
     secretName: ${SECRET_CERT}

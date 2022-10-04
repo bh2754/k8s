@@ -27,6 +27,8 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
       namespace: monitoring
+    - name: traefik
+      namespace: traefik
   values:
     replicas: 1
     env:
@@ -253,6 +255,7 @@ spec:
         hajimari.io/enable: "true"
         hajimari.io/icon: "graph-line"
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
       hosts:
         - &host "grafana.${SECRET_DOMAIN}"
       tls:

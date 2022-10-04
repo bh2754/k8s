@@ -22,6 +22,9 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     podAnnotations:
       backup.velero.io/backup-volumes: config
@@ -43,6 +46,7 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
           hajimari.io/enable: "true"
           hajimari.io/icon: "mdiBookOpenVariant"
         hosts:

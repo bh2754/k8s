@@ -16,6 +16,16 @@ spec:
         name: goldilocks
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     controller:
       resources:
@@ -36,6 +46,7 @@ spec:
           hajimari.io/appName: "goldilocks"
           hajimari.io/icon: "abacus"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "goldilocks.${SECRET_DOMAIN}"
             paths:

@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - helmrelease.yaml
-  - discord-secret.sops.yaml
-  - prometheus-ingress.yaml
-  - exporters
+  - ./helmrelease.yaml
+  - ./discord-secret.sops.yaml
+  - ./ingress.yaml
+  - ./exporters

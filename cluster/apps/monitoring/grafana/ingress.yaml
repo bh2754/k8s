@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: prometheus
+  name: grafana
   namespace: monitoring
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`prometheus.${SECRET_DOMAIN}`)
+    - match: HOST(`grafana.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: prometheus-prometheus
-          port: 9090
+        - name: grafana
+          port: 80
   tls:
     secretName: ${SECRET_CERT}

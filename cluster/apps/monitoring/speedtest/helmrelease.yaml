@@ -21,10 +21,16 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
+    - name: grafana
+      namespace: monitoring
   values:
     image:
       repository: ghcr.io/miguelndecarvalho/speedtest-exporter
       tag: v3.5.3
+      pullPolicy: IfNotPresent
     service:
       main:
         ports:

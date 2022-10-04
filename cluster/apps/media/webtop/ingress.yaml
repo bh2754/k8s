@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: audiobookshelf
+  name: webtop
   namespace: media
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`abs.${SECRET_DOMAIN}`)
+    - match: HOST(`webtops.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: audiobookshelf
-          port: 80
+        - name: webtop
+          port: 3000
   tls:
     secretName: ${SECRET_CERT}

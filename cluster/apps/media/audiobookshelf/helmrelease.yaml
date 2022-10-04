@@ -21,6 +21,9 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     image:
       repository: ghcr.io/advplyr/audiobookshelf
@@ -41,6 +44,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "television-box"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "abs.${SECRET_DOMAIN}"
             paths:

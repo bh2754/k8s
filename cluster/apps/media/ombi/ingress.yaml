@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: tautulli
+  name: ombi
   namespace: media
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`tautulli.${SECRET_DOMAIN}`)
+    - match: HOST(`ombi.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: tautulli
-          port: 8181
+        - name: ombi
+          port: 3579
   tls:
     secretName: ${SECRET_CERT}

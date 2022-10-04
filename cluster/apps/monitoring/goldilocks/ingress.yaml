@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`goldilocks.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: goldilocks-dashboard
           port: 80

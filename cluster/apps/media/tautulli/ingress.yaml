@@ -2,16 +2,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: webtop
+  name: tautulli
   namespace: media
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`webtops.${SECRET_DOMAIN}`)
+    - match: HOST(`tautulli.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
-        - name: webtop
-          port: 3000
+        - name: tautulli
+          port: 8181
   tls:
     secretName: ${SECRET_CERT}

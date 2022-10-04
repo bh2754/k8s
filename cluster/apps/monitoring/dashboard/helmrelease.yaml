@@ -15,6 +15,16 @@ spec:
         name: kubernetes-dashboard
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     # Copyright 2020 The Kubernetes Authors.
     #

@@ -76,6 +76,7 @@ spec:
         ingressClassName: traefik
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
           hajimari.io/enable: "true"
           hajimari.io/icon: bell-alert
           hajimari.io/appName: Alertmanager
@@ -264,6 +265,7 @@ spec:
           image: quay.io/thanos/thanos:v0.28.0
           # renovate: datasource=docker depName=quay.io/thanos/thanos
           version: v0.28.0
+          imagePullPolicy: IfNotPresent
           objectStorageConfig:
             name: &secret thanos-objstore-secret
             key: objstore.yml

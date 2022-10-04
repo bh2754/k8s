@@ -21,10 +21,14 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     image:
       repository: ghcr.io/onedr0p/tautulli
       tag: 2.10.4@sha256:4275df0318a55a1c21f4a56e536f371da31cdf315919ee8317a2446246a1d4b9
+      pullPolicy: IfNotPresent
     env:
       TZ: "${TZ}"
     service:
@@ -40,6 +44,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "chart-box"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

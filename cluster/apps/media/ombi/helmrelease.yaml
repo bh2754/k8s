@@ -22,12 +22,15 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
   values:
     global:
       nameOverride: *app
     image:
       repository: lscr.io/linuxserver/ombi
       tag: latest
+      pullPolicy: IfNotPresent
     service:
       main:
         ports:
@@ -41,6 +44,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "movie-search"
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "ombi.${SECRET_DOMAIN}"
             paths:
