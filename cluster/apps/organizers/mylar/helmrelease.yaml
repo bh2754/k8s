@@ -20,6 +20,8 @@ spec:
   dependsOn:
     - name: traefik
       namespace: traefik
+    - name: downloads-gateway
+      namespace: vpn
   install:
     createNamespace: true
     remediation:

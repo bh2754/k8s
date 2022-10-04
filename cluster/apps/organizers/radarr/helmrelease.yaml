@@ -24,6 +24,8 @@ spec:
   dependsOn:
     - name: traefik
       namespace: traefik
+    - name: downloads-gateway
+      namespace: vpn
   values:
     image:
       repository: ghcr.io/onedr0p/radarr-develop
@@ -47,6 +49,7 @@ spec:
         enabled: true
         ingressClassName: traefik
         annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           hajimari.io/enable: "true"
           hajimari.io/icon: "filmstrip"

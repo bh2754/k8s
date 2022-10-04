@@ -24,6 +24,8 @@ spec:
   dependsOn:
     - name: traefik
       namespace: traefik
+    - name: downloads-gateway
+      namespace: vpn
   values:
     controller:
       replicas: 1
@@ -52,6 +54,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "television-box"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
           - host: &host "sonarr.${SECRET_DOMAIN}"
             paths:
