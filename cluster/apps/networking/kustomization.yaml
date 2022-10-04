@@ -2,14 +2,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - namespace.yaml
-  - external-dns
-  - metallb
-  - k8s-gateway
-  - traefik
-  - portainer
-  - kyverno
-# - wireguard
-  - unbound1
-  - unbound2
-  - adguard
+  - ./namespace.yaml
+  - ./external-dns
+  - ./metallb
+  - ./k8s-gateway
+  - ./traefik
+  - ./portainer
+  - ./kyverno
+# - ./wireguard
+  - ./unbound1
+  - ./unbound2
+  - ./adguard

@@ -16,12 +16,23 @@ spec:
         name: k8s-at-home
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     image:
       repository: ghcr.io/k8s-at-home/wireguard
       tag: v1.0.20210914
+      pullPolicy: IfNotPresent
     env:
-      TZ: "America/Indianapolis"
+      TZ: "${TZ}"
     ingress:
       main:
         enabled: true

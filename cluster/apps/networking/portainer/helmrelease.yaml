@@ -22,6 +22,9 @@ spec:
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     replicaCount: 1
     image:
@@ -45,6 +48,7 @@ spec:
         hajimari.io/enable: "true"
         hajimari.io/icon: "chart-box"
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
       hosts:
         - host: &host "portainer.${SECRET_DOMAIN}"
           paths:

@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`adguard1.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: adguard-home-1
           port: 3000
@@ -27,6 +30,9 @@ spec:
   routes:
     - match: HOST(`adguard2.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: adguard-home-2
           port: 3000
