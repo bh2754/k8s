@@ -26,6 +26,8 @@ spec:
   dependsOn:
     - name: traefik
       namespace: traefik
+    - name: downloads-gateway
+      namespace: vpn
   values:
     image:
       repository: ghcr.io/onedr0p/lidarr-develop
@@ -69,6 +71,7 @@ spec:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "playlist-music"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
           - host: &host "lidarr.${SECRET_DOMAIN}"
