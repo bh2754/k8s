@@ -28,6 +28,8 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: kube-system
+    - name: longhorn
+      namespace: longhorn-system
   valuesFrom:
     - kind: ConfigMap
       name: traefik-helm-chart-value-overrides

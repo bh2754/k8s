@@ -18,10 +18,14 @@ spec:
       interval: 1m
   install:
     createNamespace: true
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
       repository: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner
       tag: v4.0.2
+      pullPolicy: IfNotPresent
     nfs:
       server: "${NFS_SERVER}"
       path: "/volume1/kubernetes-nfs"

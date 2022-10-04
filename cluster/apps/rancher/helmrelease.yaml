@@ -14,11 +14,25 @@ spec:
         kind: HelmRepository
         name: rancher-latest
         namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   values:
     replicas: 1
     hostname: rancher.${SECRET_DOMAIN}
     ingress:
       ingressClassName: traefik
+      annotations:
+        hajimari.io/enable: "true"
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
       tls:
         source: secret
     bootstrapPassword: "${SECRET_RANCHER_ADMIN_PASSWORD}"

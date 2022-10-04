@@ -10,6 +10,9 @@ spec:
   routes:
     - match: HOST(`kopia.${SECRET_DOMAIN}`)
       kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
       services:
         - name: kopia
           port: 80

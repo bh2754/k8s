@@ -31,6 +31,7 @@ spec:
       tls: true
       tlsSecret: ${SECRET_CERT}
       annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         hajimari.io/enable: "true"
         hajimari.io/icon: "cow"
