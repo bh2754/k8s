@@ -265,7 +265,6 @@ spec:
           image: quay.io/thanos/thanos:v0.28.0
           # renovate: datasource=docker depName=quay.io/thanos/thanos
           version: v0.28.0
-          imagePullPolicy: IfNotPresent
           objectStorageConfig:
             name: &secret thanos-objstore-secret
             key: objstore.yml
