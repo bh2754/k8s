@@ -435,9 +435,7 @@ spec:
       # Cannot contain type, selector or ports entries.
       spec:
         externalTrafficPolicy: Local
-        externalIPs:
-          - ${METALLB_TRAEFIK_INGRESS}
-        # loadBalancerIP: "1.2.3.4"
+        loadBalancerIP: "${TRAEFIK_IP}"
         # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
         # - 192.168.0.1/32
