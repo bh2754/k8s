@@ -13,7 +13,7 @@ spec:
           - name: POSTGRES_HOST
             valueFrom:
               secretKeyRef:
-                name: authenthik
+                name: authentik
                 key: AUTHENTIK_STORAGE_POSTGRES_HOST
           - name: POSTGRES_DB
             valueFrom:
