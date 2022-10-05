@@ -143,7 +143,7 @@ spec:
       enabled: true
       type: LoadBalancer
       spec:
-        loadBalancer: "${METALLB_AUTHENTIK_ADDR}"
+        loadBalancerIP: "${METALLB_AUTHENTIK_ADDR}"
         externalTrafficPolicy: Local
     # port: 80
     # name: http
