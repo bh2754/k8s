@@ -278,8 +278,8 @@ spec:
     #  - "--log.level=DEBUG"
       - "--entryPoints.web.proxyProtocol.insecure"
       - "--entryPoints.web.forwardedHeaders.insecure"
-      - "--providers.kubernetesingress.ingressendpoint.ip=${METALLB_TRAEFIK_INGRESS}"
-      - "--providers.kubernetescrd.allowexternalnameservices=true"
+      #- "--providers.kubernetesingress.ingressendpoint.ip=${METALLB_TRAEFIK_INGRESS}"
+      #- "--providers.kubernetescrd.allowexternalnameservices=true"
 
     # Environment variables to be passed to Traefik's binary
     env: []
