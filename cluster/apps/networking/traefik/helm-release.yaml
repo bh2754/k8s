@@ -140,7 +140,7 @@ spec:
         enabled: true
         allowExternalNameServices: false
         allowEmptyServices: true
-        ingressClass: traefik-internal
+        ingressClass: traefik
         # labelSelector: environment=production,method=traefik
         namespaces: []
           # - "default"
