@@ -16,14 +16,5 @@ spec:
       services:
         - name: sonarr
           port: 8989
-    - kind: Rule
-      match: "Host(`sonarr.${SECRET_DOMAIN}`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      priority: 15
-      services:
-        - kind: Service
-          # Or, to use an external Outpost, create an ExternalName service and reference that here.
-          # See https://kubernetes.io/docs/concepts/services-networking/service/#externalname
-          name: ak-outpost-authentik-embedded-outpost
-          port: 9000
   tls:
     secretName: ${SECRET_CERT}
