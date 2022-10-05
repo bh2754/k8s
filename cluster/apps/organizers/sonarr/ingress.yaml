@@ -16,12 +16,12 @@ spec:
       services:
         - name: sonarr
           port: 8989
-    - kind: Rule
-      match: "Host(`sonarr.bharris.xyz`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      priority: 15
-      services:
-        - kind: Service
-          name: ak-outpost-embedded-outpost
-          port: 9000
+  # - kind: Rule
+    # match: "Host(`sonarr.bharris.xyz`) && PathPrefix(`/outpost.goauthentik.io/`)"
+    # priority: 15
+    # services:
+      # - kind: Service
+        # name: ak-outpost-embedded-outpost
+        # port: 9000
   tls:
     secretName: ${SECRET_CERT}
