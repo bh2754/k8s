@@ -58,7 +58,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
-      shareProcessNamespace: true
+      shareProcessNamespace: false
       imagePullSecrets: []
       lifecycle: {}
     podDisruptionBudget:
