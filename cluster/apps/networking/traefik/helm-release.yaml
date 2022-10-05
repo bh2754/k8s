@@ -442,7 +442,7 @@ spec:
       spec:
         externalTrafficPolicy: Local
         externalIPs:
-          - ${METALLB_INGRESS_ADDR
+          - ${METALLB_INGRESS_ADDR}
         # loadBalancerIP: "1.2.3.4"
         # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
