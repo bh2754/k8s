@@ -9,7 +9,8 @@ spec:
   url: https://github.com/traefik/traefik-helm-chart.git
   ref:
     # renovate: datasource=github-tags depName=traefik/traefik-helm-chart
-    tag: v10.24.4
+  # tag: v10.24.4
+    tag: v11.1.0
   ignore: |
     /*
     !/traefik/crds/*.yaml
