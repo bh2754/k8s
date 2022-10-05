@@ -55,13 +55,15 @@ data:
         #   hostPath:
         #     path: /var/run/statsd-exporter
       # Additional initContainers (e.g. for setting file permission as shown below)
-      initContainers:
-        - name: volume-permissions
-          image: busybox:1.35.0
-          command: ["sh", "-c", "chmod -Rv 600 /data/*"]
-          volumeMounts:
-            - name: data
-              mountPath: /data
+      initContainers: []
+        # The "volume-permissions" init container is required if you run into permission issues.
+        # Related issue: https://github.com/traefik/traefik/issues/6972
+        # - name: volume-permissions
+        #   image: busybox:1.31.1
+        #   command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+        #   volumeMounts:
+        #     - name: data
+        #       mountPath: /data
       # Use process namespace sharing
       shareProcessNamespace: false
       # Custom pod DNS policy. Apply if `hostNetwork: true`
@@ -157,8 +159,8 @@ data:
       kubernetesIngress:
         enabled: true
         allowExternalNameServices: true
-        allowEmptyServices: true
-        ingressClass: traefik
+        allowEmptyServices: false
+        # ingressClass: traefik-internal
         # labelSelector: environment=production,method=traefik
         namespaces: []
           # - "default"
@@ -258,15 +260,13 @@ data:
 
     globalArguments:
       - "--global.checknewversion"
-      - "--providers.kubernetesingress.ingressclass=traefik"
+
     #
     # Configure Traefik static configuration
     # Additional arguments to be passed at Traefik's binary
     # All available options available on https://docs.traefik.io/reference/static-configuration/cli/
     ## Use curly braces to pass values: `helm install --set="additionalArguments={--providers.kubernetesingress.ingressclass=traefik-internal,--log.level=DEBUG}"`
-    additionalArguments:
-      - "--providers.kubernetesingress.ingressendpoint.ip=${METALLB_INGRESS_ADDR}"
-      - "--providers.kubernetescrd.allowexternalnameservices=true"
+    additionalArguments: []
     #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
     #  - "--log.level=DEBUG"
 
@@ -323,20 +323,42 @@ data:
         protocol: TCP
       web:
         port: 80
+        # hostPort: 8000
         expose: true
         exposedPort: 80
+        # The port protocol (TCP/UDP)
         protocol: TCP
+        # Use nodeport if set. This is useful if you have configured Traefik in a
+        # LoadBalancer
+        # nodePort: 32080
+        # Port Redirections
+        # Added in 2.2, you can make permanent redirects via entrypoints.
+        # https://docs.traefik.io/routing/entrypoints/#redirection
         redirectTo: websecure
       websecure:
         port: 443
+        # hostPort: 8443
         expose: true
         exposedPort: 443
+        # The port protocol (TCP/UDP)
         protocol: TCP
+        # nodePort: 32443
+        # Enable HTTP/3.
+        # Requires enabling experimental http3 feature and tls.
+        # Note that you cannot have a UDP entrypoint with the same port.
+        # http3: true
+        # Set TLS at the entrypoint
+        # https://doc.traefik.io/traefik/routing/entrypoints/#tls
         tls:
           enabled: false
+          # this is the name of a TLSOption definition
           options: ""
           certResolver: ""
           domains: []
+          # - main: example.com
+          #   sans:
+          #     - foo.example.com
+          #     - bar.example.com
       rdp:
         port: 3389
         expose: true
@@ -353,8 +375,17 @@ data:
           enabled: false
       metrics:
         port: 9101
+        # hostPort: 9100
+        # Defines whether the port is exposed if service.type is LoadBalancer or
+        # NodePort.
+        #
+        # You may not want to expose the metrics port on production deployments.
+        # If you want to access it from outside of your cluster,
+        # use `kubectl port-forward` or create a secure ingress
         expose: true
+        # The exposed port for this service
         exposedPort: 9101
+        # The port protocol (TCP/UDP)
         protocol: TCP
 
     # TLS Options are created as TLSOption CRDs
@@ -387,13 +418,13 @@ data:
       # Cannot contain type, selector or ports entries.
       spec:
         externalTrafficPolicy: Local
-      # loadBalancerIP: ${TRAEFIK_IP}
-        externalIPs:
-          - ${METALLB_INGRESS_ADDR}
+        loadBalancerIP: ${TRAEFIK_IP}
+        # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
         # - 192.168.0.1/32
         # - 172.16.0.0/16
       externalIPs: []
+        # - 1.2.3.4
       # One of SingleStack, PreferDualStack, or RequireDualStack.
       # ipFamilyPolicy: SingleStack
       # List of IP families (e.g. IPv4 and/or IPv6).
@@ -425,12 +456,12 @@ data:
     # - "--certificatesresolvers.le.acme.storage=/data/acme.json"
     # It will persist TLS certificates.
     persistence:
-      enabled: true
+      enabled: false
       name: data
-      existingClaim: "traefik-data-v1"
+    #  existingClaim: ""
       accessMode: ReadWriteOnce
       size: 128Mi
-      storageClass: "longhorn"
+      # storageClass: ""
       path: /data
       annotations: {}
       # subPath: "" # only mount a subpath of the Volume into the pod
