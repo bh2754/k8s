@@ -106,7 +106,7 @@ spec:
         labels: {}
 
     rollingUpdate:
-      maxUnavailable: 0
+      maxUnavailable: 1
       maxSurge: 1
 
     # Customize liveness and readiness probe values.
