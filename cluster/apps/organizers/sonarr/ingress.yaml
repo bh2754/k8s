@@ -17,7 +17,7 @@ spec:
         - name: sonarr
           port: 8989
     - kind: Rule
-      match: "Host(`sonarr.${SECRET_DOMAIN`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      match: "Host(`sonarr.${SECRET_DOMAIN}`) && PathPrefix(`/outpost.goauthentik.io/`)"
       priority: 15
       services:
         - kind: Service
