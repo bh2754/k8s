@@ -141,10 +141,13 @@ spec:
     service:
       # -- Service that is created to access authentik
       enabled: true
-      type: ClusterIP
-      port: 80
-      name: http
-      protocol: TCP
+      type: LoadBalancer
+      spec:
+        loadBalancer: "${METALLB_AUTHENTIK_ADDR}"
+        externalTrafficPolicy: Local
+    # port: 80
+    # name: http
+    # protocol: TCP
       labels: {}
       annotations: {}
 
