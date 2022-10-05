@@ -16,6 +16,7 @@ spec:
       services:
         - name: sonarr
           port: 8989
+      priority: 10
     - kind: Rule
       match: "Host(`sonarr.bharris.xyz`) && PathPrefix(`/outpost.goauthentik.io/`)"
       priority: 15
