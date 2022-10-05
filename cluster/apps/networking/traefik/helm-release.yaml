@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: 11.x
+      version: 10.x
       sourceRef:
         kind: HelmRepository
         name: traefik
@@ -37,7 +37,7 @@ spec:
   values:
     image:
       name: traefik
-      tag: ""
+      tag: "10.24.3"
       pullPolicy: IfNotPresent
     deployment:
       enabled: true
