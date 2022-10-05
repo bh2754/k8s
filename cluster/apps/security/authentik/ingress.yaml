@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HOST(`authentik.${SECRET_DOMAIN}`)
+    - match: HOST(`auth.${SECRET_DOMAIN}`)
       kind: Rule
     # middlewares:
       # - name: internal-ipwhitelist
