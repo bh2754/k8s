@@ -68,7 +68,7 @@ spec:
       # minAvailable: 0
       # minAvailable: 25%
     ingressClass:
-      enabled: false
+      enabled: true
       isDefaultClass: false
       fallbackApiVersion: ""
 
