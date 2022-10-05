@@ -337,13 +337,13 @@ spec:
         # The port protocol (TCP/UDP)
         protocol: TCP
       web:
-        port: 80
+        port: 8000
         expose: true
         exposedPort: 80
         protocol: TCP
         redirectTo: websecure
       websecure:
-        port: 443
+        port: 8443
         # hostPort: 8443
         expose: true
         exposedPort: 443
