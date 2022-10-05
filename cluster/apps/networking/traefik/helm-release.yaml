@@ -69,8 +69,8 @@ spec:
       # minAvailable: 25%
     ingressClass:
       enabled: true
-      isDefaultClass: false
-      fallbackApiVersion: ""
+      isDefaultClass: true
+      fallbackApiVersion: "v1"
 
     # Activate Pilot integration
     pilot:
@@ -99,9 +99,11 @@ spec:
     ingressRoute:
       dashboard:
         enabled: true
-        annotations: {}
+        annotations:
+          hajimari.io/appName: "traefik"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "web"
         labels: {}
-        entryPoints: ["traefik"]
 
     rollingUpdate:
       maxUnavailable: 0
