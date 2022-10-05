@@ -37,7 +37,7 @@ spec:
   values:
     image:
       name: traefik
-      tag: "v10.24.3"
+      tag: ""
       pullPolicy: IfNotPresent
     deployment:
       enabled: true
