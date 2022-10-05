@@ -2,19 +2,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - default
-  - flux-system
-  - kube-system
-  - networking
-  - system-upgrade
-  - storage
-  - media
-  - vpn
-  - downloads
-  - monitoring
-  - organizers
-  - backup
-  - database
-  - rancher
-  - automation
-  - security
+  - ./default
+  - ./flux-system
+  - ./kube-system
+  - ./networking
+  - ./system-upgrade
+  - ./storage
+  - ./media
+  - ./vpn
+  - ./downloads
+  - ./monitoring
+  - ./organizers
+  - ./backup
+  - ./database
+  - ./rancher
+  - ./automation
+  - ./security
