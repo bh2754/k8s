@@ -276,7 +276,7 @@ spec:
     #  - "--log.level=DEBUG"
       - "--entryPoints.web.proxyProtocol.insecure"
       - "--entryPoints.web.forwardedHeaders.insecure"
-      - "--providers.kubernetesingress.ingressendpoint.ip=${METALLB_INGRESS_ADDR}"
+      - "--providers.kubernetesingress.ingressendpoint.ip=${METALLB_TRAEFIK_INGRESS}"
       - "--providers.kubernetescrd.allowexternalnameservices=true"
 
     # Environment variables to be passed to Traefik's binary
@@ -434,7 +434,7 @@ spec:
       spec:
         externalTrafficPolicy: Local
         externalIPs:
-          - ${METALLB_INGRESS_ADDR}
+          - ${METALLB_TRAEFIK_INGRESS}
         # loadBalancerIP: "1.2.3.4"
         # clusterIP: "2.3.4.5"
       loadBalancerSourceRanges: []
