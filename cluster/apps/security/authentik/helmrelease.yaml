@@ -142,6 +142,7 @@ spec:
       # -- Service that is created to access authentik
       enabled: true
       type: LoadBalancer
+      loadBalancerIP: "${METALLB_AUTHENTIK_ADDR}"
       spec:
         loadBalancerIP: "${METALLB_AUTHENTIK_ADDR}"
         externalTrafficPolicy: Local
