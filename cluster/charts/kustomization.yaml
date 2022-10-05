@@ -41,3 +41,4 @@ resources:
   - savepointsam-charts.yaml
   - pihole-charts.yaml
   - runix.yaml
+  - goauthentik-charts.yaml
