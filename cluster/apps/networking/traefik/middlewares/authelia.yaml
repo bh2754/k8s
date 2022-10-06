@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: authelia
 spec:
   forwardAuth:
-    address: "http://authelia.security.svc.cluster.local:9091/api/verify?rd=https://auth.${SECRET_DOMAIN}"
+    address: http://authelia.security.svc.cluster.local:9091/api/verify?rd=https%3A%2F%2Fauth.${SECRET_DOMAIN_NAME}%2F
     trustForwardHeader: true
     authResponseHeaders:
       - Remote-User
