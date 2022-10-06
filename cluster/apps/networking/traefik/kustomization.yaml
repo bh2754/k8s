@@ -5,6 +5,8 @@ resources:
   - ./namespace.yaml
   - ./config-pvc.yaml
   - ./helm-release.yaml
-  - ./configmap-traefik-helm-chart-value-overrides.yaml
-  - ./ingress.yaml
+# - ./configmap-traefik-helm-chart-value-overrides.yaml
+# - ./ingress.yaml
   - ./middlewares
+  - ./service-monitor.yaml
+  - ./dashboard.yaml
