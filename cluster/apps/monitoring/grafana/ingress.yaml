@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`grafana.${SECRET_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: authelia
+          namespace: traefik
+      services:
+        - name: grafana
+          port: 80
+  tls:
+    secretName: ${SECRET_CERT}
