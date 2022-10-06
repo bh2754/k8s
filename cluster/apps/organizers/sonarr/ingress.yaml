@@ -11,7 +11,7 @@ spec:
     - match: HOST(`sonarr.${SECRET_DOMAIN}`)
       kind: Rule
       middlewares:
-        - name: authentik
+        - name: authelia
           namespace: traefik
       services:
         - name: sonarr
