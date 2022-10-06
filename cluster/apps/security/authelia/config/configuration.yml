@@ -2,13 +2,13 @@
 session:
   redis:
     high_availability:
-      sentinel_name: redismaster
+      sentinel_name: redis-master
       nodes:
-        - host: redis-redis-ha-announce-0.redis-headless.default.svc.cluster.local
+        - host: redis-node-0.redis-headless.default.svc.cluster.local
           port: 26379
-        - host: redis-redis-ha-announce-1.redis-headless.default.svc.cluster.local
+        - host: redis-node-1.redis-headless.default.svc.cluster.local
           port: 26379
-        - host: redis-redis-ha-announce-2.redis-headless.default.svc.cluster.local
+        - host: redis-node-2.redis-headless.default.svc.cluster.local
           port: 26379
 
 access_control:
