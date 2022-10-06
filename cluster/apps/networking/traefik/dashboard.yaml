@@ -10,7 +10,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: "traefik-internal-ipwhitelist@kubernetescrd"
 spec:
   rules:
-    - host: traefik.${SECRET_DOMAIN_NAME}
+    - host: traefik.${SECRET_DOMAIN}
       http:
         paths:
           - path: /
