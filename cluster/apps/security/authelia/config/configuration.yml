@@ -14,11 +14,11 @@ access_control:
         - 172.16.0.0/12
         - 192.168.0.0/16
   rules:
-    - domain: ["grafana.${SECERT_DOMAIN}"]
+    - domain: ["grafana.${SECRET_DOMAIN}"]
       policy: bypass
 
     - policy: bypass
-      domain: "*.${SECRET_DOMAIN}"
+      domain: ["*.${SECRET_DOMAIN}"]
       networks:
         - 10.0.0.0/8
         - 172.16.0.0/12
