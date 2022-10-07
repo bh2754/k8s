@@ -1,0 +1,13 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: sonarr
+  namespace: traefik
+spec:
+  chain:
+    middlewares:
+      - name: authelia
+        namespace: traefik
+      - name: theme-park
+        namespace: traefik

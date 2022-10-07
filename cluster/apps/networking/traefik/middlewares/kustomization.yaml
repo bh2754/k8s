@@ -6,3 +6,4 @@ resources:
 # - ./authentik.yaml
   - ./authelia.yaml
   - ./theme-park.yaml
+  - ./sonarr-chain.yaml
