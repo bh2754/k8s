@@ -44,28 +44,22 @@ spec:
         ports:
           http:
             port: 9091
-          metrics:
-            enabled: true
-            port: 8080
     ingress:
       main:
-        enabled: false
-        ingressClassName: "nginx"
+        enabled: true
+        ingressClassName: "traefik"
         annotations:
-          external-dns.home.arpa/enabled: "true"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            add_header Cache-Control "no-store";
-            add_header Pragma "no-cache";
-            add_header X-Frame-Options "SAMEORIGIN";
-            add_header X-XSS-Protection "1; mode=block";
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
-          - host: &host "auth.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "auth.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
               - *host
+            secretName: ${SECRET_CERT}
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
@@ -91,7 +85,7 @@ spec:
             app.kubernetes.io/name: *app
     resources:
       requests:
-        cpu: 5m
+        cpu: 15m
         memory: 10Mi
       limits:
         memory: 100Mi
