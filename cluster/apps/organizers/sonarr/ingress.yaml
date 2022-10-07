@@ -11,11 +11,10 @@ spec:
     - match: HOST(`sonarr.${SECRET_DOMAIN}`)
       kind: Rule
       middlewares:
-        - name: internal-ipwhitelist
-          namespace: traefik
-    # middlewares:
-      # - name: authelia
+      # - name: internal-ipwhitelist
         # namespace: traefik
+        - name: authelia
+          namespace: traefik
       services:
         - name: sonarr
           port: 8989
