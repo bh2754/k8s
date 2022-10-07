@@ -6,4 +6,4 @@ resources:
 # - ./varrun-pvc.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-  - ./ingress.yaml
+# - ./ingress.yaml
