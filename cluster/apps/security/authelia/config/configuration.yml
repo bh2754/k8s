@@ -2,7 +2,7 @@
 log:
   level: debug
   format: text
-  file_path: "/config/authelia.log"
+  file_path: ""
   keep_stdout: false
 
 access_control:
