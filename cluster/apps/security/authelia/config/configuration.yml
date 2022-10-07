@@ -18,12 +18,12 @@ access_control:
       policy: bypass
 
     - policy: bypass
-      domain: ["*.${SECRET_DOMAIN}"]
+      domain: ["sonarr.${SECRET_DOMAIN}"]
       networks:
         - 10.0.0.0/8
         - 172.16.0.0/12
         - 192.168.0.0/16
-
+        - 192.168.15.101
 identity_providers:
   oidc:
     cors:
