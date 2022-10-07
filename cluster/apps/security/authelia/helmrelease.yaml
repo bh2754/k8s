@@ -50,7 +50,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
@@ -62,7 +62,7 @@ spec:
         tls:
           - hosts:
               - *host
-
+            secretName: ${SECRET_CERT}
     persistence:
       config:
         enabled: true
