@@ -1,4 +1,9 @@
 ---
+log:
+  level: debug
+  format: text
+  file_path: ""
+  keep_stdout: false
 session:
   redis:
     high_availability:
