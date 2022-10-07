@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: glauth
+  namespace: security
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HOST(`glauth.${SECRET_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: internal-ipwhitelist
+          namespace: traefik
+      services:
+        - name: glauth
+          port: 389
+  tls:
+    secretName: ${SECRET_CERT}
