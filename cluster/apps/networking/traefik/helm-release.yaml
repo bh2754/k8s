@@ -82,6 +82,9 @@ spec:
     experimental:
       plugins:
         enabled: true
+        themepark:
+          moduleName: "github.com/packruler/traefik-themepark"
+          version: "v1.2.2"
     providers:
       kubernetesCRD:
         enabled: true

@@ -5,3 +5,4 @@ resources:
   - ./ipwhitelist.yaml
 # - ./authentik.yaml
   - ./authelia.yaml
+  - ./theme-park.yaml

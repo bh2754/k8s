@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: themse-park
+  namespace: traefik
+  labels:
+    app.kubernetes.io/instance: theme-park
+    app.kubernetes.io/name: theme-park
+spec:
+  sonarr-dark:
+    plugin:
+      themepark:
+        # The name of the supported application listed on https://docs.theme-park.dev/themes.
+        app: sonarr
+        # The name of the supported theme listed on https://docs.theme-park.dev/theme-options/ or https://docs.theme-park.dev/community-themes/
+        theme: dark
