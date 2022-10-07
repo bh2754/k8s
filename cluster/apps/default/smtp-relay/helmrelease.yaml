@@ -33,7 +33,7 @@ spec:
       DEBUG: "true"
       SMTP_DOMAIN: "${SECRET_DOMAIN}"
       SMTP_SERVER: "smtp.fastmail.com"
-      SMTP_USERNAME: "bh2754@${SECRET_DOMAIN}"
+      SMTP_USERNAME: "bharris@${SECRET_DOMAIN}"
       SMTP_PORT: "465"
     envFrom:
       - secretRef:
