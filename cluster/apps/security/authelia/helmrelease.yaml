@@ -55,7 +55,7 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
         hosts:
-          - host: &host "auth.${INGRESS_DOMAIN}"
+          - host: &host "auth.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
