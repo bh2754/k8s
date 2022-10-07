@@ -54,8 +54,8 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "television-box"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        # traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia@kubernetescrd
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
+        # traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia@kubernetescrd
         hosts:
           - host: &host "sonarr.${SECRET_DOMAIN}"
             paths:
