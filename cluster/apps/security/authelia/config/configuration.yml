@@ -1,4 +1,10 @@
 ---
+log:
+  level: debug
+  format: text
+  file_path: "/config/authelia.log"
+  keep_stdout: false
+
 access_control:
   default_policy: two_factor
   networks:
