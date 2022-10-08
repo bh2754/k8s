@@ -128,8 +128,8 @@ spec:
 
     ingress:
       enabled: true
-      tls: true
-        secretName:#{SECRET_CERT}
+      tls:
+        secretName: ${SECRET_CERT}
       hostname: influxdb.bharris.xyz
       className: null
       annotations:
