@@ -48,13 +48,13 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "book-open-page-variant"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        # traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         # traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia@kubernetescrd
+        # traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia@kubernetescrd
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
@@ -63,7 +63,7 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: ${SECRET_CERT}
+          # secretName: ${SECRET_CERT}
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
