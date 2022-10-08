@@ -22,8 +22,8 @@ spec:
     remediation:
       retries: 5
   dependsOn:
-    - name: traefik
-      namespace: traefik
+  # - name: traefik
+    # namespace: traefik
     - name: downloads-gateway
       namespace: vpn
   values:
