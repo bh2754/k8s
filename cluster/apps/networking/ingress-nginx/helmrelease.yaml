@@ -31,8 +31,9 @@ spec:
         - name: TZ
           value: "${TZ}"
       service:
+        enabled: true
         type: LoadBalancer
-        loadBalancerIP: ["${METALLB_INGRESS_ADDR}"]
+        loadBalancerIP: "${METALLB_INGRESS_ADDR}"
         externalTrafficPolicy: Local
       publishService:
         enabled: true
