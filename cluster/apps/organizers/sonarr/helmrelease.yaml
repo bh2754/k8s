@@ -53,10 +53,11 @@ spec:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "television-box"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        # traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
-        # traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia@kubernetescrd
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-sonarr@kubernetescrd
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          nginx.ingress.kubernetes.io/configuration-snippet: |-
+            proxy_set_header Accept-Encoding "";
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_PUBLIC_DOMAIN}/css/base/readarr/nord.css"></head>';
+            sub_filter_once on;
         hosts:
           - host: &host "sonarr.${SECRET_DOMAIN}"
             paths:
