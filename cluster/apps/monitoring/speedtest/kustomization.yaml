@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./servicemonitor.yaml
-  - ./ingress.yaml
 configMapGenerator:
   - name: speedtest-dashboard
     namespace: monitoring
