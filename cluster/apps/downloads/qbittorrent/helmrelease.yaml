@@ -24,8 +24,8 @@ spec:
   dependsOn:
     - name: downloads-gateway
       namespace: vpn
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
   values:
     hostname: qbittorrent
     image:
