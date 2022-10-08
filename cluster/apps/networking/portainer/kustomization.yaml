@@ -5,4 +5,3 @@ resources:
   - ./namespace.yaml
   - ./config-pvc.yaml
   - ./helmrelease.yaml
-  - ./ingress.yaml
