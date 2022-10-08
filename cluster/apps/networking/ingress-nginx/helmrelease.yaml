@@ -55,7 +55,7 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-          namespace: default
+          namespace: nginx
           namespaceSelector:
             any: true
       extraArgs:
