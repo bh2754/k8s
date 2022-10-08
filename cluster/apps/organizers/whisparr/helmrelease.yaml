@@ -23,8 +23,8 @@ spec:
       retries: 5
   releaseName: whisparr
   dependsOn:
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
     - name: downloads-gateway
       namespace: vpn
   values:

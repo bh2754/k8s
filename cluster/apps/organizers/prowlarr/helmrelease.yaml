@@ -16,8 +16,8 @@ spec:
         namespace: flux-system
       interval: 5m
   dependsOn:
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
     - name: downloads-gateway
       namespace: vpn
   install:

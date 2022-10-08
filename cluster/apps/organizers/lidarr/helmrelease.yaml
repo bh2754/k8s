@@ -24,8 +24,8 @@ spec:
     remediation:
       retries: 5
   dependsOn:
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
     - name: downloads-gateway
       namespace: vpn
   values:
