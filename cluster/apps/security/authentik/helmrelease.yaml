@@ -23,8 +23,8 @@ spec:
     remediation:
       retries: 5
   dependsOn:
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
   values:
     replicas: 1
     priorityClassName:
@@ -44,17 +44,19 @@ spec:
     # -- See https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common#values
     additionalContainers: {}
     ingress:
-      enabled: false
-      ingressClassName: ""
+      enabled: true
+      ingressClassName: "nginx"
       annotations: {}
       labels: {}
       hosts:
-        - host: authentik.domain.tld
+        - host: authentik.${SECRET_DOMAIN}
           paths:
             - path: "/"
               pathType: Prefix
-      tls: []
-
+      tls:
+        - hosts:
+            - *host
+          secretName: ${SECRET_CERT}
     authentik:
       log_level: info
       secret_key: "!#sRI8SDs*J&tv$VgiBTmu&eERXyo*$*Z8EC^qqiIb*nPopGh7"

@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: security
 resources:
   - ./helmrelease.yaml
-  - ./ingress.yaml
 secretGenerator:
   - name: glauth
     files:
