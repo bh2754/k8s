@@ -8,6 +8,11 @@ access_control:
     - domain: ["grafana.${SECERT_DOMAIN}"]
       policy: bypass
 
+    - policy: bypass
+      domain: ["*.${SECRET_DOMAIN}"]
+      networks:
+        - internal
+
 identity_providers:
   oidc:
     cors:
