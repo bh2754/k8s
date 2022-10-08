@@ -14,8 +14,8 @@ spec:
       namespace: database
     - name: redis
       namespace: database
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
   interval: 15m
   chart:
     spec:
@@ -46,10 +46,9 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
           - host: &host "bookstack.${SECRET_DOMAIN}"
             paths:
