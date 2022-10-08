@@ -41,9 +41,9 @@ spec:
     service:
       main:
         type: LoadBalancer
-        loadBalacerIP: ${METALLB_SMTP_RELAY_ADDR}
-        externalIPs:
-          - ${METALLB_SMTP_RELAY_ADDR}
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: |-
+            "${METALLB_SMTP_RELAY_ADDR}"
         externalTrafficPolicy: Local
         ports:
           http:
