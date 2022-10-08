@@ -45,6 +45,7 @@ spec:
       bittorrent:
         enabled: true
         type: LoadBalancer
+        loadBalancerIP: "${METALLB_QBITTORRENT_ADDR}"
         externalIPs:
           - "${METALLB_QBITTORRENT_ADDR}"
         ports:
@@ -61,10 +62,13 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          nginx.ingress.kubernetes.io/configuration-snippet: |-
+            proxy_set_header Accept-Encoding "";
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/qbittorrent/hotline.css"></head>';
+            sub_filter_once on;
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-download"
         hosts:
