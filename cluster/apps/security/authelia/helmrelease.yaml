@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app smtp-relay
-  namespace: default
+  name: &app authelia
+  namespace: security
 spec:
   interval: 15m
   chart:
@@ -15,57 +15,77 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   install:
-    createNamespace: true
     remediation:
       retries: 5
   upgrade:
     remediation:
       retries: 5
+  dependsOn:
+    - name: postgres
+      namespace: database
+    - name: glauth
+      namespace: security
+    - name: redis
+      namespace: database
   values:
     controller:
       replicas: 3
       strategy: RollingUpdate
+
     image:
-      repository: ghcr.io/foxcpp/maddy
-      tag: 0.6.2
-      pullPolicy: IfNotPresent
-    env:
-      DEBUG: "true"
-      SMTP_DOMAIN: "${SECRET_DOMAIN}"
-      SMTP_SERVER: "smtps-proxy.fastmail.com"
-      SMTP_USERNAME: "bharris@${SECRET_DOMAIN}"
-      SMTP_PORT: "443"
+      repository: ghcr.io/authelia/authelia
+      tag: 4.36.9
+
     envFrom:
       - secretRef:
           name: *app
+
+    enableServiceLinks: false
+
     service:
       main:
-        type: LoadBalancer
-        loadBalacerIP: ${METALLB_SMTP_RELAY_ADDR}
-        externalTrafficPolicy: Local
         ports:
           http:
-            port: 2525
+            port: 80
           metrics:
             enabled: true
-            port: 9749
+            port: 8080
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          hajimari.io/enable: "true"
+        hosts:
+          - host: &host "auth.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_CERT}
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+
     persistence:
       config:
         enabled: true
         type: configMap
         name: *app
-        subPath: maddy.conf
-        mountPath: /data/maddy.conf
-        readOnly: true
-      data:
-        enabled: true
-        type: emptyDir
-        medium: Memory
-        sizeLimit: 1Gi
-        mountPath: /dev/shm
+        subPath: configuration.yml
+        mountPath: /config/configuration.yml
+        readOnly: false
+
     podAnnotations:
       configmap.reloader.stakater.com/reload: *app
       secret.reloader.stakater.com/reload: *app
+
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
@@ -73,9 +93,10 @@ spec:
         labelSelector:
           matchLabels:
             app.kubernetes.io/name: *app
+
     resources:
       requests:
-        cpu: 10m
+        cpu: 5m
         memory: 10Mi
       limits:
-        memory: 50Mi
+        memory: 100Mi

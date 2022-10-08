@@ -2,8 +2,8 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: &app smtp-relay
-  namespace: default
+  name: &app authelia
+  namespace: security
   labels: &labels
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
