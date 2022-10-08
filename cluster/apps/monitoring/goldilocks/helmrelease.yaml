@@ -54,7 +54,7 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: "#{SECRET_CERT}"
+            secretName: "${SECRET_CERT}"
       resources:
         requests:
           cpu: 15m
