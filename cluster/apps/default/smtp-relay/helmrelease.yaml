@@ -42,6 +42,8 @@ spec:
       main:
         type: LoadBalancer
         loadBalacerIP: ${METALLB_SMTP_RELAY_ADDR}
+        externalIPs:
+          - ${METALLB_SMTP_RELAY_ADDR}
         externalTrafficPolicy: Local
         ports:
           http:
