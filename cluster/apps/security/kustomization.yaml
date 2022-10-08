@@ -5,4 +5,4 @@ resources:
   - ./namespace.yaml
 # - ./authentik
   - ./glauth
-#  - ./authelia
+  - ./authelia
