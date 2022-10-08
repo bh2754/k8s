@@ -13,4 +13,4 @@ resources:
   - ./unbound1
   - ./unbound2
   - ./adguard
-  - ./ingess-nginx
+  - ./ingress-nginx
