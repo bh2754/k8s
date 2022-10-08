@@ -32,7 +32,7 @@ spec:
           value: "${TZ}"
       service:
         type: LoadBalancer
-        loadBalancerIP: ["${SVC_NGINX_ADDR}"]
+        loadBalancerIP: ["${METALLB_INGRESS_ADDR}"]
         externalTrafficPolicy: Local
       publishService:
         enabled: true
