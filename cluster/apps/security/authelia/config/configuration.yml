@@ -1,29 +1,13 @@
 ---
-log:
-  level: debug
-  format: text
-  file_path: ""
-  keep_stdout: false
-
 access_control:
   default_policy: two_factor
   networks:
     - name: internal
-      networks:
-        - 10.0.0.0/8
-        - 172.16.0.0/12
-        - 192.168.0.0/16
+      networks: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
   rules:
-    - domain: ["grafana.${SECRET_DOMAIN}"]
+    - domain: ["grafana.${SECERT_DOMAIN}"]
       policy: bypass
 
-    - policy: bypass
-      domain: ["*.${SECRET_DOMAIN}"]
-      networks:
-        - 10.0.0.0/8
-        - 172.16.0.0/12
-        - 192.168.0.0/16
-        - 192.168.15.101
 identity_providers:
   oidc:
     cors:
