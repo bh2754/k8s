@@ -31,7 +31,7 @@ spec:
         - name: TZ
           value: "${TZ}"
       service:
-        externalIPs: ["${SVC_NGINX_ADDR}"]
+        type: LoadBalancer
         loadBalancerIP: ["${SVC_NGINX_ADDR}"]
         externalTrafficPolicy: Local
       publishService:
