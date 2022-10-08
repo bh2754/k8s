@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - ./clusterRoleBinding.yaml
   - ./helmrelease.yaml
-  - ./ingress.yaml

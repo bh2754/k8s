@@ -193,66 +193,19 @@ spec:
         key: "kubernetes.io/cluster-service"
 
     ingress:
-      ## If true, Kubernetes Dashboard Ingress will be created.
-      ##
-      enabled: false
-
-      ## Kubernetes Dashboard Ingress labels
-      # labels:
-      #   key: value
-
-      ## Kubernetes Dashboard Ingress annotations
-      # annotations:
-      #   kubernetes.io/ingress.class: nginx
-      #   kubernetes.io/tls-acme: 'true'
-
-      ## If you plan to use TLS backend with enableInsecureLogin set to false
-      ## (default), you need to uncomment the below.
-      ## If you use ingress-nginx < 0.21.0
-      #   nginx.ingress.kubernetes.io/secure-backends: "true"
-      ## if you use ingress-nginx >= 0.21.0
-      #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-
-      ## Kubernetes Dashboard Ingress Class
-      # className: "example-lb"
-
-      ## Kubernetes Dashboard Ingress paths
-      ## Both `/` and `/*` are required to work on gce ingress.
-      paths:
-        - /
-      #  - /*
-
-      ## Custom Kubernetes Dashboard Ingress paths. Will override default paths.
-      ##
-      customPaths: []
-      #  - pathType: ImplementationSpecific
-      #    backend:
-      #      service:
-      #        name: ssl-redirect
-      #        port:
-      #          name: use-annotation
-      #  - pathType: ImplementationSpecific
-      #    backend:
-      #      service:
-      #        name: >-
-      #          {{ include "kubernetes-dashboard.fullname" . }}
-      #        port:
-      #          # Don't use string here, use only integer value!
-      #          number: 443
-      ## Kubernetes Dashboard Ingress hostnames
-      ## Must be provided if Ingress is enabled
-      ##
-      # hosts:
-      #   - kubernetes-dashboard.domain.com
-      ## Kubernetes Dashboard Ingress TLS configuration
-      ## Secrets must be manually created in the namespace
-      ##
-      # tls:
-      #   - secretName: kubernetes-dashboard-tls
-      #     hosts:
-      #       - kubernetes-dashboard.domain.com
-
-    # Global dashboard settings
+      enabled: true
+      ingressClassName: "nginx"
+      annotations:
+      # nginx.ingress.kubernetes.io/auth-url: https://auth.${SECRET_DOMAIN}/oauth2/auth
+      # nginx.ingress.kubernetes.io/auth-signin: https://auth.${SECRET_DOMAIN}/oauth2/start
+        nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      hosts:
+        - &host dashboard.lab.${SECRET_DOMAIN}
+      tls:
+        - hosts:
+            - *host
+          secretName: ${SECRET_CERT}
     settings:
       {}
       ## Cluster name that appears in the browser window title if it is set
@@ -282,7 +235,7 @@ spec:
     ## refs: https://github.com/kubernetes-sigs/dashboard-metrics-scraper
     metricsScraper:
       ## Wether to enable dashboard-metrics-scraper
-      enabled: false
+      enabled: true
       image:
         repository: kubernetesui/metrics-scraper
         tag: v1.0.8

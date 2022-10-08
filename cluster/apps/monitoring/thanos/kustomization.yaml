@@ -5,4 +5,3 @@ resources:
   - ./dashboard
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-  - ./ingress.yaml
