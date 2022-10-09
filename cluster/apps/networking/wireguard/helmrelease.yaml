@@ -25,8 +25,8 @@ spec:
       retries: 5
   values:
     image:
-      repository: ghcr.io/linuxserver/wireguard
-      tag: v1.0.20210914-ls82
+      repository: linuxserver/wireguard
+      tag: latest
       pullPolicy: IfNotPresent
     env:
       TZ: ${TZ}
