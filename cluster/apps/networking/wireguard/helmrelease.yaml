@@ -98,7 +98,7 @@ spec:
       PEERDNS: 10.0.102.102
       INTERNAL_SUBNET: 172.16.0.0
       ALLOWEDIPS: 0.0.0.0/0
-
+      IPTABLES_BACKEND: legacy
 
     # -- Secrets and/or ConfigMaps that will be loaded as environment variables.
     # [[ref]](https://unofficial-kubernetes.readthedocs.io/en/latest/tasks/configure-pod-container/configmap/#use-case-consume-configmap-in-environment-variables)
