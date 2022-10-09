@@ -35,7 +35,11 @@ spec:
 
     # -- Set labels on the pod
     podLabels: {}
-
+    volumes:
+      - name: host-volumes
+        hostPath:
+        path: /lib/modules
+        type: Directory
     serviceAccount:
       # -- Specifies whether a service account should be created
       create: true
