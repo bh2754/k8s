@@ -238,6 +238,7 @@ spec:
         # -- Set the service type
         type: LoadBalancer
         loadBalancerIP: ${METALLB_WIREGUARD_ADDR}
+        externalIP: ${METALB_WIREGUARD_ADDR}
         monitor:
           # -- Enables or disables the serviceMonitor.
           enabled: false
