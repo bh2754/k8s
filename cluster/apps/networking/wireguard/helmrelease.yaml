@@ -9,11 +9,11 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: wireguard
-      version: 1.4.2
+      chart: app-template
+      version: 0.2.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   install:
@@ -23,69 +23,71 @@ spec:
   upgrade:
     remediation:
       retries: 5
-  dependsOn:
-    - name: traefik
-      namespace: traefik
   values:
     image:
-      repository: ghcr.io/k8s-at-home/wireguard
-      tag: v1.0.20210914
+      repository: linuxserver/wireguard
+      tag: v1.0.20210914-ls82
       pullPolicy: IfNotPresent
     env:
-      TZ: "${TZ}"
-    ingress:
+      TZ: ${TZ}
+      IPTABLES_BACKEND: nft
+      KILLSWITCH: false
+      PEERS: 5
+      ALLOWEDIPS: 0.0.0.0/0
+      SERVERURL: wireguard.${SECRET_DOMAIN}
+    service:
+      type: LoadBalancer
+      loadBalancerIP: "${METALLB_WIREGUARD_ADDR}"
+      externalTrafficPolicy: Local
       main:
         enabled: true
-        ingressClassName: "traefik"
-        hosts:
-          - host: "wireguard.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - "wireguard.${SECRET_DOMAIN}"
-          - secretName: ${SECRET_CERT}
-    podSecurityContext:
-      fsGroup: 0
-      supplementalGroups:
-        - 100
+        ports:
+          http:
+            enabled: false
+          vpn:
+            enabled: true
+            port: 51820
+            protocol: UDP
+
+    ingress:
+      # -- Enable and configure ingress settings for the chart under this key.
+      # @default -- See values.yaml
+      main:
+        enabled: false
+
+    # -- Configure persistence settings for the chart under this key.
+    # @default -- See values.yaml
     persistence:
       config:
         enabled: true
-        existingClaim: wireguard-config-v1
         mountPath: /etc/wireguard
-    resources:
-      requests:
-        memory: 250Mi
-        cpu: 500m
-    addons:
-      codeserver:
+        existingClaim: wireguard-config-v1
+
+    # -- Security contexts required for container.
+    # @default -- see values.yaml
+    securityContext:
+      capabilities:
+        add:
+          - NET_ADMIN
+          - SYS_MODULE
+
+    # -- Configures the probes for the main Pod.
+    # @default -- See values.yaml
+    probes:
+      liveness:
         enabled: true
-        image:
-          repository: codercom/code-server
-          tag: 4.7.1
-        workingDir: "/config"
-        args:
-          - --auth
-          - "none"
-          - --user-data-dir
-          - "/config/.vscode"
-          - --extensions-dir
-          - "/config/.vscode"
-        ingress:
-          enabled: true
-          annotations:
-            kubernetes.io/ingress.class: "traefik"
-          hosts:
-            - host: &host wireguard-app.bharris.xyz
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - *host
-              secretName: ${SECRET_CERT}
-        volumeMounts:
-          - name: config
-            mountPath: /config
+        ## Set this to true if you wish to specify your own livenessProbe
+        custom: true
+        ## The spec field contains the values for the default livenessProbe.
+        ## If you selected custom: true, this field holds the definition of the livenessProbe.
+        spec:
+          exec:
+            command: ["bash", "-c", "if [[ $(curl -s https://ipinfo.io) ]]; then exit 0; else exit $?; fi"]
+          initialDelaySeconds: 0
+          timeoutSeconds: 1
+          periodSeconds: 5
+          failureThreshold: 5
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
