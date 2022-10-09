@@ -236,7 +236,7 @@ spec:
         nameOverride:
 
         # -- Set the service type
-        type: loadbalancer
+        type: LoadBalancer
         loadBalancerIP: ${METALLB_WIREGUARD_ADDR}
         monitor:
           # -- Enables or disables the serviceMonitor.
