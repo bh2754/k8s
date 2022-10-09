@@ -40,14 +40,18 @@ spec:
       loadBalancerIP: "${METALLB_WIREGUARD_ADDR}"
       externalTrafficPolicy: Local
       main:
+        enabled: false
+      vpn:
         enabled: true
+        type: LoadBalancer
+        loadBalancerIP: "${METALLB_WIREGUARD_ADDR}"
+        externalTrafficPolicy: Local
         ports:
-          http:
-            enabled: false
-          vpn:
+          wireguard:
             enabled: true
             port: 51820
             protocol: UDP
+            targetport: 51820
 
     ingress:
       # -- Enable and configure ingress settings for the chart under this key.
