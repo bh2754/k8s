@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: app-template
-      version: 0.2.2
+      version: 0.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -25,7 +25,7 @@ spec:
       retries: 5
   values:
     image:
-      repository: linuxserver/wireguard
+      repository: ghcr.io/linuxserver/wireguard
       tag: v1.0.20210914-ls82
       pullPolicy: IfNotPresent
     env:
