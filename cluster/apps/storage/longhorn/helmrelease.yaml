@@ -25,7 +25,7 @@ spec:
       defaultLonghornStaticStorageClass: longhorn
     ingress:
       enabled: true
-      ingressClassName: "traefik"
+      ingressClassName: "nginx"
       host: "longhorn.${SECRET_DOMAIN}"
       path: /
       tls: true
