@@ -196,7 +196,7 @@ spec:
       # @default -- See below
       startup:
         # -- Enable the startup probe
-        enabled: true
+        enabled: false
         # -- Set this to `true` if you wish to specify your own startupProbe
         custom: false
         # -- The spec field contains the values for the default startupProbe.
@@ -450,7 +450,7 @@ spec:
       # @default -- See values.yaml
       codeserver:
         # -- Enable running a code-server container in the pod
-        enabled: true
+        enabled: false
         image:
           repository: ghcr.io/coder/code-server
           tag: 4.7.1
