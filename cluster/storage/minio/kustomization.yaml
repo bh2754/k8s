@@ -6,4 +6,3 @@ resources:
   - ./helmrelease.yaml
   - ./nfs-pvc.yaml
   - ./secret.sops.yaml
-  - ./ingress.yaml
