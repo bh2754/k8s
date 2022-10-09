@@ -23,8 +23,8 @@ spec:
     remediation:
       retries: 5
   dependsOn:
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
   values:
     initContainers:
       wait-for-repo:
@@ -68,11 +68,10 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         annotations:
           hajimari.io/enable: "true"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
           - host: &host "kopia.${SECRET_DOMAIN}"
             paths:
