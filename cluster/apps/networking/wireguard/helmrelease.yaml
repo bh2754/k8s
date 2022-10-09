@@ -96,7 +96,6 @@ spec:
       SERVERURL: wireguard.${SECRET_DOMAIN}
       PEERS: 3
       PEERDNS: 10.0.102.102
-      INTERNAL_SUBNET: 172.16.0.0
       ALLOWEDIPS: 0.0.0.0/0
       IPTABLES_BACKEND: legacy
 
