@@ -26,8 +26,8 @@ spec:
       namespace: vpn
     - name: kube-prometheus-stack
       namespace: monitoring
-    - name: traefik
-      namespace: traefik
+    - name: ingress-nginx
+      namespace: nginx
   values:
     image:
       repository: ghcr.io/miguelndecarvalho/speedtest-exporter
