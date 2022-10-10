@@ -5,6 +5,7 @@ resources:
   - ./sonarr.yaml
 configMapGenerator:
   - name: sonarr-dashboard
+    namespace: monitoring
     files:
       - sonarr-dashboard.json=dashboard.json
 generatorOptions:
