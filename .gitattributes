@@ -1,2 +1,2 @@
 *.sops.* diff=sopsdiffer
-*.sops.toml linguist-language=JSON
+#*.sops.toml linguist-language=JSON
