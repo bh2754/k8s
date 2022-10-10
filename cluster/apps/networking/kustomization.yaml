@@ -14,3 +14,4 @@ resources:
   - ./adguard
   - ./ingress-nginx
   - ./theme-park
+  - ./wireguard
