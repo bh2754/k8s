@@ -35,10 +35,6 @@ spec:
         enabled: true
         mountPath: /config
         existingClaim: webtop-config-v1
-      data:
-        enabled: true
-        mountPath: /data
-        existingClaim: varken-config-v1
     podSecurityContext:
       runAsGroup: 0
       runAsUser: 0
