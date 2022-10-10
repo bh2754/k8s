@@ -7,7 +7,7 @@ configMapGenerator:
   - name: radarr-dashboard
     namespace: monitoring
     files:
-      - sonarr-dashboard.json=dashboard.json
+      - radarr-dashboard.json=dashboard.json
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
