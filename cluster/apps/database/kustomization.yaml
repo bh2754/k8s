@@ -8,6 +8,6 @@ resources:
   - redis
   - cloudnative-pg
   - influxdb
-# - chronograf
+  - chronograf
 # - pgadmin
   - redis-sent
