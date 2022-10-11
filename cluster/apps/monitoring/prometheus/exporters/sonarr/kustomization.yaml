@@ -15,4 +15,4 @@ generatorOptions:
     grafana_folder: Media
   labels:
     grafana_dashboard: "true"
-    k8s-sidecar-target-directory: /var/lib/grafana/dashboards/media
+    k8s-sidecar-target-directory: "/var/lib/grafana/dashboards/media"
