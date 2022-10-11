@@ -76,6 +76,15 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+          - name: "Media"
+            orgId: 1
+            folder: "Media"
+            type: file
+            disableDeletion: true
+            updateIntervalSeconds: 10
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/media
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -104,7 +113,6 @@ spec:
           gnetId: 13502
           revision: 10
           datasource: Prometheus
-      Media:
     sidecar:
       dashboards:
         enabled: true
