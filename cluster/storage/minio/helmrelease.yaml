@@ -44,10 +44,10 @@ spec:
         enabled: true
         ports:
           http:
-            port: &port-console 9001
+            port: 9001
           api:
             enabled: true
-            port: &port-api 9000
+            port: 9000
     ingress:
       main:
         enabled: true
@@ -57,18 +57,18 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "server"
         hosts:
-          - host: &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host-console "minio.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  port: *port-console
+                  port: 9001
           - host: &host-api "s3.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  port: *port-api
+                  port: 9000
         tls:
           - hosts:
               - *host-console
