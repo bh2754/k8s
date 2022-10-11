@@ -41,8 +41,8 @@ spec:
         config:
           region: us-east-1
           s3ForcePathStyle: true
-          s3Url: https://s3.${SECRET_DOMAIN}
-          publicUrl: https://s3.${SECRET_DOMAIN}
+          s3Url: http://minio.minio.svc.cluster.local:9000
+          publicUrl: https://minio.${SECRET_DOMAIN}
       volumeSnapshotLocation:
         name: aws
         config:
@@ -51,7 +51,7 @@ spec:
       logLevel: debug
     initContainers:
       - name: velero-plugin-for-aws
-        image: ghcr.io/k8s-at-home/velero-plugin-for-aws:v1.5.0
+        image: ghcr.io/k8s-at-home/velero-plugin-for-aws:v1.5.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
@@ -82,7 +82,8 @@ spec:
       # serviceMonitor:
         # enabled: true
     snapshotsEnabled: true
-    upgradeCRDs: false
+    installCRDs: true
+    upgradeCRDs: true
     cleanUpCRDs: false
     kubectl:
       image:
