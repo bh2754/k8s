@@ -12,7 +12,7 @@ generatorOptions:
   disableNameSuffixHash: true
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
-    grafana_folder: Media
+  # grafana_folder: Media
     k8s-sidecar-target-directory: "/var/lib/grafana/dashboards/media"
   labels:
     grafana_dashboard: "true"
