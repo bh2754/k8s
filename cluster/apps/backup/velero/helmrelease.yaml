@@ -82,8 +82,8 @@ spec:
       # serviceMonitor:
         # enabled: true
     snapshotsEnabled: true
-    installCRDs: true
-    upgradeCRDs: true
+    installCRDs: false
+    upgradeCRDs: false
     cleanUpCRDs: false
     kubectl:
       image:
