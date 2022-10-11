@@ -13,6 +13,5 @@ generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
     grafana_folder: media
-    k8s-sidecar-target-directory: "/var/lib/grafana/dashboards/media"
   labels:
     grafana_dashboard: "true"
