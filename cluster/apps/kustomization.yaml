@@ -19,3 +19,4 @@ resources:
   - ./rancher
   - ./automation
   - ./security
+  - ./documentation
