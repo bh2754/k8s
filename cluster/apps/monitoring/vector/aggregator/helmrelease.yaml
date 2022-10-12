@@ -5,12 +5,7 @@ metadata:
   name: vector-aggregator
   namespace: monitoring
 spec:
-  dependsOn:
-    - name: loki
-      namespace: monitoring
-    - name: kube-prometheus-stack
-      namespace: monitoring
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: vector
@@ -19,54 +14,39 @@ spec:
         kind: HelmRepository
         name: vector-charts
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
-    remediation: # perform remediation when helm install fails
-      retries: 3
+    remediation:
+      retries: 5
   upgrade:
-    remediation: # perform remediation when helm upgrade fails
-      retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
-    cleanupOnFail: true
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: loki
+      namespace: monitoring
   values:
-    role: "Stateless-Aggregator"
-
-    podMonitor:
-      enabled: true
-
-    service:
-      enabled: true
-      type: LoadBalancer
-
+    image:
+      repository: timberio/vector
+      tag: 0.24.1-debian
+    role: Stateless-Aggregator
+    replicas: 3
     customConfig:
       data_dir: /vector-data-dir
-
       api:
         enabled: false
-
-      # Sources
       sources:
-        kubernetes_logs:
-          address: 0.0.0.0:6000
-          type: vector
-          version: "2"
-
         journal_logs:
           type: vector
-          address: 0.0.0.0:6001
+          address: 0.0.0.0:6000
           version: "2"
-
-        udmp_logs:
-          address: 0.0.0.0:6100
+        kubernetes_logs:
+          type: vector
+          address: 0.0.0.0:6010
+          version: "2"
+        opnsense_filterlog_logs:
           type: syslog
-          mode: "udp"
-          max_length: 102_400
-
-        vector_metrics:
-          type: internal_metrics
-
-      # Transforms
+          address: 0.0.0.0:5140
+          mode: udp
       transforms:
         kubernetes_logs_remap:
           type: remap
@@ -75,42 +55,32 @@ spec:
           source: |
             # Standardize 'app' index
             .custom_app_name = .pod_labels."app.kubernetes.io/name" || .pod_labels.app || .pod_labels."k8s-app" || "unknown"
-
-        udmp_logs_xform:
-          type: "remap"
-          inputs:
-            - "udmp_logs"
-          source: |-
-            .timestamp=null
-
-      # Sinks
       sinks:
         loki_journal:
           type: loki
           inputs:
             - journal_logs
-          endpoint: http://loki-gateway.monitoring.svc:80
+          endpoint: http://loki-gateway:80
           encoding:
             codec: json
           batch:
-            max_bytes: 1024000
+            max_bytes: 2049000
           out_of_order_action: accept
           remove_label_fields: true
           remove_timestamp: true
           labels:
             hostname: >-
               {{`{{ host }}`}}
-
         loki_kubernetes:
           type: loki
           inputs:
-            - kubernetes_logs
+            - kubernetes_logs_remap
           endpoint: http://loki-gateway:80
           encoding:
             codec: json
           batch:
-            max_bytes: 1024000
-          out_of_order_action: rewrite_timestamp
+            max_bytes: 2049000
+          out_of_order_action: accept
           remove_label_fields: true
           remove_timestamp: true
           labels:
@@ -118,36 +88,29 @@ spec:
               {{`{{ custom_app_name }}`}}
             namespace: >-
               {{`{{ kubernetes.pod_namespace }}`}}
-            hostname: >-
+            node: >-
               {{`{{ kubernetes.pod_node_name }}`}}
-
-        loki_udmp:
-          type: loki
-          inputs:
-            - udmp_logs_xform
-          endpoint: http://loki-gateway:80
-          batch:
-            max_bytes: 1048576
-          out_of_order_action: rewrite_timestamp
-          remove_label_fields: true
-          remove_timestamp: true
-          encoding:
-            codec: json
-          labels:
-            hostname: udmpro
-            app: >-
-              {{`"{{ appname }}"`}}
-
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: vector-aggregator
-
-    resources:
-      requests:
-        cpu: 22m
-        memory: 324M
-      limits:
-        memory: 726M
-
+    extraVolumeMounts:
+      - name: geoip
+        mountPath: /geoip
+    extraVolumes:
+      - name: geoip
+        persistentVolumeClaim:
+          claimName: vector-geoipupdate-config-v1
+    service:
+      enabled: true
+      type: LoadBalancer
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/component
+                    operator: In
+                    values: ["Stateless-Aggregator"]
+              topologyKey: kubernetes.io/hostname
   postRenderers:
     - kustomize:
         patchesJson6902:
@@ -156,5 +119,8 @@ spec:
               name: vector-aggregator
             patch:
               - op: add
-                path: /spec/loadBalancerIP
-                value: ${METALLB_VECTOR_AGGREGATOR}
+                path: /spec/externalIPs
+                value: ["${METALLB_SYSLOG_ADDR}"]
+              - op: replace
+                path: /spec/externalTrafficPolicy
+                value: Local
