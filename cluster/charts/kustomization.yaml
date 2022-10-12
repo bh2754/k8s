@@ -42,3 +42,4 @@ resources:
   - pihole-charts.yaml
   - runix.yaml
   - goauthentik-charts.yaml
+  - ./gitea.yaml
