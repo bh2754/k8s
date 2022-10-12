@@ -25,7 +25,7 @@ spec:
     - name: postgres
       namespace: database
     - name: redis
-      namespace: database
+      namespace: security
   values:
     controller:
       replicas: 3
@@ -45,11 +45,8 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         annotations:
-        # traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia@kubernetescrd
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-internal-ipwhitelist@kubernetescrd
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
           hajimari.io/enable: "true"
         hosts:
           - host: &host "docs.${SECRET_DOMAIN}"
