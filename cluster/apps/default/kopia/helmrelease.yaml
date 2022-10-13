@@ -70,7 +70,7 @@ spec:
       backup:
         enabled: true
         type: nfs
-        server: "${NAS_SERVERS}"
+        server: "${NFS_SERVER}"
         path: /volume1/kubernetes/kopia
         mountPath: /backups
 
