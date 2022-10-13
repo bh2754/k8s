@@ -9,3 +9,4 @@ resources:
   - ./bookstack
   - ./paperless
   - ./smtp-relay
+  - ./kopia
