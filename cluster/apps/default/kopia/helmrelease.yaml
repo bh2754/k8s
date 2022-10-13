@@ -71,6 +71,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: ${SECRET_CERT}
     podSecurityContext:
       supplementalGroups:
         - 100
