@@ -19,7 +19,6 @@ metadata:
 spec:
   generateExistingOnPolicyUpdate: true
   mutateExistingOnPolicyUpdate: true
-
   rules:
     - name: create-snapshot-cronjob
       match:
@@ -59,7 +58,7 @@ spec:
         synchronize: true
         apiVersion: batch/v1
         kind: CronJob
-        name: "{{ appName }}-snap"
+        name: "{{ appName }}-{{ claimName }}-snapshot"
         namespace: "{{ request.object.metadata.namespace }}"
         data:
           metadata:
@@ -72,7 +71,7 @@ spec:
                 name: "{{ request.object.metadata.name }}"
                 uid: "{{ request.object.metadata.uid }}"
           spec:
-            schedule: "15 7 * * *"
+            schedule: "0 3 * * *"
             suspend: false
             concurrencyPolicy: Forbid
             successfulJobsHistoryLimit: 1
@@ -82,9 +81,6 @@ spec:
                 # Keep at least one job in completed state in accordance to the schedule
                 ttlSecondsAfterFinished: 86400
                 template:
-                  metadata:
-                    labels:
-                      setGateway: "false"
                   spec:
                     automountServiceAccountToken: false
                     restartPolicy: OnFailure
@@ -103,7 +99,7 @@ spec:
                           - name: KOPIA_LOG_DIR
                             value: /snapshots/{{ namespace }}/{{ appName }}/{{ claimName }}/logs
                           - name: KOPIA_PASSWORD
-                            value: ${SECRET_KOPIA_PASSWORD}
+                            value: "none"
                         command:
                           - /bin/bash
                           - -c
@@ -132,7 +128,7 @@ spec:
                       - name: snapshots
                         nfs:
                           server: "${NFS_SERVER}"
-                          path: "${NFS_KUBERNETES}/kopia"
+                          path: /volume1/kubernetes/kopia
                     affinity:
                       podAffinity:
                         requiredDuringSchedulingIgnoredDuringExecution:
