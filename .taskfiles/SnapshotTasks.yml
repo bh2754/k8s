@@ -12,7 +12,7 @@ x-preconditions:
     sh: kubectl get deploy,sts -n media --selector="{{ .APP_SELECTOR }}" --no-headers | awk '{print $1}'
     msg: "App '{{.APP}}' not found in namespace {{.NAMESPACE}}"
   - &cronjob-exists
-    sh: kubectl get cronjob -n {{.NAMESPACE}} {{.APP}}-{{.PVC}}-snapshot
+    sh: kubectl get cronjob -n {{.NAMESPACE}} {{.PVC}}-snapshot
     msg: "CronJob '{{.PVC}}-snapshot' in namespace '{{.NAMESPACE}}' not found"
   - &pvc-exists
     sh: kubectl get pvc -n {{.NAMESPACE}} {{.PVC}}
@@ -36,14 +36,14 @@ tasks:
     desc: Create a job to snapshot a PVC (ex. task snapshot:create PVC=plex-config [NAMESPACE=<namespace>])
     vars:
       PVC: '{{ or .PVC (fail "Variable `PVC` is required") }}'
-      SNAPSHOT_JOB_NAME: '{{.APP}}-{{.PVC}}-snapshot-{{.TS}}'
+      SNAPSHOT_JOB_NAME: '{{.PVC}}-snapshot-{{.TS}}'
       SNAPSHOT_JOB_SELECTOR: "job-name={{.SNAPSHOT_JOB_NAME}}"
     preconditions:
       - *cronjob-exists
       - *pvc-exists
     cmds:
       - |
-        kubectl -n {{.NAMESPACE}} create job --from=cronjob/{{.APP}}-{{.PVC}}-snapshot {{.SNAPSHOT_JOB_NAME}} --dry-run=client --output yaml \
+        kubectl -n {{.NAMESPACE}} create job --from=cronjob/{{.PVC}}-snapshot {{.SNAPSHOT_JOB_NAME}} --dry-run=client --output yaml \
           | yq eval "del(.spec.template.spec.initContainers)" - \
           | kubectl apply -f -
       - sleep 2
