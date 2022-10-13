@@ -29,12 +29,12 @@ tasks:
   list:
     desc: List all existing snapshots for an app (task snapshot:list APP=plex [KOPIA_NAMESPACE=<namespace>])
     cmds:
-      - kubectl -n {{.KOPIA_NAMESPACE | default "kopia"}} exec -it deployment/kopia -- kopia snapshot list /data/{{.NAMESPACE}}/{{.APP}} {{.CLI_ARGS}}
+      - kubectl -n {{.KOPIA_NAMESPACE | default "default"}} exec -it deployment/kopia -- kopia snapshot list /data/{{.NAMESPACE}}/{{.APP}}/{{.PVC}}/ {{.CLI_ARGS}}
     vars: *vars
     preconditions:
-      - sh: kubectl -n {{.KOPIA_NAMESPACE | default "kopia"}} get deployment kopia
+      - sh: kubectl -n {{.KOPIA_NAMESPACE | default "default"}} get deployment kopia
         msg: |
-          deployment/kopia in namespace/{{.KOPIA_NAMESPACE | default "kopia"}} not found
+          deployment/kopia in namespace/{{.KOPIA_NAMESPACE | default "default"}} not found
 
   create:
     desc: Create a job to backup an app (ex. task PVC=plex-config-v1 backup:volume)
@@ -68,7 +68,7 @@ tasks:
       - flux -n {{.NAMESPACE}} suspend helmrelease {{.APP}}
       - kubectl -n {{.NAMESPACE}} scale deployment {{.APP}} --replicas 0
       - kubectl -n {{.NAMESPACE}} wait pod --for delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=2m
-      - . $HOME/Development/k8s-config/env.base && . $HOME/Development/k8s-config/env.main && envsubst < <(cat ./hack/restore-job.yaml) | kubectl apply -f -
+      - envsubst < <(cat ~/k8s/hack/restore-job.yaml) | kubectl apply -f -
       - kubectl -n {{.NAMESPACE}} wait job --for condition=complete {{.APP}}-{{.PVC}}-restore-snapshot --timeout=60m
       - flux -n {{.NAMESPACE}} resume helmrelease {{.APP}}
       - kubectl -n {{.NAMESPACE}} logs job/{{.APP}}-{{.PVC}}-restore-snapshot
@@ -89,7 +89,7 @@ tasks:
       SNAPSHOT:
         sh: |
           if [[ {{.SNAPSHOT}} == "latest" ]]; then
-            kubectl exec deployment/kopia -n {{.KOPIA_NAMESPACE | default "kopia"}} -- kopia snapshot list /data/{{.NAMESPACE}}/{{.APP}}/{{.PVC}} --json | jq --raw-output '.[-1] | .id'
+            kubectl exec deployment/kopia -n {{.KOPIA_NAMESPACE | default "default"}} -- kopia snapshot list /data/{{.NAMESPACE}}/{{.APP}}/{{.PVC}} --json | jq --raw-output '.[-1] | .id'
           else
             echo {{.SNAPSHOT}}
           fi
