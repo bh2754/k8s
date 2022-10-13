@@ -6,7 +6,6 @@ resources:
 namespace: default
 configMapGenerator:
   - name: kopia
-  - namespace: default
     files:
       - ./config/repository.config
 generatorOptions:
