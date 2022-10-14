@@ -29,7 +29,7 @@ spec:
       TZ: ${TIMEZONE}
       APP_URL: "https://bookstack.${SECRET_DOMAIN}"
       DB_HOST: mariadb.database.svc.cluster.local:3306
-      DB_DATABASE: bookstack
+      DB_DATABASE: bookstack-db
       DB_USERNAME: bookstack
       DB_PASSWORD: ${SECRET_BOOKSTACK_DATABASE_PASSWORD}
     service:
