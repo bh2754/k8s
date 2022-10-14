@@ -31,7 +31,7 @@ spec:
       image:
         repository: netdata/agent-sd
         tag: v0.2.6
-        pullPolicy: IfNostPresent
+        pullPolicy: IfNotPresent
       child:
         enabled: true
         configmap:
