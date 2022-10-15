@@ -1,0 +1,64 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: youtubedl-material
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: youtubedl-material
+      version: 4.4.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    env:
+      TZ: "${TIMEZONE}"
+      UID: 1000
+      GID: 1001
+
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "youtube"
+          hajimari.io/group: "media"
+        hosts:
+          - host: &host "youtubedl.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: youtubedl-config-pvc
+        size: 2Gi
+      video:
+        enabled: true
+        type: nfs
+        server: "${NFS_SERVER}"
+        path: ${NFS_MEDIA}
+        mountPath: /youtube
+        readOnly: false
+    podSecurityContext:
+      supplementalGroups:
+        - 1001
+        - 100
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
