@@ -28,7 +28,7 @@ spec:
   values:
     image:
       repository: traefik/whoami
-      tag: v1.8.6
+      tag: v1.8.7
       pullPolicy: IfNotPresent
     service:
       main:
