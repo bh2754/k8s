@@ -19,10 +19,6 @@ spec:
   values:
     env:
       TZ: "${TIMEZONE}"
-      UID: 1000
-      GID: 1001
-
-
     ingress:
       main:
         enabled: true
@@ -57,7 +53,3 @@ spec:
       supplementalGroups:
         - 1001
         - 100
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
