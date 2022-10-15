@@ -44,7 +44,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: youtubedl-config-pvc
+        existingClaim: youtubedl-config-v1
         size: 2Gi
       video:
         enabled: true
