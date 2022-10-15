@@ -40,7 +40,7 @@ spec:
         tls:
           - hosts:
               - *host
-
+            secretName: ${SECRET_CERT}
     persistence:
       config:
         enabled: true
