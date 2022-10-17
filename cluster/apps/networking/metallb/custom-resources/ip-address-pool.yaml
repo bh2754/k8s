@@ -27,4 +27,4 @@ metadata:
   namespace: kube-system
 spec:
   addresses:
-    - 10.0.150.0/24
+    - 10.0.151.0/24
