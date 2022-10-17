@@ -16,7 +16,7 @@ metadata:
   name: gateway
   namespace: kube-system
 spec:
-  peerAddress: 10.0.102.25
+  peerAddress: 192.168.1.2
   peerASN: 65000
   myASN: 65001
   ebgpMultiHop: true
