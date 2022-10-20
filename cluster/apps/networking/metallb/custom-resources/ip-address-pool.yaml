@@ -3,7 +3,7 @@ apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
 metadata:
   name: bgp-lb
-  namespace: kube-system
+  namespace: networking
 spec:
   ipAddressPools:
     - bgp-pool
@@ -14,7 +14,7 @@ apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
   name: gateway
-  namespace: kube-system
+  namespace: networking
 spec:
   peerAddress: 192.168.1.254
   peerASN: 65000
@@ -25,7 +25,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: bgp-pool
-  namespace: kube-system
+  namespace: networking
 spec:
   addresses:
     - 10.0.150.0/24
