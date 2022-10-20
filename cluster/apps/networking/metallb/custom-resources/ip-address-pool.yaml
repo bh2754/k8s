@@ -20,8 +20,6 @@ spec:
   peerASN: 65000
   myASN: 65001
   ebgpMultiHop: true
-# holdTime: "90s"
-# keepaliveTime: "20s"
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
@@ -31,4 +29,3 @@ metadata:
 spec:
   addresses:
     - 10.0.150.0/24
-# avoidBuggyIPs: true
