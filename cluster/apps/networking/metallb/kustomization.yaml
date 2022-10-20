@@ -6,6 +6,6 @@ resources:
   # renovate: registryUrl=https://metallb.github.io/metallb chart=metallb
   - github.com/metallb/metallb//config/crd?ref=metallb-chart-0.13.7
   - ./helm-release.yaml
-#  - ./custom-resources/layer2-pool.yaml
-#  - ./custom-resources/l2-advertisement.yaml
-  - ./custom-resources/ip-address-pool.yaml
+  - ./custom-resources/layer2-pool.yaml
+  - ./custom-resources/l2-advertisement.yaml
+# - ./custom-resources/ip-address-pool.yaml
