@@ -31,3 +31,4 @@ metadata:
 spec:
   addresses:
     - 10.0.150.0/24
+  avoidBuggyIPs: true
