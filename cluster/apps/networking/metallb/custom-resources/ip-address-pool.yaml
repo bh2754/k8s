@@ -20,6 +20,8 @@ spec:
   peerASN: 65000
   myASN: 65001
   ebgpMultiHop: true
+  holdTime: 90
+  keepaliveTime: 20
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
