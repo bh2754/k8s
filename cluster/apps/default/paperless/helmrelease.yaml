@@ -110,7 +110,7 @@ spec:
 
       gotenburg:
         name: gotenburg
-        image: thecodingmachine/gotenberg:7.6.2
+        image: thecodingmachine/gotenberg:7.7.0
         imagePullPolicy: IfNotPresent
         env:
           - name: DISABLE_GOOGLE_CHROME
