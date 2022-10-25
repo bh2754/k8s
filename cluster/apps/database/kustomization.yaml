@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./mariadb
-  - ./postgresql
+# - ./postgresql
   - ./redis
-  - ./cloudnative-pg
+# - ./cloudnative-pg
   - ./influxdb
   - ./chronograf
 # - ./pgadmin
