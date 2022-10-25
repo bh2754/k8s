@@ -7,3 +7,4 @@ resources:
   - cluster-issuers
   - letsencrypt-wildcard-cert
 # - rook-ceph
+  - ./longhorn

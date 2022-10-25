@@ -15,6 +15,7 @@ k3s_server:
   docker: false
   flannel-backend: "none" # This needs to be in quotes
   disable:
+    - local-storage
     # Disable flannel - replaced with Calico
     - flannel
     # Disable traefik - replaced with ingress-nginx
