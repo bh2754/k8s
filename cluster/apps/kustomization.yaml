@@ -3,14 +3,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./namespaces.yaml
-# - ./default
+  - ./default
   - ./flux-system
   - ./kube-system
   - ./networking
   - ./system-upgrade
-# - ./storage
+  - ./storage
 # - ./media
-# - ./vpn
+  - ./vpn
 # - ./downloads
 # - ./monitoring
 # - ./organizers
