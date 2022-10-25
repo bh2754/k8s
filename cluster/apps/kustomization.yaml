@@ -11,9 +11,9 @@ resources:
   - ./storage
 # - ./media
   - ./vpn
-# - ./downloads
+  - ./downloads
 # - ./monitoring
-# - ./organizers
+  - ./organizers
 # - ./backup
 # - ./database
 # - ./rancher
