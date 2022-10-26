@@ -12,12 +12,12 @@ resources:
   - ./media
   - ./vpn
   - ./downloads
-# - ./monitoring
+  - ./monitoring
   - ./organizers
   - ./backup
   - ./database
-# - ./rancher
-# - ./automation
+  - ./rancher
+  - ./automation
   - ./security
-# - ./documentation
-# - ./development
+  - ./documentation
+  - ./development
