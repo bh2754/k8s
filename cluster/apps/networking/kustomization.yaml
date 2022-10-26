@@ -8,7 +8,7 @@ resources:
   - ./k8s-gateway
 # - ./traefik
   - ./portainer
-# - ./kyverno
+  - ./kyverno
   - ./unbound1
   - ./unbound2
   - ./adguard
