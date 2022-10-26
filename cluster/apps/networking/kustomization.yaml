@@ -7,11 +7,11 @@ resources:
   - ./metallb
   - ./k8s-gateway
 # - ./traefik
-# - ./portainer
+  - ./portainer
 # - ./kyverno
-# - ./unbound1
-# - ./unbound2
-# - ./adguard
+  - ./unbound1
+  - ./unbound2
+  - ./adguard
   - ./ingress-nginx
-# - ./theme-park
+  - ./theme-park
 # - ./wireguard

@@ -1,40 +1,40 @@
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: $APP-restore-pv
-  namespace: $NAMESPACE
-spec:
-  storageClassName: $APP-restore
-  capacity:
-    storage: 1Mi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: "10.0.109.29"
-    path: "/volume1/kubernetes/kopia"
-  mountOptions:
-    - nfsvers=4
-    - tcp
-    - intr
-    - hard
-    - noatime
-    - nodiratime
-    - nolock
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: $APP-restore-pvc
-  namespace: $NAMESPACE
-spec:
-  storageClassName: $APP-restore
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Mi
+#---
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: $APP-restore-pv
+#  namespace: $NAMESPACE
+#spec:
+#  storageClassName: $APP-restore
+#  capacity:
+#    storage: 1Mi
+#  accessModes:
+#    - ReadWriteOnce
+#  persistentVolumeReclaimPolicy: Retain
+#  nfs:
+#    server: "10.0.109.29"
+#    path: "/volume1/kubernetes/kopia"
+#  mountOptions:
+#    - nfsvers=4
+#    - tcp
+#    - intr
+#    - hard
+#    - noatime
+#    - nodiratime
+#    - nolock
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: $APP-restore-pvc
+#  namespace: $NAMESPACE
+#spec:
+#  storageClassName: $APP-restore
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 1Mi
 ---
 apiVersion: batch/v1
 kind: Job
@@ -49,7 +49,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: restore
-          image: ghcr.io/onedr0p/kopia:0.11.3@sha256:2ae9ede0edac68c09d517abd71fa12c96efcf19f27ce7ffca968cebb10ed0e2d
+          image: ghcr.io/onedr0p/kopia:0.12.1@sha256:e333295b519ce586e7c050c970b2255d87bdb2979298ff87ebdb1113e381ba3b
           env:
             - name: KOPIA_PASSWORD
               value: "none"
@@ -74,5 +74,8 @@ spec:
           persistentVolumeClaim:
             claimName: ${PVC}
         - name: snapshots
-          persistentVolumeClaim:
-            claimName: ${APP}-restore-pvc
+          nfs:
+            server: 10.0.109.29
+            path: /volume1/kubernetes/kopia
+#         persistentVolumeClaim:
+#           claimName: ${APP}-restore-pvc
