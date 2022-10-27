@@ -29,7 +29,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: linuxserver/webtop
-      tag: ubuntu-kde
+      tag: ubuntu-mate
     persistence:
       config:
         enabled: true
