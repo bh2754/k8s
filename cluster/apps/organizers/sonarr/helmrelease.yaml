@@ -83,7 +83,10 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: sonarr-config-v1
+      # existingClaim: sonarr-config-v1
+        type: nfs
+        server: "${NFS_SERVER}"
+        path: /volume1/kubernetes/sonarr
       media:
         enabled: true
         type: nfs
