@@ -15,4 +15,3 @@ resources:
   - ./ingress-nginx
   - ./theme-park
 # - ./wireguard
-  - ./portainer
