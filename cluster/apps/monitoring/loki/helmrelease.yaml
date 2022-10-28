@@ -103,7 +103,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &host "loki-${CLUSTER_NAME}.${INGRESS_DOMAIN}"
+          - host: &host "loki.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
