@@ -6,5 +6,5 @@ resources:
   - cert-manager
   - cluster-issuers
   - letsencrypt-wildcard-cert
-# - rook-ceph
+  - rook-ceph
   - ./longhorn
