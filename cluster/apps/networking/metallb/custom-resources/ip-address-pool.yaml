@@ -14,10 +14,10 @@ metadata:
   name: gateway
   namespace: networking
 spec:
-  peerAddress: 192.168.1.254
+  peerAddress: 10.0.102.30
   peerASN: 65000
-  myASN: 65001
-  ebgpMultiHop: true
+  myASN: 65000
+# ebgpMultiHop: true
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
