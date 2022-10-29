@@ -12,6 +12,6 @@ resources:
   - ./unbound1
   - ./unbound2
   - ./adguard
-# - ./ingress-nginx
+  - ./ingress-nginx
   - ./theme-park
 # - ./wireguard
