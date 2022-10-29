@@ -98,5 +98,4 @@ spec:
                     - k8s-worker1
                     - k8s-worker2
                     - k8s-worker3
-                    - k8s-worker4
     resources: {}
