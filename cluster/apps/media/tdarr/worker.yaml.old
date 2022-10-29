@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/instance: tdarr-worker
 spec:
   revisionHistoryLimit: 3
-  replicas: 1
+  replicas: 3
   strategy:
     type: Recreate
   selector:
@@ -26,10 +26,12 @@ spec:
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
+      nodeSelector:
+        nodetype: worker
       containers:
         - env:
             - name: TZ
-              value: America/New_York
+              value: America/Indianapolis
             - name: nodeID
               valueFrom:
                 fieldRef:
@@ -43,52 +45,39 @@ spec:
             - name: serverPort
               value: "8266"
             - name: ffmpegPath
-              value: /usr/bin/ffmpeg
+              value: /usr/local/bin/ffmpeg
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
-          image: haveagitgat/tdarr_node:2.00.18
+          image: haveagitgat/tdarr_node:2.00.18.2
           imagePullPolicy: IfNotPresent
           name: node
           volumeMounts:
-            - mountPath: /data
+            - mountPath: /media
               name: media
             - mountPath: /shared
               name: shared
-          livenessProbe:
-            tcpSocket:
-              port: 8265
-            initialDelaySeconds: 15
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: 8265
-            initialDelaySeconds: 15
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          startupProbe:
-            tcpSocket:
-              port: 8265
-            initialDelaySeconds: 15
-            failureThreshold: 30
-            timeoutSeconds: 1
-            periodSeconds: 5
           resources:
             limits:
-              cpu: 2000m
-              memory: 1024Mi
+              memory: 3963M
+              cpu: 5m
             requests:
-              cpu: 500m
               memory: 218Mi
+      podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
       volumes:
         - name: media
           nfs:
-            path: ${NFS_MEDIA}
-            server: {NFS_SERVER}
+            path: /volume1/Media
+            server: ${NFS_SERVER}
+            mountPath: /media
         - name: shared
           nfs:
             server: ${NFS_SERVER}
