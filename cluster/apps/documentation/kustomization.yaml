@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./outline
-# - ./bookstack
+  - ./bookstack
