@@ -11,3 +11,4 @@ resources:
   - ./varken
   - ./webtop
   - ./codeserver
+  - ./yt-dlp

@@ -1,0 +1,150 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app yt-dlp
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 0.2.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    replicaCount: 1
+
+    image:
+      repository: bbilly1/tubearchivist
+      pullPolicy: IfNotPresent
+      # -- Overrides the image tag whose default is the chart appVersion.
+      tag: ""
+
+    elasticsearch:
+      image:
+        registry: docker.io
+        repository: bitnami/elasticsearch
+        tag: 8.3.3-debian-11-r5
+        digest: ""
+      extraConfig:
+        discovery:
+          type: single-node
+        cluster:
+          initial_master_nodes: ""
+      # -- Elasticsearch environment variables
+      extraEnvVars:
+        - name: ES_JAVA_OPTS
+          value: "-Xms512m -Xmx512m"
+          # -- Required. Needs to be the same as ELASTIC_PASSWORD below
+        - name: ELASTIC_PASSWORD
+          value: ${SECRET_PASSWORD}
+        - name: cluster.initial_master_nodes
+          value: ""
+      master:
+        masterOnly: false
+        replicaCount: 1
+      coordinating:
+        replicaCount: 0
+      ingest:
+        replicaCount: 0
+      data:
+        replicaCount: 0
+
+    login:
+      username: admin
+      password: ${SECRET_PASSWORD}
+
+    timezone: ${TZ}
+    env:
+      TA_HOST: "localhost"
+
+    persistence:
+      enabled: true
+      # -- Use your storageClassName. e.g. local-path for k3s
+      storageClassName: "longhorn"
+      youtubeSize: 20Gi
+      cacheSize: 5Gi
+      volumeMounts:
+        - mountPath: "/youtube"
+          name: youtube
+        - mountPath: "/cache"
+          name: cache
+
+    serviceAccount:
+      # -- Specifies whether a service account should be created
+      create: true
+      # -- Annotations to add to the service account
+      annotations: {}
+      # -- The name of the service account to use.
+      # If not set and create is true, a name is generated using the fullname template
+      name: ""
+
+    podAnnotations: {}
+
+    podSecurityContext: {}
+    # fsGroup: 2000
+
+    securityContext:
+      {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+    # runAsUser: 1000
+
+    service:
+      type: ClusterIP
+      port: 80
+
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+        hajimari.io/enable: "true"
+      hosts:
+        - host: &host yt-dlp.${SECRET_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: ${SECRET_CERT}
+          hosts:
+            - *host
+
+    resources:
+      {}
+      # We usually recommend not to specify default resources and to leave this as a conscious
+      # choice for the user. This also increases chances charts run on environments with little
+      # resources, such as Minikube. If you do want to specify resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+    #   memory: 128Mi
+
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
