@@ -4,6 +4,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: adguard-1-config-pvc
   namespace: networking
+  labels:
+    app.kubernetes.io/name: &name adguard
+    app.kubernetes.io/instance: *name
+    snapshot.home.arpa/enabled: "true"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -17,6 +21,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: adguard-2-config-pvc
   namespace: networking
+  labels:
+    app.kubernetes.io/name: &name adguard
+    app.kubernetes.io/instance: *name
+    snapshot.home.arpa/enabled: "true"
 spec:
   accessModes:
     - ReadWriteOnce
