@@ -44,3 +44,4 @@ resources:
   - ./goauthentik-charts.yaml
   - ./gitea.yaml
   - ./netdata.yaml
+  - ./tubearchivist.yaml
