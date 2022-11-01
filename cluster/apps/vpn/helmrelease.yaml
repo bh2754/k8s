@@ -24,7 +24,7 @@ spec:
 
     additionalContainers:
       gluetun:
-        image: qmcgaw/gluetun:v3.31.1
+        image: qmcgaw/gluetun:v3.32.0
         env:
           - name: VPN_TYPE
             value: wireguard
