@@ -10,5 +10,5 @@ resources:
   - ./tdarr
   - ./varken
   - ./webtop
-# - ./codeserver
+  - ./codeserver
   - ./yt-dlp
