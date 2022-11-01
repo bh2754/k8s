@@ -65,7 +65,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: varken-config-v1
+        existingClaim: tubearchivist-pvc-cache
     resources:
       requests:
         cpu: 10m
