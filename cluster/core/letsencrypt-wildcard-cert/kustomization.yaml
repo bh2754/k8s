@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - certificate-wildcard-cert-letsencrypt-staging.yaml
-#  - certificate-wildcard-cert-letsencrypt-prod.yaml
+  - certificate-wildcard-cert-letsencrypt-prod.yaml
