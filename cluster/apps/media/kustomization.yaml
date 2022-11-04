@@ -9,6 +9,6 @@ resources:
   - ./audiobookshelf
   - ./tdarr
   - ./varken
-  - ./webtop
+# - ./webtop
 # - ./codeserver
   - ./yt-dlp
