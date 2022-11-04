@@ -8,8 +8,8 @@ resources:
   - ./k8s-gateway
 # - ./portainer
   - ./kyverno
-  - ./unbound1
-  - ./unbound2
+# - ./unbound1
+# - ./unbound2
   - ./adguard
   - ./ingress-nginx
   - ./theme-park
