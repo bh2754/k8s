@@ -59,7 +59,7 @@ spec:
           nginx.ingress.kubernetes.io/auth-snippet: |
             proxy_set_header X-Forwarded-Method $request_method;
         hosts:
-          - host: &host "webtop-media.${SECRET_DOMAIN}"
+          - host: &host "desktop.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
