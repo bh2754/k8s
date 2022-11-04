@@ -28,7 +28,7 @@ spec:
       tag: 7.0.5-alpine3.16
       pullPolicy: IfNotPresent
     imagePullSecrets:
-      name: dockerconfigjson-ghcr
+      name: "dockerconfigjson-ghcr"
     replicas: 3
     podManagementPolicy: OrderedReady
     ro_replicas: ""
