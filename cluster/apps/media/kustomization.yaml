@@ -8,7 +8,7 @@ resources:
   - ./komga
   - ./audiobookshelf
   - ./tdarr
-  - ./varken
+# - ./varken
   - ./webtop
 # - ./codeserver
   - ./yt-dlp
