@@ -60,7 +60,8 @@ spec:
         # nginx.ingress.kubernetes.io/auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
         # nginx.ingress.kubernetes.io/auth-snippet: |
           # proxy_set_header X-Forwarded-Method $request_method;
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+        # nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          auth.home.arpa/enabled: "true"
           nginx.ingress.kubernetes.io/configuration-snippet: |-
             proxy_set_header Accept-Encoding "";
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_PUBLIC_DOMAIN}/css/base/sonarr/hotline.css"></head>';
