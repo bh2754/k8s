@@ -7,3 +7,4 @@ resources:
   - ./sync-postgres-secret.yaml
   - ./apply-ingress-auth-annotations.yaml
 # - ./inject-tz.yaml
+  - ./themes.yaml
