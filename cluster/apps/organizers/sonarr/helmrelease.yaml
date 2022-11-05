@@ -53,10 +53,10 @@ spec:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "television-box"
-        # nginx.ingress.kubernetes.io/configuration-snippet: |-
-          # proxy_set_header Accept-Encoding "";
-          # sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_PUBLIC_DOMAIN}/css/base/sonarr/hotline.css"></head>';
-          # sub_filter_once on;
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_PUBLIC_DOMAIN}/css/base/sonarr/hotline.css"></head>';
+            sub_filter_once on;
           auth.home.arpa/enabled: "true"
           theme: "hotline"
         hosts:
