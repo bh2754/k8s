@@ -28,10 +28,6 @@ spec:
       namespace: nginx
     - name: metallb
       namespace: networking
-    - name: unbound1
-      namespace: networking
-    - name: unbound2
-      namespace: networking
   values:
     image:
       repository: adguard/adguardhome
@@ -130,10 +126,6 @@ spec:
     - name: ingress-nginx
       namespace: nginx
     - name: metallb
-      namespace: networking
-    - name: unbound1
-      namespace: networking
-    - name: unbound2
       namespace: networking
   values:
     image:
