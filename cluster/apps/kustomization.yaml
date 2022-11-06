@@ -20,4 +20,4 @@ resources:
   - ./automation
   - ./security
   - ./documentation
-# - ./development
+  - ./development
