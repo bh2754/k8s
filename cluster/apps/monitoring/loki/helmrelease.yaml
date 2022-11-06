@@ -143,7 +143,7 @@ spec:
         grafanaAgent:
           installOperator: false
         lokiCanary:
-          enabled: false
+          enabled: true
 
   valuesFrom:
     - targetPath: loki.structuredConfig.common.storage.s3.bucketnames
