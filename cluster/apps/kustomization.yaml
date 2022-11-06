@@ -14,7 +14,7 @@ resources:
   - ./downloads
 # - ./monitoring
   - ./organizers
-# - ./backup
+  - ./backup
   - ./database
 # - ./rancher
 # - ./automation
