@@ -92,10 +92,8 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: type
                   operator: In
                   values:
-                    - k8s-worker1
-                    - k8s-worker2
-                    - k8s-worker3
+                    - worker
     resources: {}
