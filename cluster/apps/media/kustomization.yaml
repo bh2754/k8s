@@ -7,7 +7,7 @@ resources:
   - ./ombi
   - ./komga
   - ./audiobookshelf
-  - ./tdarr
+# - ./tdarr
 # - ./varken
   - ./webtop
 # - ./codeserver
