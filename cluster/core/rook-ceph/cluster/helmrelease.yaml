@@ -62,19 +62,19 @@ spec:
               - name: "/dev/sdb"
           - name: k8s-master2
             devices:
-              - name: "/dev/sdg"
+              - name: "/dev/sdb"
           - name: k8s-master3
             devices:
-              - name: "/dev/sdh"
+              - name: "/dev/sdb"
           - name: k8s-worker1
             devices:
-              - name: "/dev/sde"
+              - name: "/dev/sdb"
           - name: k8s-worker2
             devices:
-              - name: "/dev/sdi"
+              - name: "/dev/sdb"
           - name: k8s-worker3
             devices:
-              - name: "/dev/sdg"
+              - name: "/dev/sdb"
     # cephBlockPoolsVolumeSnapshotClass:
     #   enabled: true
     #   name: csi-rbdplugin-snapclass
