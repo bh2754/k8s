@@ -5,32 +5,29 @@ metadata:
   name: loki
   namespace: monitoring
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: loki
-      version: 3.3.0
+      version: 3.3.1
       sourceRef:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-  install:
-    createNamespace: true
-    remediation:
-      retries: 5
-  upgrade:
-    remediation:
-      retries: 5
+      interval: 30m
   values:
     loki:
       structuredConfig:
         auth_enabled: false
+
         server:
           log_level: info
           http_listen_port: 3100
           grpc_listen_port: 9095
+
         memberlist:
           join_members: ["loki-memberlist"]
+
         limits_config:
           retention_period: 14d
           enforce_metric_name: false
@@ -38,9 +35,9 @@ spec:
           reject_old_samples_max_age: 168h
           max_cache_freshness_per_query: 10m
           split_queries_by_interval: 15m
-          ingestion_rate_mb: 16
-          ingestion_burst_size_mb: 32
-          max_concurrent_tail_requests: 30
+          ingestion_rate_mb: 8
+          ingestion_burst_size_mb: 16
+
         schema_config:
           configs:
             - from: "2021-08-01"
@@ -50,6 +47,7 @@ spec:
               index:
                 prefix: loki_index_
                 period: 24h
+
         common:
           path_prefix: /var/loki
           replication_factor: 3
@@ -61,10 +59,11 @@ spec:
           ring:
             kvstore:
               store: memberlist
+
         ruler:
           enable_api: true
           enable_alertmanager_v2: true
-          alertmanager_url: http://prometheus-alertmanager:9093
+          alertmanager_url: http://kube-prometheus-stack-alertmanager:9093
           storage:
             type: local
             local:
@@ -73,10 +72,12 @@ spec:
           ring:
             kvstore:
               store: memberlist
+
         distributor:
           ring:
             kvstore:
               store: memberlist
+
         compactor:
           working_directory: /var/loki/boltdb-shipper-compactor
           shared_store: s3
@@ -84,23 +85,23 @@ spec:
           retention_enabled: true
           retention_delete_delay: 2h
           retention_delete_worker_count: 150
+
         ingester:
           max_chunk_age: 1h
           lifecycler:
             ring:
               kvstore:
                 store: memberlist
+
         analytics:
           reporting_enabled: false
+
     gateway:
       enabled: true
       replicas: 3
       ingress:
         enabled: true
         ingressClassName: "nginx"
-        annotations:
-          hajimari.io/enable: "true"
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
           - host: &host "loki.${SECRET_DOMAIN}"
             paths:
@@ -109,12 +110,13 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: ${SECRET_CERT}
+
     write:
       replicas: 3
       persistence:
         size: 10Gi
-        storageClass: longhorn
+        storageClass: ceph-block
+
     read:
       replicas: 3
       extraVolumeMounts:
@@ -126,22 +128,23 @@ spec:
           mountPath: /tmp/loki-tmp
       extraVolumes:
         - name: loki-rules
-          configMap:
-            name: loki-alerting-rules
+          emptyDir: {}
         - name: loki-rules-tmp
           emptyDir: {}
         - name: loki-tmp
           emptyDir: {}
       persistence:
         size: 10Gi
-        storageClass: longhorn
+        storageClass: ceph-block
+
     monitoring:
       selfMonitoring:
-        enabled: false
+        enabled: true
         grafanaAgent:
           installOperator: false
         lokiCanary:
-          enabled: false
+          enabled: true
+
   valuesFrom:
     - targetPath: loki.structuredConfig.common.storage.s3.bucketnames
       kind: Secret
