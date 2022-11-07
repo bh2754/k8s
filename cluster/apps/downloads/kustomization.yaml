@@ -5,6 +5,5 @@ resources:
   - ./namespace.yaml
   - sabnzbd
   - qbittorrent
-  - rdesktop
   - webtop
   - speedtest
