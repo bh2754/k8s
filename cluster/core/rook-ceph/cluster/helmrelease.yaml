@@ -59,22 +59,22 @@ spec:
         nodes:
           - name: k8s-master1
             devices:
-              - name: "/dev/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2"
+              - name: "/dev/sdb"
           - name: k8s-master2
             devices:
-              - name: "/dev/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2"
+              - name: "/dev/sdg"
           - name: k8s-master3
             devices:
-              - name: "/dev/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2"
+              - name: "/dev/sdh"
           - name: k8s-worker1
             devices:
-              - name: "/dev/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2"
+              - name: "/dev/sde"
           - name: k8s-worker2
             devices:
-              - name: "/dev/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2"
+              - name: "/dev/sdi"
           - name: k8s-worker3
             devices:
-              - name: "/dev/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2"
+              - name: "/dev/sdg"
     # cephBlockPoolsVolumeSnapshotClass:
     #   enabled: true
     #   name: csi-rbdplugin-snapclass
