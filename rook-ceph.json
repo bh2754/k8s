@@ -1,0 +1,67 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "cattle.io/status": "{\"Conditions\":[{\"Type\":\"ResourceQuotaInit\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2022-11-06T02:47:33Z\"},{\"Type\":\"InitialRolesPopulated\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2022-11-06T02:47:34Z\"}]}",
+            "lifecycle.cattle.io/create.namespace-auth": "true"
+        },
+        "creationTimestamp": "2022-11-03T23:01:01Z",
+        "deletionTimestamp": "2022-11-07T04:40:49Z",
+        "labels": {
+            "goldilocks.fairwinds.com/enabled": "true",
+            "kubernetes.io/metadata.name": "rook-ceph",
+            "kustomize.toolkit.fluxcd.io/name": "core",
+            "kustomize.toolkit.fluxcd.io/namespace": "flux-system",
+            "kustomize.toolkit.fluxcd.io/prune": "disabled"
+        },
+        "name": "rook-ceph",
+        "resourceVersion": "9805445",
+        "uid": "233d5b8f-87dd-4b39-bb5f-ed1b1b4f7fdb"
+    },
+    "spec": {
+        "finalizers": [
+            "kubernetes"
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2022-11-07T04:41:14Z",
+                "message": "All resources successfully discovered",
+                "reason": "ResourcesDiscovered",
+                "status": "False",
+                "type": "NamespaceDeletionDiscoveryFailure"
+            },
+            {
+                "lastTransitionTime": "2022-11-07T04:41:14Z",
+                "message": "All legacy kube types successfully parsed",
+                "reason": "ParsedGroupVersions",
+                "status": "False",
+                "type": "NamespaceDeletionGroupVersionParsingFailure"
+            },
+            {
+                "lastTransitionTime": "2022-11-07T04:41:14Z",
+                "message": "Failed to delete all resource types, 4 remaining: Internal error occurred: failed calling webhook \"cephblockpool-wh-rook-ceph-admission-controller-rook-ceph.rook.io\": failed to call webhook: Post \"https://rook-ceph-admission-controller.rook-ceph.svc:443/validate-ceph-rook-io-v1-cephblockpool?timeout=5s\": service \"rook-ceph-admission-controller\" not found, Internal error occurred: failed calling webhook \"cephcluster-wh-rook-ceph-admission-controller-rook-ceph.rook.io\": failed to call webhook: Post \"https://rook-ceph-admission-controller.rook-ceph.svc:443/validate-ceph-rook-io-v1-cephcluster?timeout=5s\": service \"rook-ceph-admission-controller\" not found, Internal error occurred: failed calling webhook \"cephobjectstore-wh-rook-ceph-admission-controller-rook-ceph.rook.io\": failed to call webhook: Post \"https://rook-ceph-admission-controller.rook-ceph.svc:443/validate-ceph-rook-io-v1-cephobjectstore?timeout=5s\": service \"rook-ceph-admission-controller\" not found, Internal error occurred: failed calling webhook \"validate.kyverno.svc-fail\": failed to call webhook: Post \"https://kyverno-svc.kyverno.svc:443/validate/fail?timeout=10s\": context deadline exceeded",
+                "reason": "ContentDeletionFailed",
+                "status": "True",
+                "type": "NamespaceDeletionContentFailure"
+            },
+            {
+                "lastTransitionTime": "2022-11-07T04:41:14Z",
+                "message": "Some resources are remaining: cephfilesystems.ceph.rook.io has 1 resource instances, configmaps. has 1 resource instances, helmreleases.helm.toolkit.fluxcd.io has 1 resource instances",
+                "reason": "SomeResourcesRemain",
+                "status": "True",
+                "type": "NamespaceContentRemaining"
+            },
+            {
+                "lastTransitionTime": "2022-11-07T04:41:14Z",
+                "message": "Some content in the namespace has finalizers remaining: ceph.rook.io/disaster-protection in 1 resource instances, cephfilesystem.ceph.rook.io in 1 resource instances, finalizers.fluxcd.io in 1 resource instances",
+                "reason": "SomeFinalizersRemain",
+                "status": "True",
+                "type": "NamespaceFinalizersRemaining"
+            }
+        ],
+        "phase": "Terminating"
+    }
+}
