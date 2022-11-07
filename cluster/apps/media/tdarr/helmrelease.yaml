@@ -87,15 +87,17 @@ spec:
           - hosts:
               - tdarr.${SECRET_DOMAIN}
             secretName: ${SECRET_CERT}
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - "k8s-worker1"
-                    - "k8s-worker2"
-                    - "k8s-worker3"
+  # affinity:
+    # nodeAffinity:
+      # requiredDuringSchedulingIgnoredDuringExecution:
+        # nodeSelectorTerms:
+          # - matchExpressions:
+              # - key: kubernetes.io/hostname
+                # operator: In
+                # values:
+                  # - "k8s-worker1"
+                  # - "k8s-worker2"
+                  # - "k8s-worker3"
+    nodeSelector:
+      type: worker
     resources: {}
