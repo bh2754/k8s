@@ -29,7 +29,7 @@ spec:
     replicaCount: 1
     image:
       repository: portainer/portainer-ce
-      tag: 2.16.0
+      tag: 2.16.1
       pullPolicy: IfNotPresent
     imagePullSecrets: []
     serviceAccount:
