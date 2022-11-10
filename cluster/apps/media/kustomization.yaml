@@ -6,7 +6,7 @@ resources:
   - ./tautulli
   - ./ombi
   - ./komga
-# - ./audiobookshelf
+  - ./audiobookshelf
   - ./tdarr
 # - ./varken
   - ./webtop
