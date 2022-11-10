@@ -65,7 +65,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: tubearchivist-pvc-cache
+        existingClaim: audiobookshelf-config-v1
     resources:
       requests:
         cpu: 10m
