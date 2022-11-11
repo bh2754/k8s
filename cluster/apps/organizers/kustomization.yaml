@@ -9,5 +9,5 @@ resources:
   - ./readarr
   - ./radarr
   - ./prowlarr
-# - ./mylar
-# - ./readarr-audio
+  - ./mylar
+  - ./readarr-audio
