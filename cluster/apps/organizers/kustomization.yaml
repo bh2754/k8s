@@ -8,6 +8,6 @@ resources:
   - ./lidarr
   - ./readarr
   - ./radarr
-  - ./prowlarr
+# - ./prowlarr
   - ./mylar
   - ./readarr-audio
