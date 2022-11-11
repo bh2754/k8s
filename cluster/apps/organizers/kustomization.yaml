@@ -5,8 +5,8 @@ resources:
   - ./namespace.yaml
   - ./whisparr
   - ./sonarr
-# - ./lidarr
-# - ./readarr
+  - ./lidarr
+  - ./readarr
 # - ./radarr
 # - ./prowlarr
 # - ./mylar
