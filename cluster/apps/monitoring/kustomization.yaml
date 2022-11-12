@@ -8,7 +8,7 @@ resources:
   - ./goldilocks
   - ./vpa
   - ./uptime
-# - ./dashboard
+  - ./dashboard
   - ./speedtest
   - ./loki
   - ./vector
