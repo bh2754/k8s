@@ -6,8 +6,8 @@ resources:
   - ./whisparr
   - ./sonarr
   - ./lidarr
-# - ./readarr
+  - ./readarr
   - ./radarr
   - ./prowlarr
-# - ./mylar
+  - ./mylar
   - ./readarr-audio
