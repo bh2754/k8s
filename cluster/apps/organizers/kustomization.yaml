@@ -7,7 +7,7 @@ resources:
   - ./sonarr
 # - ./lidarr
 # - ./readarr
-# - ./radarr
-# - ./prowlarr
+  - ./radarr
+  - ./prowlarr
 # - ./mylar
   - ./readarr-audio
