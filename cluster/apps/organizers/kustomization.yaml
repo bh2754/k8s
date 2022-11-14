@@ -6,7 +6,7 @@ resources:
 # - ./whisparr
 # - ./sonarr
 # - ./lidarr
-  - ./readarr
+# - ./readarr
 # - ./radarr
 # - ./prowlarr
 #  - ./mylar
