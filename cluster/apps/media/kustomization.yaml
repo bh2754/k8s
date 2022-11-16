@@ -9,4 +9,4 @@ resources:
   - ./audiobookshelf
   - ./tdarr
   - ./webtop
-  - ./codeserver
+# - ./codeserver
