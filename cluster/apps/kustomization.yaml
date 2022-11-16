@@ -8,14 +8,14 @@ resources:
   - ./kube-system
   - ./networking
   - ./system-upgrade
-# - ./storage
+  - ./storage
 # - ./media
-# - ./vpn
+  - ./vpn
 # - ./downloads
 # - ./monitoring
 # - ./organizers
-# - ./backup
-# - ./database
+  - ./backup
+  - ./database
 # - ./rancher
 # - ./automation
 # - ./security
