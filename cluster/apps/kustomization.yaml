@@ -9,7 +9,7 @@ resources:
   - ./networking
   - ./system-upgrade
   - ./storage
-# - ./media
+  - ./media
   - ./vpn
   - ./downloads
 # - ./monitoring
