@@ -8,16 +8,16 @@ resources:
   - ./kube-system
   - ./networking
   - ./system-upgrade
-  - ./storage
-  - ./media
-  - ./vpn
-  - ./downloads
-  - ./monitoring
-  - ./organizers
-  - ./backup
-  - ./database
-  - ./rancher
-  - ./automation
-  - ./security
-  - ./documentation
-  - ./development
+# - ./storage
+# - ./media
+# - ./vpn
+# - ./downloads
+# - ./monitoring
+# - ./organizers
+# - ./backup
+# - ./database
+# - ./rancher
+# - ./automation
+# - ./security
+# - ./documentation
+# - ./development
