@@ -17,7 +17,7 @@ resources:
   - ./backup
   - ./database
 # - ./rancher
-# - ./automation
-# - ./security
+  - ./automation
+  - ./security
 # - ./documentation
 # - ./development
