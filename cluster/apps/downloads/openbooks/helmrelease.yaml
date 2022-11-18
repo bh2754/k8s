@@ -38,7 +38,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+      # ingressClassName: "nginx"
         hosts:
           - host: &host "openbooks.${SECRET_DOMAIN}"
             paths:
