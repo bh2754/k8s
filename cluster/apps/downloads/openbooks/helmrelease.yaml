@@ -51,7 +51,7 @@ spec:
       books:
         enabled: true
         type: nfs
-        server: "${NAS_SERVER}"
+        server: "${NFS_SERVER}"
         path: {NAS_BOOKS}
         mountPath: /books
 
