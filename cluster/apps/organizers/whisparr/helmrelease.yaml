@@ -79,7 +79,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          auth.home.arpa/enabled: "true"
         hosts:
           - host: *host
             paths:
