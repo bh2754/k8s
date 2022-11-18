@@ -16,7 +16,7 @@ resources:
   - ./organizers
   - ./backup
   - ./database
-# - ./rancher
+  - ./rancher
   - ./automation
   - ./security
 # - ./documentation
