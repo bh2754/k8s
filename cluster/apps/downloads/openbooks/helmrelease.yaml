@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: openbooks
-  namespace: organizers
+  namespace: downloads
 spec:
   interval: 30m
   chart:
@@ -40,7 +40,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &host "openbooks.${SECRET_DOMAIN}"
+          - host: &host openbooks.${SECRET_DOMAIN}
             paths:
               - path: /
         tls:
