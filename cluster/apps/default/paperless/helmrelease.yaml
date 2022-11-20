@@ -107,7 +107,13 @@ spec:
         name: redis
         image: redis:7.0
         imagePullPolicy: IfNotPresent
-
+        resources:
+          requests:
+            cpu: 10m
+            memory: 27M
+          limits:
+            cpu: 14m
+            memory: 27M
       gotenburg:
         name: gotenburg
         image: thecodingmachine/gotenberg:7.7.0
@@ -115,14 +121,27 @@ spec:
         env:
           - name: DISABLE_GOOGLE_CHROME
             value: "1"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 27M
+          limits:
+            cpu: 14m
+            memory: 27M
       tika:
         image: apache/tika:2.5.0
         name: tika
         imagePullPolicy: IfNotPresent
-
-    # resources:
-    #   requests:
-    #     cpu: 23m
-    #     memory: 2975M
-    #   limits:
-    #     memory: 6572M
+        resources:
+          requests:
+            cpu: 10m
+            memory: 477M
+          limits:
+            cpu: 14m
+            memory: 618M
+    resources:
+      requests:
+        cpu: 10m
+        memory: 324M
+      limits:
+        memory: 420M
