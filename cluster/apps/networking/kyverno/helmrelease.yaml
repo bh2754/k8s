@@ -39,7 +39,7 @@ spec:
             app.kubernetes.io/instance: kyverno
     resources:
       requests:
-        cpu: 181m
-        memory: 588M
+        cpu: 92m
+        memory: 1039M
       limits:
-        memory: 738M
+        memory: 1332M
