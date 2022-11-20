@@ -54,3 +54,9 @@ spec:
 
   # portal:
     # enabled: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64M
+      limits:
+        memory: 83M
