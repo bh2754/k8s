@@ -90,7 +90,7 @@ spec:
       secret.reloader.stakater.com/reload: minio-creds
     resources:
       requests:
-        memory: 100Mi
-        cpu: 100m
+        memory: 866M
+        cpu: 62m
       limits:
-        memory: 750Mi
+        memory: 1182M
