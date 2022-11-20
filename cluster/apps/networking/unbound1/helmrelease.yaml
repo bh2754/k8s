@@ -80,8 +80,10 @@ spec:
       customStartupProbe: {}
       resources:
         requests:
-          memory: 32Mi
-          cpu: 100m
+          memory: 105M
+          cpu: 15m
+        limits:
+          memory: 105M
       podSecurityContext:
         enabled: false
         fsGroup: 1001
