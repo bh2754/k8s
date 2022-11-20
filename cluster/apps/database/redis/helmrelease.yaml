@@ -63,6 +63,12 @@ spec:
           drop:
             - ALL
       hardAntiAffinity: true
+      resources:
+        requests:
+          cpu: 15m
+          memory: 105M
+        limits:
+          memory: 122M
     redis:
       port: 6379
       masterGroupName: "redismaster"       # must match ^[\\w-\\.]+$) and can be templated
