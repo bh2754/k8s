@@ -72,11 +72,11 @@ spec:
       PGID: "1000"
     resources:
       requests:
-        cpu: 50m
-        memory: 100Mi
+        cpu: 15m
+        memory: 226M
         ephemeral-storage: "2Gi"
       limits:
-        memory: 500Mi
+        memory: 292M
         ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config
