@@ -1,4 +1,4 @@
----  #
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -83,3 +83,9 @@ spec:
         type: nfs
         server: ${NFS_SERVER}
         path: ${NFS_MEDIA}/audiobooks
+    resources:
+      requests:
+        cpu: 15m
+        memory: 1238M
+      limits:
+        memory: 1781M
