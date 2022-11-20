@@ -68,11 +68,11 @@ spec:
         existingClaim: tautulli-config-v1
     resources:
       requests:
-        cpu: 10m
-        memory: 250Mi
+        cpu: 15m
+        memory: 105M
         ephemeral-storage: "2Gi"
       limits:
-        memory: 500Mi
+        memory: 122M
         ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config
