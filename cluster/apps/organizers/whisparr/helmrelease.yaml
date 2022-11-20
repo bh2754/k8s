@@ -107,10 +107,11 @@ spec:
         mountPath: /download
     resources:
       requests:
-        memory: 182M
+        cpu: 10m
+        memory: 164M
         ephemeral-storage: "2Gi"
       limits:
-        memory: 1026M
+        memory: 212M
         ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config

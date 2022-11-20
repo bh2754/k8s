@@ -80,3 +80,9 @@ spec:
         path: "${NFS_DOWNLOAD}"
     podAnnotations:
       backup.velero.io/backup-volumes: config
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64M
+      limits:
+        memory: 83M

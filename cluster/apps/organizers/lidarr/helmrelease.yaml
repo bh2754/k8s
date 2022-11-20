@@ -88,11 +88,10 @@ spec:
     resources:
       requests:
         cpu: 10m
-        memory: 544M
+        memory: 1102M
         ephemeral-storage: "2Gi"
       limits:
-        cpu: 1960m
-        memory: 3075M
+        memory: 1428M
         ephemeral-storage: "4Gi"
     podAnnotations:
       backup.velero.io/backup-volumes: config

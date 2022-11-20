@@ -96,10 +96,11 @@ spec:
       backup.velero.io/backup-volumes: config
     resources:
       requests:
-        memory: 1923M
+        cpu: 10m
+        memory: 814M
         ephemeral-storage: "2Gi"
       limits:
-        memory: 11G
+        memory: 1054M
         ephemeral-storage: "4Gi"
     metrics:
       # -- Enable and configure Exportarr sidecar and Prometheus serviceMonitor.
