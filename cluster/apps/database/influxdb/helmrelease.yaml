@@ -114,11 +114,10 @@ spec:
         existingSecret: influxdb-auth
     resources:
       requests:
-        memory: 256Mi
-        cpu: 0.1
+        memory: 105M
+        cpu: 15m
       limits:
-        memory: 16Gi
-    #    cpu: 8
+        memory: 143M
 
     # Annotations to be added to InfluxDB pods
     podAnnotations: {}
