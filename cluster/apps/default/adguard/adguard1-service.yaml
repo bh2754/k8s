@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: adguard1-external
+  namespace: default
 spec:
   ports:
     - name: http
