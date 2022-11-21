@@ -11,7 +11,7 @@ resources:
   - ./dashboard
   - ./speedtest
   - ./loki
-# - ./vector
+  - ./vector
   - ./thanos
   - ./node-problem
 # - ./netdata
