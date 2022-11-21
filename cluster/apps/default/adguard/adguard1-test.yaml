@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  ingressClassName: "nginx"
+  name: adguard-test
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
@@ -16,6 +16,10 @@ spec:
     - host: adguard1-test.${SECRET_DOMAIN}
       http:
         paths:
-          - backend:
-              serviceName: adguard1-external
-              servicePort: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: adguard1-external
+                port:
+                  number: 3000
