@@ -40,7 +40,7 @@ spec:
         - adguard2.${SECRET_DOMAIN}
       secretName: ${SECRET_CERT}
   rules:
-    - host: adguard1.${SECRET_DOMAIN}
+    - host: adguard2.${SECRET_DOMAIN}
       http:
         paths:
           - path: /
