@@ -9,3 +9,4 @@ resources:
   - ./paperless
   - ./smtp-relay
   - ./kopia
+  - ./adguard
