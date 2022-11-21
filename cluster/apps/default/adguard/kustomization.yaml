@@ -2,5 +2,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./adguard-service.yaml
-  - ./adguard-test.yaml
+  - ./adguard1-service.yaml
+  - ./adguard1-test.yaml
