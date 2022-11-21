@@ -22,3 +22,5 @@ spec:
             backend:
               service:
                 name: adguard1-external
+                port:
+                  number: 80
