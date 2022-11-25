@@ -12,7 +12,7 @@ resources:
   - ./media
   - ./vpn
   - ./downloads
-# - ./monitoring
+  - ./monitoring
   - ./organizers
   - ./backup
   - ./database
