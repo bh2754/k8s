@@ -9,14 +9,14 @@ resources:
   - ./networking
   - ./system-upgrade
 # - ./storage
-# - ./media
+  - ./media
   - ./vpn
   - ./downloads
 # - ./monitoring
   - ./organizers
-#- ./backup
+  - ./backup
 # - ./database
-# - ./rancher
+  - ./rancher
 # - ./automation
 # - ./security
 # - ./documentation
