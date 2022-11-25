@@ -6,7 +6,7 @@ resources:
   - ./hajimari
   - ./gchr.sops.yaml
   - ./whoami
-  - ./paperless
-  - ./smtp-relay
+# - ./paperless
+# - ./smtp-relay
   - ./kopia
   - ./adguard
